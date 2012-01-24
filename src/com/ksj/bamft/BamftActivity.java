@@ -1,7 +1,28 @@
 package com.ksj.bamft;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
+
+
+
 
 public class BamftActivity extends Activity {
     /** Called when the activity is first created. */
@@ -9,5 +30,69 @@ public class BamftActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        TextView tv = new TextView(this);
+        String readGPSData = readGPSData();
+        
+        try {
+        	/*
+        	 * First we have to dig into the JSON structure - see http://json.bloople.net/ to convert
+        	 * http://hubmaps2.cityofboston.gov/ArcGIS/rest/services/Dev_services/food_trucks
+        	 /MapServer/1/query?text=%25&outFields=GPS%2CLocation%2CXCoord%2CYCoord%2CDayOfWeek%2CTimeOfDay%2CTestFld%2CShape&f=pjson 
+        	 */
+        	JSONArray jsonArray = new JSONObject(readGPSData).getJSONArray("features"); //features stores actual food truck entries
+        	
+        	Log.i(BamftActivity.class.getName(), "Number of entries " + jsonArray.length()); //add a log entry for # of entries
+        	for (int i = 0; i < jsonArray.length(); i++) {
+        		//Iterate through each entry
+        		JSONObject jsonObject = jsonArray.getJSONObject(i);
+        		
+        		//This line prints it all out.
+        		String testFld = jsonObject.getJSONObject("attributes").getString("TestFld");
+        		int brIndex = testFld.indexOf("<br/>");
+        		String truckName = testFld.substring(0, brIndex); // <--THIS IS WHERE WE EXTRACTED THE TRUCK.
+        		
+        		Log.i(BamftActivity.class.getName(), "Truck: " + truckName); 
+        		tv.append("Truck: " + truckName + "\n");
+        	}
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+        
+        setContentView(tv);
     }
+
+    
+    public String readGPSData() {
+    	StringBuilder builder = new StringBuilder();
+    	HttpClient client = new DefaultHttpClient();
+    	
+		HttpGet httpGet = new HttpGet("http://hubmaps2.cityofboston.gov/ArcGIS/rest/services/Dev_services/food_trucks/MapServer/1/query?text=%25&outFields=GPS%2CLocation%2CXCoord%2CYCoord%2CDayOfWeek%2CTimeOfDay%2CTestFld%2CShape&f=pjson");
+		try {
+			HttpResponse response = client.execute(httpGet); //run the Get
+			
+			//get the status
+			StatusLine statusLine = response.getStatusLine();
+			int statusCode = statusLine.getStatusCode();
+			if (statusCode == 200) { //HTTP 200 = "OKAY"
+				HttpEntity entity = response.getEntity();
+				InputStream content = entity.getContent();
+				BufferedReader reader = new BufferedReader(new InputStreamReader(content));
+				String line;
+				while ((line = reader.readLine()) != null) {
+					//basic "while not EOF, keep reading"
+					builder.append(line);
+				}
+			} else {
+				Log.e(BamftActivity.class.toString(), "Failed to download file");
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return builder.toString();
+    }
+    
+    
+        
 }
