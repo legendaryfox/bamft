@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -15,24 +17,35 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-
-import android.app.Activity;
+import android.app.ListActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 
 
-public class BamftActivity extends Activity {
+public class BamftActivity extends ListActivity {
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-        TextView tv = new TextView(this);
+        //setContentView(R.layout.main);
+        
+        
+        //Initialize some storage
+        List<String> truckList = new ArrayList<String>();
+        
+        
         String readGPSData = readGPSData();
         
+
         try {
         	/*
         	 * First we have to dig into the JSON structure - see http://json.bloople.net/ to convert
@@ -42,6 +55,9 @@ public class BamftActivity extends Activity {
         	JSONArray jsonArray = new JSONObject(readGPSData).getJSONArray("features"); //features stores actual food truck entries
         	
         	Log.i(BamftActivity.class.getName(), "Number of entries " + jsonArray.length()); //add a log entry for # of entries
+        	
+        	
+        	
         	for (int i = 0; i < jsonArray.length(); i++) {
         		//Iterate through each entry
         		JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -51,14 +67,30 @@ public class BamftActivity extends Activity {
         		int brIndex = testFld.indexOf("<br/>");
         		String truckName = testFld.substring(0, brIndex); // <--THIS IS WHERE WE EXTRACTED THE TRUCK.
         		
-        		Log.i(BamftActivity.class.getName(), "Truck: " + truckName); 
-        		tv.append("Truck: " + truckName + "\n");
+        		Log.i(BamftActivity.class.getName(), "Truck: " + truckName); //add to log
+        		//tv.append("Truck: " + truckName + "\n"); //add to textview
+        		
+        		truckList.add(truckName); //add object to our truckList
+    
         	}
     	} catch (Exception e) {
     		e.printStackTrace();
     	}
         
-        setContentView(tv);
+        
+        setListAdapter(new ArrayAdapter<String>(this, R.layout.list_item, truckList));
+        ListView lv = getListView();
+        lv.setTextFilterEnabled(true);
+        
+        lv.setOnItemClickListener(new OnItemClickListener() {
+        	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        		//When clicked, show a toast with the TextView text
+        		Toast.makeText(getApplicationContext(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
+        	}
+        });
+        
+        
+        //setContentView(tv);
     }
 
     
