@@ -1,0 +1,325 @@
+{
+  "displayFieldName" : "GPS", 
+  "fieldAliases" : {
+    "GPS" : "GPS", 
+    "Location" : "Location", 
+    "XCoord" : "XCoord", 
+    "YCoord" : "YCoord", 
+    "DayOfWeek" : "DayOfWeek", 
+    "TimeOfDay" : "TimeOfDay", 
+    "TestFld" : "TestFld", 
+    "Shape" : "Shape"
+  }, 
+  "geometryType" : "esriGeometryPoint", 
+  "spatialReference" : {
+    "wkid" : 2249
+  }, 
+  "features" : [
+    {
+      "attributes" : {
+        "GPS" : "10300B75", 
+        "Location" : "Marine Industrial Park - Dry Dock #3", 
+        "XCoord" : 782912.500577, 
+        "YCoord" : 2951306.65899, 
+        "DayOfWeek" : "Tuesday", 
+        "TimeOfDay" : "Afternoon", 
+        "TestFld" : "Pennypackers\u003cbr/\u003e\u003ca href='http://www.pennypackersfoodtruck.com' target='new' textDecoration=\"underline\"\u003ehttp://www.pennypackersfoodtruck.com\u003c/a\u003e \u003cbr/\u003e\u003cbr/\u003e ", 
+        "Shape" : "ESRI.ArcGIS.ADF.ArcGISServer.PointN"
+      }, 
+      "geometry" : 
+      {
+        "x" : 782912.500705615, 
+        "y" : 2951306.65899585
+      }
+    }, 
+    {
+      "attributes" : {
+        "GPS" : "10300B7C ", 
+        "Location" : "Greenway (Chinatown Area)", 
+        "XCoord" : 775275, 
+        "YCoord" : 2953183, 
+        "DayOfWeek" : "Tuesday", 
+        "TimeOfDay" : "Afternoon", 
+        "TestFld" : "BBQ Smith\u003cbr/\u003e\u003ca href='http://www.bbqsmith.com' target='new' textDecoration=\"underline\"\u003ehttp://www.bbqsmith.com\u003c/a\u003e \u003cbr/\u003e\u003cbr/\u003e ", 
+        "Shape" : "ESRI.ArcGIS.ADF.ArcGISServer.PointN"
+      }, 
+      "geometry" : 
+      {
+        "x" : 775274.999904528, 
+        "y" : 2953183.00005944
+      }
+    }, 
+    {
+      "attributes" : {
+        "GPS" : "1030040E ", 
+        "Location" : "Commonwealth Ave, Westbound", 
+        "XCoord" : 760860.030428, 
+        "YCoord" : 2953138.019755, 
+        "DayOfWeek" : "Tuesday", 
+        "TimeOfDay" : "Afternoon", 
+        "TestFld" : "CloverBUB\u003cbr/\u003e\u003ca href='http://www.cloverfoodlab.com' target='new' textDecoration=\"underline\"\u003ehttp://www.cloverfoodlab.com\u003c/a\u003e \u003cbr/\u003e\u003cbr/\u003e ", 
+        "Shape" : "ESRI.ArcGIS.ADF.ArcGISServer.PointN"
+      }, 
+      "geometry" : 
+      {
+        "x" : 760860.030374944, 
+        "y" : 2953138.01983444
+      }
+    }, 
+    {
+      "attributes" : {
+        "GPS" : "10300AEF ", 
+        "Location" : "Belvidere St at Christian Science Center", 
+        "XCoord" : 769077.393241, 
+        "YCoord" : 2951252.618548, 
+        "DayOfWeek" : "Tuesday", 
+        "TimeOfDay" : "Afternoon", 
+        "TestFld" : "Go Fish\u003cbr/\u003e\u003ca href='http://www.brothertrucker.biz' target='new' textDecoration=\"underline\"\u003ehttp://www.brothertrucker.biz\u003c/a\u003e \u003cbr/\u003e\u003cbr/\u003e ", 
+        "Shape" : "ESRI.ArcGIS.ADF.ArcGISServer.PointN"
+      }, 
+      "geometry" : 
+      {
+        "x" : 769077.39320527, 
+        "y" : 2951252.61842152
+      }
+    }, 
+    {
+      "attributes" : {
+        "GPS" : "10300B14 ", 
+        "Location" : "Boylston St near BPL", 
+        "XCoord" : 770074.664779, 
+        "YCoord" : 2952731.269296, 
+        "DayOfWeek" : "Tuesday", 
+        "TimeOfDay" : "Afternoon", 
+        "TestFld" : "The Dining Car\u003cbr/\u003e\u003ca href='http://www.diningcar.net' target='new' textDecoration=\"underline\"\u003ehttp://www.diningcar.net\u003c/a\u003e \u003cbr/\u003e\u003cbr/\u003e ", 
+        "Shape" : "ESRI.ArcGIS.ADF.ArcGISServer.PointN"
+      }, 
+      "geometry" : 
+      {
+        "x" : 770074.664832771, 
+        "y" : 2952731.2693356
+      }
+    }, 
+    {
+      "attributes" : {
+        "GPS" : "1030041A ", 
+        "Location" : "Greenway (South Station Area)", 
+        "XCoord" : 776386, 
+        "YCoord" : 2953707, 
+        "DayOfWeek" : "Tuesday", 
+        "TimeOfDay" : "Afternoon", 
+        "TestFld" : "CloverDWY\u003cbr/\u003e\u003ca href='http://www.cloverfastfood.com' target='new' textDecoration=\"underline\"\u003ehttp://www.cloverfastfood.com\u003c/a\u003e \u003cbr/\u003e\u003cbr/\u003e Bon Me\u003cbr/\u003e\u003ca href='http://www.bonmetruck.com' target='new' textDecoration=\"underline\"\u003ehttp://www.bonmetruck.com\u003c/a\u003e \u003cbr/\u003e\u003cbr/\u003e ", 
+        "Shape" : "ESRI.ArcGIS.ADF.ArcGISServer.PointN"
+      }, 
+      "geometry" : 
+      {
+        "x" : 776385.999979109, 
+        "y" : 2953706.99999569
+      }
+    }, 
+    {
+      "attributes" : {
+        "GPS" : "10300AE6 ", 
+        "Location" : "Harrison Ave at E Concord, BMC", 
+        "XCoord" : 771587.344174, 
+        "YCoord" : 2947985.56401, 
+        "DayOfWeek" : "Tuesday", 
+        "TimeOfDay" : "Afternoon", 
+        "TestFld" : "Savory Food Truck\u003cbr/\u003e\u003ca href='http://www.savoryfoodtruck.com' target='new' textDecoration=\"underline\"\u003ehttp://www.savoryfoodtruck.com\u003c/a\u003e \u003cbr/\u003e\u003cbr/\u003e ", 
+        "Shape" : "ESRI.ArcGIS.ADF.ArcGISServer.PointN"
+      }, 
+      "geometry" : 
+      {
+        "x" : 771587.344222113, 
+        "y" : 2947985.56393202
+      }
+    }, 
+    {
+      "attributes" : {
+        "GPS" : "103002A1", 
+        "Location" : "Washington St by Perter's Park", 
+        "XCoord" : 772977.79833, 
+        "YCoord" : 2950032.264694, 
+        "DayOfWeek" : "Tuesday", 
+        "TimeOfDay" : "Afternoon", 
+        "TestFld" : "Kick*ss Cupcakes\u003cbr/\u003e\u003ca href='http://www.kickasscupcakes.com' target='new' textDecoration=\"underline\"\u003ehttp://www.kickasscupcakes.com\u003c/a\u003e \u003cbr/\u003e\u003cbr/\u003e ", 
+        "Shape" : "ESRI.ArcGIS.ADF.ArcGISServer.PointN"
+      }, 
+      "geometry" : 
+      {
+        "x" : 772977.798462197, 
+        "y" : 2950032.26456302
+      }
+    }, 
+    {
+      "attributes" : {
+        "GPS" : "10300B7B ", 
+        "Location" : "220 Clarendon", 
+        "XCoord" : 770934.282486, 
+        "YCoord" : 2953220.585795, 
+        "DayOfWeek" : "Tuesday", 
+        "TimeOfDay" : "Afternoon", 
+        "TestFld" : "Grilled Cheese Nation\u003cbr/\u003e\u003ca href='http://www.foodtrucknation.net' target='new' textDecoration=\"underline\"\u003ehttp://www.foodtrucknation.net\u003c/a\u003e \u003cbr/\u003e\u003cbr/\u003e ", 
+        "Shape" : "ESRI.ArcGIS.ADF.ArcGISServer.PointN"
+      }, 
+      "geometry" : 
+      {
+        "x" : 770934.282536104, 
+        "y" : 2953220.58594227
+      }
+    }, 
+    {
+      "attributes" : {
+        "GPS" : "10300B77 ", 
+        "Location" : "220 Clarendon", 
+        "XCoord" : 770934.282486, 
+        "YCoord" : 2953220.585795, 
+        "DayOfWeek" : "Tuesday", 
+        "TimeOfDay" : "Afternoon", 
+        "TestFld" : "Grilled Cheese Nation\u003cbr/\u003e\u003ca href='http://www.foodtrucknation.net' target='new' textDecoration=\"underline\"\u003ehttp://www.foodtrucknation.net\u003c/a\u003e \u003cbr/\u003e\u003cbr/\u003e ", 
+        "Shape" : "ESRI.ArcGIS.ADF.ArcGISServer.PointN"
+      }, 
+      "geometry" : 
+      {
+        "x" : 770934.282536104, 
+        "y" : 2953220.58594227
+      }
+    }, 
+    {
+      "attributes" : {
+        "GPS" : "10300D25 ", 
+        "Location" : "City Hall Plaza", 
+        "XCoord" : 775793.087922, 
+        "YCoord" : 2956420.551745, 
+        "DayOfWeek" : "Tuesday", 
+        "TimeOfDay" : "Afternoon", 
+        "TestFld" : "CloverGOV\u003cbr/\u003e\u003ca href='http://www.cloverfoodlab.com' target='new' textDecoration=\"underline\"\u003ehttp://www.cloverfoodlab.com\u003c/a\u003e \u003cbr/\u003e\u003cbr/\u003e Momogoose2\u003cbr/\u003e\u003ca href='http://www.momogoose.com' target='new' textDecoration=\"underline\"\u003ehttp://www.momogoose.com\u003c/a\u003e \u003cbr/\u003e\u003cbr/\u003e ", 
+        "Shape" : "ESRI.ArcGIS.ADF.ArcGISServer.PointN"
+      }, 
+      "geometry" : 
+      {
+        "x" : 775793.087779105, 
+        "y" : 2956420.55165519
+      }
+    }, 
+    {
+      "attributes" : {
+        "GPS" : "10300295 ", 
+        "Location" : "Commonwealth Ave, Eastbound", 
+        "XCoord" : 763952.314839, 
+        "YCoord" : 2952528.004069, 
+        "DayOfWeek" : "Tuesday", 
+        "TimeOfDay" : "Afternoon", 
+        "TestFld" : "The Cupcakory\u003cbr/\u003e\u003ca href='http://www.cupcakory.com' target='new' textDecoration=\"underline\"\u003ehttp://www.cupcakory.com\u003c/a\u003e \u003cbr/\u003e\u003cbr/\u003e ", 
+        "Shape" : "ESRI.ArcGIS.ADF.ArcGISServer.PointN"
+      }, 
+      "geometry" : 
+      {
+        "x" : 763952.314872772, 
+        "y" : 2952528.00399411
+      }
+    }, 
+    {
+      "attributes" : {
+        "GPS" : "10300D38 ", 
+        "Location" : "Blossom Street at Emerson Place (West End) ", 
+        "XCoord" : 772796, 
+        "YCoord" : 2958015, 
+        "DayOfWeek" : "Tuesday", 
+        "TimeOfDay" : "Afternoon", 
+        "TestFld" : "Redbones Barbeque\u003cbr/\u003e\u003ca href='http://www.redbones.com' target='new' textDecoration=\"underline\"\u003ehttp://www.redbones.com\u003c/a\u003e \u003cbr/\u003e\u003cbr/\u003e ", 
+        "Shape" : "ESRI.ArcGIS.ADF.ArcGISServer.PointN"
+      }, 
+      "geometry" : 
+      {
+        "x" : 772795.999941275, 
+        "y" : 2958014.99990985
+      }
+    }, 
+    {
+      "attributes" : {
+        "GPS" : "10300CE1 ", 
+        "Location" : "Hemenway St at Forsyth St", 
+        "XCoord" : 766664.358369, 
+        "YCoord" : 2949503.340265, 
+        "DayOfWeek" : "Tuesday", 
+        "TimeOfDay" : "Afternoon", 
+        "TestFld" : "Roxy's Grilled Cheese\u003cbr/\u003e\u003ca href='http://www.roxysgrilledcheese.com' target='new' textDecoration=\"underline\"\u003ehttp://www.roxysgrilledcheese.com\u003c/a\u003e \u003cbr/\u003e\u003cbr/\u003e ", 
+        "Shape" : "ESRI.ArcGIS.ADF.ArcGISServer.PointN"
+      }, 
+      "geometry" : 
+      {
+        "x" : 766664.358333185, 
+        "y" : 2949503.34042402
+      }
+    }, 
+    {
+      "attributes" : {
+        "GPS" : "10300D5F ", 
+        "Location" : "Stuart St at Dartmouth and 100 Clarendon Garage", 
+        "XCoord" : 770899.749854, 
+        "YCoord" : 2952283.469594, 
+        "DayOfWeek" : "Tuesday", 
+        "TimeOfDay" : "Afternoon", 
+        "TestFld" : "Staff Meal\u003cbr/\u003e\u003ca href='http://www.staffmealboston.com' target='new' textDecoration=\"underline\"\u003ehttp://www.staffmealboston.com\u003c/a\u003e \u003cbr/\u003e\u003cbr/\u003e ", 
+        "Shape" : "ESRI.ArcGIS.ADF.ArcGISServer.PointN"
+      }, 
+      "geometry" : 
+      {
+        "x" : 770899.749796778, 
+        "y" : 2952283.46970627
+      }
+    }, 
+    {
+      "attributes" : {
+        "GPS" : "na", 
+        "Location" : "City Hall Plaza", 
+        "XCoord" : 775793.087922, 
+        "YCoord" : 2956420.551745, 
+        "DayOfWeek" : "Tuesday", 
+        "TimeOfDay" : "Afternoon", 
+        "TestFld" : "CloverGOV\u003cbr/\u003e\u003ca href='http://www.cloverfoodlab.com' target='new' textDecoration=\"underline\"\u003ehttp://www.cloverfoodlab.com\u003c/a\u003e \u003cbr/\u003e\u003cbr/\u003e Momogoose2\u003cbr/\u003e\u003ca href='http://www.momogoose.com' target='new' textDecoration=\"underline\"\u003ehttp://www.momogoose.com\u003c/a\u003e \u003cbr/\u003e\u003cbr/\u003e ", 
+        "Shape" : "ESRI.ArcGIS.ADF.ArcGISServer.PointN"
+      }, 
+      "geometry" : 
+      {
+        "x" : 775793.087779105, 
+        "y" : 2956420.55165519
+      }
+    }, 
+    {
+      "attributes" : {
+        "GPS" : "10300B77  ", 
+        "Location" : "Greenway (Aquarium Area)", 
+        "XCoord" : 777288, 
+        "YCoord" : 2956045, 
+        "DayOfWeek" : "Tuesday", 
+        "TimeOfDay" : "Afternoon", 
+        "TestFld" : "Grilled Cheese Nation\u003cbr/\u003e\u003ca href='http://www.foodtrucknation.net' target='new' textDecoration=\"underline\"\u003ehttp://www.foodtrucknation.net\u003c/a\u003e \u003cbr/\u003e\u003cbr/\u003e ", 
+        "Shape" : "ESRI.ArcGIS.ADF.ArcGISServer.PointN"
+      }, 
+      "geometry" : 
+      {
+        "x" : 777288.000143602, 
+        "y" : 2956044.99991286
+      }
+    }, 
+    {
+      "attributes" : {
+        "GPS" : "na", 
+        "Location" : "Greenway (South Station Area)", 
+        "XCoord" : 776386, 
+        "YCoord" : 2953707, 
+        "DayOfWeek" : "Tuesday", 
+        "TimeOfDay" : "Afternoon", 
+        "TestFld" : "CloverDWY\u003cbr/\u003e\u003ca href='http://www.cloverfastfood.com' target='new' textDecoration=\"underline\"\u003ehttp://www.cloverfastfood.com\u003c/a\u003e \u003cbr/\u003e\u003cbr/\u003e Bon Me\u003cbr/\u003e\u003ca href='http://www.bonmetruck.com' target='new' textDecoration=\"underline\"\u003ehttp://www.bonmetruck.com\u003c/a\u003e \u003cbr/\u003e\u003cbr/\u003e ", 
+        "Shape" : "ESRI.ArcGIS.ADF.ArcGISServer.PointN"
+      }, 
+      "geometry" : 
+      {
+        "x" : 776385.999979109, 
+        "y" : 2953706.99999569
+      }
+    }
+  ]
+}
