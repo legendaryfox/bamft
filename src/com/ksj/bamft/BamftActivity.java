@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -39,12 +40,95 @@ public class BamftActivity extends ListActivity {
         //setContentView(R.layout.main);
         
         
-        //Initialize some storage
-        List<String> truckList = new ArrayList<String>();
+        //First, we get the food truck data from the API
+        //List<String> truckList = readTruckList("2"); //0 = morning, 1 = afternoon, 2 = evening
+        List<String> truckNameList = readTruckListData("2", "URL");
         
         
-        String readGPSData = readGPSData();
+        //this part is for displaying it in the ListView
         
+        
+        setListAdapter(new ArrayAdapter<String>(this, R.layout.list_item, truckNameList));
+        ListView lv = getListView();
+        lv.setTextFilterEnabled(true);
+        
+        //ListView "toast" functionality
+        lv.setOnItemClickListener(new OnItemClickListener() {
+        	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        		//When clicked, show a toast with the TextView text
+        		Toast.makeText(getApplicationContext(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
+        	}
+        });
+        
+        
+    }
+    
+    public List<String> readTruckListData(String timeOfDay, String infoField)
+    {
+    	
+    	if ("GPS".equals(infoField)) {
+    		
+    		return readRawTruckListData(timeOfDay, "GPS");
+    		
+    	} else if ("Location".equals(infoField)) {
+    		
+    		return readRawTruckListData(timeOfDay, "Location");
+    		
+    	} else if ("XCoord".equals(infoField)) {
+    		
+    		return readRawTruckListData(timeOfDay, "XCoord");
+    		
+    	} else if ("YCoord".equals(infoField)) {
+    		
+    		return readRawTruckListData(timeOfDay, "YCoord");
+    		
+    	} else if ("TimeOfDay".equals(infoField)) {
+    		
+    		return readRawTruckListData(timeOfDay, "TimeOfDay");
+    		
+    	} else if ("Name".equals(infoField)) {
+    		
+    		List<String> nameList = readRawTruckListData(timeOfDay, "TestFld");
+    		ListIterator<String> litr = nameList.listIterator();
+    		while(litr.hasNext()) {
+    			
+    			Object rawTruckName = litr.next();
+    			litr.set(sanitizeTruckName((String) rawTruckName));
+    		}
+    		
+    		return nameList;
+    		
+    	} else if ("URL".equals(infoField)) {
+    		
+    		List<String> urlList = readRawTruckListData(timeOfDay, "TestFld");
+    		ListIterator<String> litr = urlList.listIterator();
+    		while(litr.hasNext()) {
+    			
+    			Object rawURL = litr.next();
+    			litr.set(sanitizeTruckURL((String) rawURL));
+    		}
+    		
+    		return urlList;
+    		
+    		
+    	} else {
+    		
+    		return readRawTruckListData(timeOfDay, infoField);
+    	}	
+    		
+    }
+    	
+    	
+    	
+    
+    
+    private List<String> readRawTruckListData(String timeOfDay, String rawField)
+    {
+    	//for timeOfDay, 0 = morning, 1 = afternoon, 2 = evening
+    	
+    	//Initialize some variables
+        List<String> truckList = new ArrayList<String>();       
+        String readGPSData = readGPSData(timeOfDay);
 
         try {
         	/*
@@ -52,7 +136,8 @@ public class BamftActivity extends ListActivity {
         	 * http://hubmaps2.cityofboston.gov/ArcGIS/rest/services/Dev_services/food_trucks
         	 /MapServer/1/query?text=%25&outFields=GPS%2CLocation%2CXCoord%2CYCoord%2CDayOfWeek%2CTimeOfDay%2CTestFld%2CShape&f=pjson 
         	 */
-        	JSONArray jsonArray = new JSONObject(readGPSData).getJSONArray("features"); //features stores actual food truck entries
+        	
+        	JSONArray jsonArray = new JSONObject(readGPSData).getJSONArray("features"); //"features" stores actual food truck entries
         	
         	Log.i(BamftActivity.class.getName(), "Number of entries " + jsonArray.length()); //add a log entry for # of entries
         	
@@ -63,42 +148,41 @@ public class BamftActivity extends ListActivity {
         		JSONObject jsonObject = jsonArray.getJSONObject(i);
         		
         		//This line prints it all out.
-        		String testFld = jsonObject.getJSONObject("attributes").getString("TestFld");
-        		int brIndex = testFld.indexOf("<br/>");
-        		String truckName = testFld.substring(0, brIndex); // <--THIS IS WHERE WE EXTRACTED THE TRUCK.
+        		String rawInfo = jsonObject.getJSONObject("attributes").getString(rawField); 		
+        		//String truckName = sanitizeTruckName(testFld);
+        		//String truckName = testFld;
         		
-        		Log.i(BamftActivity.class.getName(), "Truck: " + truckName); //add to log
-        		//tv.append("Truck: " + truckName + "\n"); //add to textview
+        		Log.i(BamftActivity.class.getName(), "Data: " + rawInfo); //add to log
         		
-        		truckList.add(truckName); //add object to our truckList
+        		truckList.add(rawInfo); //add object to our truckList
     
         	}
     	} catch (Exception e) {
     		e.printStackTrace();
     	}
-        
-        
-        setListAdapter(new ArrayAdapter<String>(this, R.layout.list_item, truckList));
-        ListView lv = getListView();
-        lv.setTextFilterEnabled(true);
-        
-        lv.setOnItemClickListener(new OnItemClickListener() {
-        	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        		//When clicked, show a toast with the TextView text
-        		Toast.makeText(getApplicationContext(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
-        	}
-        });
-        
-        
-        //setContentView(tv);
+        return truckList;
+    	
+    }
+    
+    public String sanitizeTruckName(String unsanitizedTruckName)
+    {
+    	int brIndex = unsanitizedTruckName.indexOf("<br/>");
+    	return unsanitizedTruckName.substring(0, brIndex);
+    }
+    
+    public String sanitizeTruckURL(String unsanitizedURL)
+    {
+    	int openIndex = unsanitizedURL.indexOf("href='");
+    	int closeIndex = unsanitizedURL.indexOf("' target");
+    	return unsanitizedURL.substring(openIndex + 6, closeIndex);
     }
 
     
-    public String readGPSData() {
+    public String readGPSData(String timeOfDay) {
     	StringBuilder builder = new StringBuilder();
     	HttpClient client = new DefaultHttpClient();
     	
-		HttpGet httpGet = new HttpGet("http://hubmaps2.cityofboston.gov/ArcGIS/rest/services/Dev_services/food_trucks/MapServer/1/query?text=%25&outFields=GPS%2CLocation%2CXCoord%2CYCoord%2CDayOfWeek%2CTimeOfDay%2CTestFld%2CShape&f=pjson");
+		HttpGet httpGet = new HttpGet("http://hubmaps2.cityofboston.gov/ArcGIS/rest/services/Dev_services/food_trucks/MapServer/" + timeOfDay + "/query?text=%25&outFields=GPS%2CLocation%2CXCoord%2CYCoord%2CDayOfWeek%2CTimeOfDay%2CTestFld%2CShape&f=pjson");
 		try {
 			HttpResponse response = client.execute(httpGet); //run the Get
 			
