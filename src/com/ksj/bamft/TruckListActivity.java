@@ -18,27 +18,32 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
-public class MorningTruckActivity extends ListActivity {
+public class TruckListActivity extends ListActivity {
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.main);
         
+        //dynamically load time of day based on previous Activity.
+        String timeOfDay = "1"; //set this as default for safety
+        Bundle timeOfDayBundle = this.getIntent().getExtras();
+        timeOfDay = timeOfDayBundle.getString("timeOfDay");
+        
+        
         //First, we get the food truck data from the API
-        final List<String> truckNameList = readTruckListData("0", "Name");
-        final List<String> truckLocationList = readTruckListData("0", "Location");
+        final List<String> truckNameList = readTruckListData(timeOfDay, "Name");
+        final List<String> truckLocationList = readTruckListData(timeOfDay, "Location");
         
         
         //this part is for displaying it in the ListView
