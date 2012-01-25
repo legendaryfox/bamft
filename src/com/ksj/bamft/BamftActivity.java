@@ -39,15 +39,12 @@ public class BamftActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.main);
         
-        
         //First, we get the food truck data from the API
-        //List<String> truckList = readTruckList("2"); //0 = morning, 1 = afternoon, 2 = evening
-        List<String> truckNameList = readTruckListData("2", "URL");
+        final List<String> truckNameList = readTruckListData("1", "Name");
+        final List<String> truckLocationList = readTruckListData("1", "Location");
         
         
         //this part is for displaying it in the ListView
-        
-        
         setListAdapter(new ArrayAdapter<String>(this, R.layout.list_item, truckNameList));
         ListView lv = getListView();
         lv.setTextFilterEnabled(true);
@@ -56,7 +53,8 @@ public class BamftActivity extends ListActivity {
         lv.setOnItemClickListener(new OnItemClickListener() {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         		//When clicked, show a toast with the TextView text
-        		Toast.makeText(getApplicationContext(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
+        		//Toast.makeText(getApplicationContext(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
+        		Toast.makeText(getApplicationContext(), truckLocationList.get(position), Toast.LENGTH_SHORT).show(); //show the location
         	}
         });
         
@@ -65,29 +63,32 @@ public class BamftActivity extends ListActivity {
     
     public List<String> readTruckListData(String timeOfDay, String infoField)
     {
+    	/* Options for infoField (string):
+    	 * GPS
+    	 * Location
+    	 * XCoord
+    	 * YCoord
+    	 * TimeOfDay
+    	 * Name
+    	 * URL
+    	 */
     	
-    	if ("GPS".equals(infoField)) {
-    		
+    	if ("GPS".equals(infoField)) {  		
     		return readRawTruckListData(timeOfDay, "GPS");
     		
-    	} else if ("Location".equals(infoField)) {
-    		
+    	} else if ("Location".equals(infoField)) {  		
     		return readRawTruckListData(timeOfDay, "Location");
     		
     	} else if ("XCoord".equals(infoField)) {
-    		
     		return readRawTruckListData(timeOfDay, "XCoord");
     		
-    	} else if ("YCoord".equals(infoField)) {
-    		
+    	} else if ("YCoord".equals(infoField)) {    		
     		return readRawTruckListData(timeOfDay, "YCoord");
     		
-    	} else if ("TimeOfDay".equals(infoField)) {
-    		
+    	} else if ("TimeOfDay".equals(infoField)) {    		
     		return readRawTruckListData(timeOfDay, "TimeOfDay");
     		
-    	} else if ("Name".equals(infoField)) {
-    		
+    	} else if ("Name".equals(infoField)) {  		
     		List<String> nameList = readRawTruckListData(timeOfDay, "TestFld");
     		ListIterator<String> litr = nameList.listIterator();
     		while(litr.hasNext()) {
@@ -98,8 +99,7 @@ public class BamftActivity extends ListActivity {
     		
     		return nameList;
     		
-    	} else if ("URL".equals(infoField)) {
-    		
+    	} else if ("URL".equals(infoField)) {   		
     		List<String> urlList = readRawTruckListData(timeOfDay, "TestFld");
     		ListIterator<String> litr = urlList.listIterator();
     		while(litr.hasNext()) {
@@ -111,9 +111,10 @@ public class BamftActivity extends ListActivity {
     		return urlList;
     		
     		
-    	} else {
-    		
+    	} else {  		
+    		//return garbage?
     		return readRawTruckListData(timeOfDay, infoField);
+    		
     	}	
     		
     }
@@ -128,7 +129,7 @@ public class BamftActivity extends ListActivity {
     	
     	//Initialize some variables
         List<String> truckList = new ArrayList<String>();       
-        String readGPSData = readGPSData(timeOfDay);
+        String readGPSData = readAPIData(timeOfDay);
 
         try {
         	/*
@@ -141,19 +142,13 @@ public class BamftActivity extends ListActivity {
         	
         	Log.i(BamftActivity.class.getName(), "Number of entries " + jsonArray.length()); //add a log entry for # of entries
         	
-        	
-        	
         	for (int i = 0; i < jsonArray.length(); i++) {
         		//Iterate through each entry
         		JSONObject jsonObject = jsonArray.getJSONObject(i);
         		
         		//This line prints it all out.
-        		String rawInfo = jsonObject.getJSONObject("attributes").getString(rawField); 		
-        		//String truckName = sanitizeTruckName(testFld);
-        		//String truckName = testFld;
-        		
-        		Log.i(BamftActivity.class.getName(), "Data: " + rawInfo); //add to log
-        		
+        		String rawInfo = jsonObject.getJSONObject("attributes").getString(rawField); 		      		
+        		Log.i(BamftActivity.class.getName(), "Data: " + rawInfo); //add to log     		
         		truckList.add(rawInfo); //add object to our truckList
     
         	}
@@ -178,7 +173,7 @@ public class BamftActivity extends ListActivity {
     }
 
     
-    public String readGPSData(String timeOfDay) {
+    public String readAPIData(String timeOfDay) {
     	StringBuilder builder = new StringBuilder();
     	HttpClient client = new DefaultHttpClient();
     	
