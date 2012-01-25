@@ -48,15 +48,14 @@ public class TruckListActivity extends ListActivity {
         
         //this part is for displaying it in the ListView
         setListAdapter(new ArrayAdapter<String>(this, R.layout.list_item, truckNameList));
-        //setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, truckNameList));
+
         ListView lv = getListView();
         lv.setTextFilterEnabled(true);
         
         //ListView "toast" functionality
         lv.setOnItemClickListener(new OnItemClickListener() {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        		//When clicked, show a toast with the TextView text
-        		//Toast.makeText(getApplicationContext(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
+
         		Toast.makeText(getApplicationContext(), truckLocationList.get(position), Toast.LENGTH_SHORT).show(); //show the location
         	}
         });

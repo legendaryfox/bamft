@@ -25,7 +25,7 @@ public class BamftActivity extends Activity {
         gridview.setOnItemClickListener(new OnItemClickListener() {
         	
         	public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-        		//Toast.makeText(BamftActivity.this, "" + position, Toast.LENGTH_SHORT).show();
+
         		Bundle timeOfDayBundle = new Bundle();
         		timeOfDayBundle.putString("timeOfDay", "1"); //just in case...note that putString automatically overwrites existing values too
         		
