@@ -27,7 +27,7 @@ public class BamftActivity extends Activity {
         	public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
         		Bundle timeOfDayBundle = new Bundle();
-        		timeOfDayBundle.putString("timeOfDay", "1"); //just in case...note that putString automatically overwrites existing values too
+        		timeOfDayBundle.putString("timeOfDay", "Afternoon"); //just in case...note that putString automatically overwrites existing values too
         		
         		Intent loadTruckListIntent = new Intent(BamftActivity.this, TruckListActivity.class);
         		
@@ -35,17 +35,17 @@ public class BamftActivity extends Activity {
         		case 0:
         			//Load Morning trucks
         			Toast.makeText(BamftActivity.this, "Morning Trucks", Toast.LENGTH_SHORT).show();
-        			timeOfDayBundle.putString("timeOfDay", "0");
+        			timeOfDayBundle.putString("timeOfDay", "morning");
         			break;
         		case 1:
         			//Load Afternoon trucks
         			Toast.makeText(BamftActivity.this, "Afternoon Trucks", Toast.LENGTH_SHORT).show();
-        			timeOfDayBundle.putString("timeOfDay", "1");
+        			timeOfDayBundle.putString("timeOfDay", "afternoon");
         			break;
         		case 2:
         			//Load Evening trucks
         			Toast.makeText(BamftActivity.this, "Evening Trucks", Toast.LENGTH_SHORT).show();
-        			timeOfDayBundle.putString("timeOfDay", "2");
+        			timeOfDayBundle.putString("timeOfDay", "evening");
         			break;
         		case 3:
         			//Load ALL THE TRUCKS!!!!11!!! but i don't know how to do this yet.

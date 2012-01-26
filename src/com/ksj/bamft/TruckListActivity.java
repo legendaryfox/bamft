@@ -36,14 +36,14 @@ public class TruckListActivity extends ListActivity {
         //setContentView(R.layout.main);
         
         //dynamically load time of day based on previous Activity.
-        String timeOfDay = "1"; //set this as default for safety
+        String timeOfDay = "Afternoon"; //set this as default for safety
         Bundle timeOfDayBundle = this.getIntent().getExtras();
         timeOfDay = timeOfDayBundle.getString("timeOfDay");
         
         
         //First, we get the food truck data from the API
-        final List<String> truckNameList = readTruckListData(timeOfDay, "Name");
-        final List<String> truckLocationList = readTruckListData(timeOfDay, "Location");
+        final List<String> truckNameList = readTruckListData(timeOfDay, "name");
+        //final List<String> truckLocationList = readTruckListData(timeOfDay, "Location");
         
         
         //this part is for displaying it in the ListView
@@ -56,7 +56,8 @@ public class TruckListActivity extends ListActivity {
         lv.setOnItemClickListener(new OnItemClickListener() {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        		Toast.makeText(getApplicationContext(), truckLocationList.get(position), Toast.LENGTH_SHORT).show(); //show the location
+        		//Toast.makeText(getApplicationContext(), truckLocationList.get(position), Toast.LENGTH_SHORT).show(); //show the location
+        		Toast.makeText(getApplicationContext(), truckNameList.get(position), Toast.LENGTH_SHORT).show();
         	}
         });
         
@@ -90,7 +91,7 @@ public class TruckListActivity extends ListActivity {
     	} else if ("TimeOfDay".equals(infoField)) {    		
     		return readRawTruckListData(timeOfDay, "TimeOfDay");
     		
-    	} else if ("Name".equals(infoField)) {  		
+    	/*} else if ("Name".equals(infoField)) {  		
     		List<String> nameList = readRawTruckListData(timeOfDay, "TestFld");
     		ListIterator<String> litr = nameList.listIterator();
     		while(litr.hasNext()) {
@@ -100,7 +101,10 @@ public class TruckListActivity extends ListActivity {
     		}
     		
     		return nameList;
-    		
+    	*/
+    	} else if ("name".equals(infoField)) {
+    		return readRawTruckListData(timeOfDay, "name");
+    	
     	} else if ("URL".equals(infoField)) {   		
     		List<String> urlList = readRawTruckListData(timeOfDay, "TestFld");
     		ListIterator<String> litr = urlList.listIterator();
@@ -121,11 +125,49 @@ public class TruckListActivity extends ListActivity {
     		
     }
     	
-    	
-    	
-    
-    
     private List<String> readRawTruckListData(String timeOfDay, String rawField)
+    {
+    	//for timeOfDay, 0 = morning, 1 = afternoon, 2 = evening
+    	
+    	//Initialize some variables
+        List<String> truckList = new ArrayList<String>();       
+        String readGPSData = readAPIData(timeOfDay);
+
+        try {
+        	/*
+        	 * First we have to dig into the JSON structure - see http://json.bloople.net/ to convert
+        	 * http://hubmaps2.cityofboston.gov/ArcGIS/rest/services/Dev_services/food_trucks
+        	 /MapServer/1/query?text=%25&outFields=GPS%2CLocation%2CXCoord%2CYCoord%2CDayOfWeek%2CTimeOfDay%2CTestFld%2CShape&f=pjson 
+        	 */
+        	
+        	//JSONArray jsonArray = new JSONObject(readGPSData).getJSONArray("features"); //"features" stores actual food truck entries
+        	
+        	JSONArray jsonArray = new JSONArray(readGPSData);
+        	
+        	Log.i(BamftActivity.class.getName(), "Number of entries " + jsonArray.length()); //add a log entry for # of entries
+        	
+        	for (int i = 0; i < jsonArray.length(); i++) {
+        		//Iterate through each entry
+        		JSONObject jsonObject = jsonArray.getJSONObject(i);
+        		//JSONObject jsonObject = jsonArray.getJSONObject(i).get
+        		
+        		//This line prints it all out.
+        		//String rawInfo = jsonObject.getJSONObject("attributes").getString(rawField); 	
+        		String rawInfo = jsonObject.getJSONObject("truck").getString(rawField);
+        		Log.i(BamftActivity.class.getName(), "Data: " + rawInfo); //add to log     		
+        		truckList.add(rawInfo); //add object to our truckList
+    
+        	}
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+        return truckList;
+    	
+    }
+    	
+    
+    
+    private List<String> old_readRawTruckListData(String timeOfDay, String rawField)
     {
     	//for timeOfDay, 0 = morning, 1 = afternoon, 2 = evening
     	
@@ -179,8 +221,10 @@ public class TruckListActivity extends ListActivity {
     	StringBuilder builder = new StringBuilder();
     	HttpClient client = new DefaultHttpClient();
     	
-		HttpGet httpGet = new HttpGet("http://hubmaps2.cityofboston.gov/ArcGIS/rest/services/Dev_services/food_trucks/MapServer/" + timeOfDay + "/query?text=%25&outFields=GPS%2CLocation%2CXCoord%2CYCoord%2CDayOfWeek%2CTimeOfDay%2CTestFld%2CShape&f=pjson");
-		try {
+		//HttpGet httpGet = new HttpGet("http://hubmaps2.cityofboston.gov/ArcGIS/rest/services/Dev_services/food_trucks/MapServer/" + timeOfDay + "/query?text=%25&outFields=GPS%2CLocation%2CXCoord%2CYCoord%2CDayOfWeek%2CTimeOfDay%2CTestFld%2CShape&f=pjson");
+		
+    	HttpGet httpGet = new HttpGet("http://bamftserver.heroku.com/trucks/" + timeOfDay);
+    	try {
 			HttpResponse response = client.execute(httpGet); //run the Get
 			
 			//get the status
