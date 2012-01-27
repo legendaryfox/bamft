@@ -41,14 +41,17 @@ public class TruckListActivity extends ListActivity {
         timeOfDay = timeOfDayBundle.getString("timeOfDay");
         
         
+        
+        
+        
         //First, we get the food truck data from the API
         //final List<String> truckNameList = readTruckListData(timeOfDay, "name");
-        DatabaseHandler db = new DatabaseHandler(this);
-        final List<Truck> truckList = db.getTrucksByDayAndTime("Thursday", timeOfDay);
+        final DatabaseHandler db = new DatabaseHandler(this);
+        final List<Schedule> scheduleList = db.getSchedulesByDayAndTime("Thursday", timeOfDay);
         
         //this part is for displaying it in the ListView
         //setListAdapter(new ArrayAdapter<String>(this, R.layout.list_item, truckNameList));
-        setListAdapter(new ArrayAdapter<Truck>(this, R.layout.list_item, truckList));
+        setListAdapter(new ArrayAdapter<Schedule>(this, R.layout.list_item, scheduleList));
         
         ListView lv = getListView();
         lv.setTextFilterEnabled(true);
@@ -57,8 +60,10 @@ public class TruckListActivity extends ListActivity {
         lv.setOnItemClickListener(new OnItemClickListener() {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+        		int truck_id = scheduleList.get(position).truck_id;
+        		Truck truck = db.getTruck(truck_id);
         		//Toast.makeText(getApplicationContext(), truckLocationList.get(position), Toast.LENGTH_SHORT).show(); //show the location
-        		Toast.makeText(getApplicationContext(), truckList.get(position).getName(), Toast.LENGTH_SHORT).show();
+        		Toast.makeText(getApplicationContext(), truck.getName(), Toast.LENGTH_SHORT).show();
         	}
         });
         

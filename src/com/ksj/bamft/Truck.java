@@ -18,6 +18,10 @@ public class Truck {
 		this.description = description;
 	}
 	
+	
+	
+	
+	
 	// basic getters/setters
 	
 	public int getId() {
@@ -51,4 +55,6 @@ public class Truck {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	
 }

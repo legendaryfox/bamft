@@ -113,6 +113,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	
     }
     
+    //--BEGIN GOOD FUNCTIONS
+    
+    
+    //public List<Truck> getLandmarksByTruckAndDayAndTime(int)
+    
+    public List<Schedule> getSchedulesByDayAndTime(String dayOfWeek, String timeOfDay) {
+    	String query = "SELECT \"schedules\".* FROM \"" + TABLE_SCHEDULES + "\""
+    			+ "WHERE (\"schedules\".\"day_of_week\" = '" + dayOfWeek + "')"
+    			+ "AND (\"schedules\".\"time_of_day\" = '" + timeOfDay + "')";
+    	return getSchedulesListByQuery(query);
+    }
+    
     public List<Truck> getTrucksByDayAndTime(String dayOfWeek, String timeOfDay) {
     	
     	//String query = "SELECT "
@@ -123,42 +135,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	return getTrucksListByQuery(query);
     	
     }
+    
  
     
     
-    private List<Truck> getTrucksListByQuery(String selectQuery) {
-    	List<Truck> truckList = new ArrayList<Truck>();
-    	
-    	// Select ALL Query
-    	//String selectQuery = "SELECT * FROM " + TABLE_TRUCKS;
-    	//String selectQuery = query;
-    	
-    	SQLiteDatabase db = this.getWritableDatabase();
-    	Cursor cursor = db.rawQuery(selectQuery, null);
-    	
-    	// looping through all rows and adding to list
-    	if (cursor.moveToFirst()) {
-    		do {
-    			Truck truck = new Truck();
-    			truck.setId(Integer.parseInt(cursor.getString(0)));
-    			truck.setName(cursor.getString(1));
-    			truck.setCuisine(cursor.getString(2));
-    			truck.setDescription(cursor.getString(3));
-    			
-    			// add back to the list
-    			truckList.add(truck);
-    		} while (cursor.moveToNext());
-    	}
-    	
-    	// return
-    	db.close();
-    	return truckList;
-    }
+   
     
     
     
     
-    
+    // END GOOD FUNCTIONS
     
     /**
      * All CRUD(Create, Read, Update, Delete) Operations
@@ -254,35 +240,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
     
     public List<Landmark> getAllLandmarks() {
-    	List<Landmark> landmarkList = new ArrayList<Landmark>();
     	
-    	// Select ALL Query
-    	String selectQuery = "SELECT * FROM " + TABLE_LANDMARKS;
-    	
-    	SQLiteDatabase db = this.getWritableDatabase();
-    	Cursor cursor = db.rawQuery(selectQuery, null);
-    	
-    	// looping through all rows and adding to list
-    	if (cursor.moveToFirst()) {
-    		do {
-    			Landmark landmark = new Landmark();
-    			landmark.setId(Integer.parseInt(cursor.getString(0)));
-    			landmark.setName(cursor.getString(1));
-    			landmark.setXcoord(cursor.getString(2));
-    			landmark.setYcoord(cursor.getString(3));
-    			
-    			// add back to the list
-    			landmarkList.add(landmark);
-    		} while (cursor.moveToNext());
-    	}
-    	
-    	// return
-    	db.close();
-    	return landmarkList;
+    	String query = "SELECT * FROM " + TABLE_LANDMARKS;
+    	return getLandmarksListByQuery(query);
     }
     
     public List<Truck> getAllTrucks() {
-    	List<Truck> truckList = new ArrayList<Truck>();
+    	/*List<Truck> truckList = new ArrayList<Truck>();
     	
     	// Select ALL Query
     	String selectQuery = "SELECT * FROM " + TABLE_TRUCKS;
@@ -307,36 +271,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	// return
     	db.close();
     	return truckList;
+    	*/
+    	String query = "SELECT * FROM " + TABLE_TRUCKS;
+    	return getTrucksListByQuery(query);
     }
     
     public List<Schedule> getAllSchedules() {
-    	List<Schedule> scheduleList = new ArrayList<Schedule>();
     	
-    	// Select ALL Query
-    	String selectQuery = "SELECT * FROM " + TABLE_SCHEDULES;
-    	
-    	SQLiteDatabase db = this.getWritableDatabase();
-    	Cursor cursor = db.rawQuery(selectQuery, null);
-    	
-    	// looping through all rows and adding to list
-    	if (cursor.moveToFirst()) {
-    		do {
-    			Schedule schedule = new Schedule();
-    			schedule.setId(Integer.parseInt(cursor.getString(0)));
-    			schedule.setDayOfWeek(cursor.getString(1));
-    			schedule.setTimeOfDay(cursor.getString(2));
-    			schedule.setTruckId(Integer.parseInt(cursor.getString(3)));
-    			schedule.setLandmarkId(Integer.parseInt(cursor.getString(4)));
-
-    			
-    			// add back to the list
-    			scheduleList.add(schedule);
-    		} while (cursor.moveToNext());
-    	}
-    	
-    	// return
-    	db.close();
-    	return scheduleList;
+    	String query = "SELECT * FROM " + TABLE_SCHEDULES;
+    	return getSchedulesListByQuery(query);
     }
     
     public int updateLandmark(Landmark landmark) {
@@ -452,6 +395,90 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	return cursor.getCount();
     	
     }
+    
+    private List<Landmark> getLandmarksListByQuery(String selectQuery) {
+    	List<Landmark> landmarkList = new ArrayList<Landmark>();
+    	
+    	SQLiteDatabase db = this.getWritableDatabase();
+    	Cursor cursor = db.rawQuery(selectQuery, null);
+    	
+    	// looping through all rows and adding to list
+    	if (cursor.moveToFirst()) {
+    		do {
+    			Landmark landmark = new Landmark();
+    			landmark.setId(Integer.parseInt(cursor.getString(0)));
+    			landmark.setName(cursor.getString(1));
+    			landmark.setXcoord(cursor.getString(2));
+    			landmark.setYcoord(cursor.getString(3));
+    			
+    			// add back to the list
+    			landmarkList.add(landmark);
+    		} while (cursor.moveToNext());
+    	}
+    	
+    	// return
+    	db.close();
+    	return landmarkList;
+    }
+    
+    private List<Truck> getTrucksListByQuery(String selectQuery) {
+    	List<Truck> truckList = new ArrayList<Truck>();
+    	
+    	// Select ALL Query
+    	//String selectQuery = "SELECT * FROM " + TABLE_TRUCKS;
+    	//String selectQuery = query;
+    	
+    	SQLiteDatabase db = this.getWritableDatabase();
+    	Cursor cursor = db.rawQuery(selectQuery, null);
+    	
+    	// looping through all rows and adding to list
+    	if (cursor.moveToFirst()) {
+    		do {
+    			Truck truck = new Truck();
+    			truck.setId(Integer.parseInt(cursor.getString(0)));
+    			truck.setName(cursor.getString(1));
+    			truck.setCuisine(cursor.getString(2));
+    			truck.setDescription(cursor.getString(3));
+    			
+    			// add back to the list
+    			truckList.add(truck);
+    		} while (cursor.moveToNext());
+    	}
+    	
+    	// return
+    	db.close();
+    	return truckList;
+    }
+    
+    private List<Schedule> getSchedulesListByQuery(String selectQuery) {
+    	List<Schedule> scheduleList = new ArrayList<Schedule>();
+    	
+    	
+    	SQLiteDatabase db = this.getWritableDatabase();
+    	Cursor cursor = db.rawQuery(selectQuery, null);
+    	
+    	// looping through all rows and adding to list
+    	if (cursor.moveToFirst()) {
+    		do {
+    			Schedule schedule = new Schedule();
+    			schedule.setId(Integer.parseInt(cursor.getString(0)));
+    			schedule.setDayOfWeek(cursor.getString(1));
+    			schedule.setTimeOfDay(cursor.getString(2));
+    			schedule.setTruckId(Integer.parseInt(cursor.getString(3)));
+    			schedule.setLandmarkId(Integer.parseInt(cursor.getString(4)));
+
+    			
+    			// add back to the list
+    			scheduleList.add(schedule);
+    		} while (cursor.moveToNext());
+    	}
+    	
+    	// return
+    	db.close();
+    	return scheduleList;
+    }
+    
+    
     
    
  
