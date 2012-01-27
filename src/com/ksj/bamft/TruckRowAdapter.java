@@ -1,6 +1,5 @@
 package com.ksj.bamft;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -23,7 +22,6 @@ public class TruckRowAdapter extends ArrayAdapter<Schedule> {
 		this.scheduleList = scheduleList;
 	}
 	
-	
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -35,8 +33,9 @@ public class TruckRowAdapter extends ArrayAdapter<Schedule> {
 		}
 		Schedule schedule = scheduleList.get(position);
 		if (schedule != null) {
+			
+			//Just for example - we will probably get different values later.
 			TextView truckNameText = (TextView) rowView.findViewById(R.id.truckNameText);
-			//TextView truckCuisineText = (TextView) rowView.findViewById(R.id);
 			TextView truckCuisineText = (TextView) rowView.findViewById(R.id.truckCuisineText);
 			
 			Truck truck = db.getTruck(schedule.truck_id);
@@ -46,8 +45,7 @@ public class TruckRowAdapter extends ArrayAdapter<Schedule> {
 			}
 			if (truckCuisineText != null) {
 				truckCuisineText.setText(truck.getCuisine());
-			}
-			
+			}	
 		}
 		
 		return rowView;

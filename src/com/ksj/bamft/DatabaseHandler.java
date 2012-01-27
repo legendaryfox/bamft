@@ -16,11 +16,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
  
     // Database Name
-    //private static final String DATABASE_NAME = "contactsManager";
     private static final String DATABASE_NAME = "bamftRecords";
  
     // Tables name
-    //private static final String TABLE_CONTACTS = "contacts";
     private static final String TABLE_LANDMARKS = "landmarks";
     private static final String TABLE_TRUCKS = "trucks";
     private static final String TABLE_SCHEDULES = "schedules";
@@ -51,11 +49,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-        /*String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_CONTACTS + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
-                + KEY_PH_NO + " TEXT" + ")";
-        db.execSQL(CREATE_CONTACTS_TABLE);
-        */
+        
+
     	String CREATE_LANDMARKS_TABLE = "CREATE TABLE " + TABLE_LANDMARKS
     			+ "(" 
     			+ KEY_LANDMARK_ID + " INTEGER PRIMARY KEY,"
@@ -113,10 +108,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	
     }
     
-    //--BEGIN GOOD FUNCTIONS
+    /*
+     * Begin custom functions
+     */
     
+    /**
+     * Gets all schedules based upon a giving time and day (use string format, ie "Monday", "Evening");
+     * Days: "Monday" to "Sunday";
+     * Time: "Morning", "Afternoon", "Evening"
+     * @param dayOfWeek
+     * @param timeOfDay
+     * @return List<Schedule> of schedules matching parameters
+     */
     
-    //public List<Truck> getLandmarksByTruckAndDayAndTime(int)
     
     public List<Schedule> getSchedulesByDayAndTime(String dayOfWeek, String timeOfDay) {
     	String query = "SELECT \"schedules\".* FROM \"" + TABLE_SCHEDULES + "\""
@@ -125,28 +129,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	return getSchedulesListByQuery(query);
     }
     
-    public List<Truck> getTrucksByDayAndTime(String dayOfWeek, String timeOfDay) {
-    	
-    	//String query = "SELECT "
-    	String query = "SELECT \"trucks\".* FROM \"trucks\"" 
-    			+ "INNER JOIN \"schedules\" ON \"schedules\".\"truck_id\" = \"trucks\".\"id\""
-    			+ "WHERE (\"schedules\".\"day_of_week\" = '" + dayOfWeek + "')"
-    			+ "AND (\"schedules\".\"time_of_day\" = '" + timeOfDay + "')";
-    	return getTrucksListByQuery(query);
-    	
-    }
-    
- 
     
     
    
     
     
+    /*
+     * End custom functions
+     */
     
     
-    // END GOOD FUNCTIONS
-    
-    /**
+    /*
      * All CRUD(Create, Read, Update, Delete) Operations
      */
  
@@ -246,32 +239,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
     
     public List<Truck> getAllTrucks() {
-    	/*List<Truck> truckList = new ArrayList<Truck>();
     	
-    	// Select ALL Query
-    	String selectQuery = "SELECT * FROM " + TABLE_TRUCKS;
-    	
-    	SQLiteDatabase db = this.getWritableDatabase();
-    	Cursor cursor = db.rawQuery(selectQuery, null);
-    	
-    	// looping through all rows and adding to list
-    	if (cursor.moveToFirst()) {
-    		do {
-    			Truck truck = new Truck();
-    			truck.setId(Integer.parseInt(cursor.getString(0)));
-    			truck.setName(cursor.getString(1));
-    			truck.setCuisine(cursor.getString(2));
-    			truck.setDescription(cursor.getString(3));
-    			
-    			// add back to the list
-    			truckList.add(truck);
-    		} while (cursor.moveToNext());
-    	}
-    	
-    	// return
-    	db.close();
-    	return truckList;
-    	*/
     	String query = "SELECT * FROM " + TABLE_TRUCKS;
     	return getTrucksListByQuery(query);
     }
@@ -286,7 +254,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	SQLiteDatabase db = this.getWritableDatabase();
     	
     	ContentValues values = new ContentValues();
-    	//values.put(KEY_LANDMARK_ID, landmark.getId()); <-- this is our key  so we don't need to update this
     	values.put(KEY_LANDMARK_NAME, landmark.getName());
     	values.put(KEY_LANDMARK_XCOORD, landmark.getXcoord());
     	values.put(KEY_LANDMARK_YCOORD, landmark.getYcoord());

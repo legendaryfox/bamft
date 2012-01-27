@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -15,9 +14,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-
-
 
 import android.app.Activity;
 import android.content.Intent;
@@ -43,68 +39,24 @@ public class BamftActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        /** Sample DB 
-        DatabaseHandler db = new DatabaseHandler(this);
-        
-        
-        // Inserting Contacts
-        Log.d("Insert: ", "Inserting ..");
-        db.addTruck(new Truck(1, "Foodtruck1", "c1", "d1"));
-        db.addTruck(new Truck(2, "Foodtruck2", "c2", "d2"));
-        db.addTruck(new Truck(3, "Foodtruck3", "c3", "d3"));
-        db.addTruck(new Truck(7, "Foodtruck7", "c7", "d7"));
-        
-        
- 
-        Log.d("Reading :", "READING ALL");
-        List<Truck> trucks = db.getAllTrucks();
-        
-        for (Truck t : trucks) {
-        	String log = "ID: " + t.getId() + " , Name: " + t.getName() + " , C: " + t.getCuisine() + ", D: " + t.getDescription();
-        	Log.d("TRUCK: ", log);
-        }
-        */
-        
+     
+        // Prepares the internal SQLite database
+        // TODO: make it so that we don't query every load.
         prepareData();
-        
-        DatabaseHandler db = new DatabaseHandler(this);
-        List<Landmark> landmarks = db.getAllLandmarks();
-        List<Truck> trucks = db.getAllTrucks();
-        List<Schedule> schedules = db.getAllSchedules();
-        
-        for (Landmark l : landmarks) {
-        	String log = "ID: " + l.getId() + " , Name: " + l.getName() + " , (X,Y): (" + l.getXcoord() + ", " + l.getYcoord() + ")";
-        	Log.d("LANDMARK: ", log);
-        	
-        }
-        
-        for (Truck t : trucks) {
-        	String log = "ID: " + t.getId() + " , Name: " + t.getName();
-        	Log.d("TRUCK: ", log);
-        	
-        }
-        
-        for (Schedule s : schedules) {
-        	String log = "ID: " + s.getId() + " , Time: " + s.getDayOfWeek() + " " + s.getTimeOfDay() + " , Pair: " + s.getTruckId() + ", " + s.getLandmarkId();
-        	Log.d("Schedule: ", log);
-        	
-        }
-        
-        
-        
-        
+                
         setContentView(R.layout.main);
         
+        // Home page grid view
         GridView gridview = (GridView) findViewById(R.id.gridview);
         gridview.setAdapter(new ImageAdapter(this));
         
         gridview.setOnItemClickListener(new OnItemClickListener() {
+        	//listen for what button is getting pushed...
         	
         	public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
         		Bundle timeOfDayBundle = new Bundle();
-        		timeOfDayBundle.putString("timeOfDay", "Afternoon"); //just in case...note that putString automatically overwrites existing values too
+        		timeOfDayBundle.putString("timeOfDay", "Afternoon"); //default just in case...note that putString automatically overwrites existing values too
         		
         		Intent loadTruckListIntent = new Intent(BamftActivity.this, TruckListActivity.class);
         		
@@ -140,10 +92,12 @@ public class BamftActivity extends Activity {
         
     }
     
+    
+    /**
+     * Prepares the data by querying the bamftserver and updating internal SQL database
+     * 
+     */
     public void prepareData(){
-    	/**
-    	 * This method is responsible for pulling new data from BAMFTSERVER each time
-    	 */
     	
     	DatabaseHandler db = new DatabaseHandler(this);
     	
@@ -227,6 +181,12 @@ public class BamftActivity extends Activity {
     	
     }
     
+    
+    /**
+     * Reads the server data from specified URL. Essentially a web page http-get function. 
+     * @param dumpUrl
+     * @return data from the queried URL
+     */
     public String readServerData(String dumpUrl) {
     	StringBuilder builder = new StringBuilder();
     	HttpClient client = new DefaultHttpClient();
