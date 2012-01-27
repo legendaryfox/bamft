@@ -190,6 +190,11 @@ public class BamftActivity extends Activity {
     					truckObject.getString("name"), 
     					truckObject.getString("cuisine"), 
     					truckObject.getString("description"));
+    			
+    			//just for now
+    			truck.setCuisine("Cuiseinetest " + truck.getId());
+    			truck.setDescription("Descriptiontest " + truck.getId());
+    			
     			db.addTruck(truck);
     			
     		}

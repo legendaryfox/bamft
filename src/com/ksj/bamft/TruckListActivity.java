@@ -51,7 +51,9 @@ public class TruckListActivity extends ListActivity {
         
         //this part is for displaying it in the ListView
         //setListAdapter(new ArrayAdapter<String>(this, R.layout.list_item, truckNameList));
-        setListAdapter(new ArrayAdapter<Schedule>(this, R.layout.list_item, scheduleList));
+        //setListAdapter(new ArrayAdapter<Schedule>(this, R.layout.list_item, scheduleList));
+        TruckRowAdapter adapter = new TruckRowAdapter(this.getBaseContext(), R.layout.truck_row, scheduleList);
+        setListAdapter(adapter);
         
         ListView lv = getListView();
         lv.setTextFilterEnabled(true);
