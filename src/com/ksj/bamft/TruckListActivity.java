@@ -46,7 +46,6 @@ public class TruckListActivity extends ListActivity {
         		Landmark landmark = db.getLandmark(landmark_id);
         		
         		String location_string = landmark.getName() + " at (" + landmark.getXcoord() + ", " + landmark.getYcoord() + ")";
-
         		Toast.makeText(getApplicationContext(), location_string, Toast.LENGTH_SHORT).show();
         	}
         });

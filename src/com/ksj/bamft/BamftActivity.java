@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -43,7 +44,16 @@ public class BamftActivity extends Activity {
         // Prepares the internal SQLite database
         // TODO: make it so that we don't query every load.
         prepareData();
+        
+        /* Testing area 
+        final DatabaseHandler db = new DatabaseHandler(this);
+        List<Schedule> scheduleList = db.getAllSchedules();
                 
+        for (Schedule s : scheduleList) {
+        	Log.d("Schedule: ", "ID: " + s.getId() + "Truck: " + s.getTruckId() + "Landmark: " + s.getLandmarkId());
+        }
+        */
+        
         setContentView(R.layout.main);
         
         // Home page grid view

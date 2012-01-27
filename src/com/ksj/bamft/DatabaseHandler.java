@@ -179,7 +179,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	values.put(KEY_SCHEDULE_DAY_OF_WEEK, schedule.getDayOfWeek()); // Schedule Day of Week
     	values.put(KEY_SCHEDULE_TIME_OF_DAY, schedule.getTimeOfDay()); // Schedule Time of Day
     	values.put(KEY_SCHEDULE_TRUCK_ID, schedule.getTruckId()); // Schedule truck_id
-    	values.put(KEY_SCHEDULE_LANDMARK_ID, schedule.getId()); // Schedule ID
+    	values.put(KEY_SCHEDULE_LANDMARK_ID, schedule.getLandmarkId()); // Schedule landmark_id
     	
     	
     	// Insert row
