@@ -42,13 +42,14 @@ public class TruckListActivity extends ListActivity {
         
         
         //First, we get the food truck data from the API
-        final List<String> truckNameList = readTruckListData(timeOfDay, "name");
-        //final List<String> truckLocationList = readTruckListData(timeOfDay, "Location");
-        
+        //final List<String> truckNameList = readTruckListData(timeOfDay, "name");
+        DatabaseHandler db = new DatabaseHandler(this);
+        final List<Truck> truckList = db.getTrucksByDayAndTime("Thursday", timeOfDay);
         
         //this part is for displaying it in the ListView
-        setListAdapter(new ArrayAdapter<String>(this, R.layout.list_item, truckNameList));
-
+        //setListAdapter(new ArrayAdapter<String>(this, R.layout.list_item, truckNameList));
+        setListAdapter(new ArrayAdapter<Truck>(this, R.layout.list_item, truckList));
+        
         ListView lv = getListView();
         lv.setTextFilterEnabled(true);
         
@@ -57,7 +58,7 @@ public class TruckListActivity extends ListActivity {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         		//Toast.makeText(getApplicationContext(), truckLocationList.get(position), Toast.LENGTH_SHORT).show(); //show the location
-        		Toast.makeText(getApplicationContext(), truckNameList.get(position), Toast.LENGTH_SHORT).show();
+        		Toast.makeText(getApplicationContext(), truckList.get(position).getName(), Toast.LENGTH_SHORT).show();
         	}
         });
         

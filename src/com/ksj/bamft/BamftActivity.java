@@ -112,17 +112,17 @@ public class BamftActivity extends Activity {
         		case 0:
         			//Load Morning trucks
         			Toast.makeText(BamftActivity.this, "Morning Trucks", Toast.LENGTH_SHORT).show();
-        			timeOfDayBundle.putString("timeOfDay", "morning");
+        			timeOfDayBundle.putString("timeOfDay", "Morning");
         			break;
         		case 1:
         			//Load Afternoon trucks
         			Toast.makeText(BamftActivity.this, "Afternoon Trucks", Toast.LENGTH_SHORT).show();
-        			timeOfDayBundle.putString("timeOfDay", "afternoon");
+        			timeOfDayBundle.putString("timeOfDay", "Afternoon");
         			break;
         		case 2:
         			//Load Evening trucks
         			Toast.makeText(BamftActivity.this, "Evening Trucks", Toast.LENGTH_SHORT).show();
-        			timeOfDayBundle.putString("timeOfDay", "evening");
+        			timeOfDayBundle.putString("timeOfDay", "Evening");
         			break;
         		case 3:
         			//Load ALL THE TRUCKS!!!!11!!! but i don't know how to do this yet.

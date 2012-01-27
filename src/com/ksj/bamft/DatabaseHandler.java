@@ -112,7 +112,54 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         onCreate(db);
     	
     }
+    
+    public List<Truck> getTrucksByDayAndTime(String dayOfWeek, String timeOfDay) {
+    	
+    	//String query = "SELECT "
+    	String query = "SELECT \"trucks\".* FROM \"trucks\"" 
+    			+ "INNER JOIN \"schedules\" ON \"schedules\".\"truck_id\" = \"trucks\".\"id\""
+    			+ "WHERE (\"schedules\".\"day_of_week\" = '" + dayOfWeek + "')"
+    			+ "AND (\"schedules\".\"time_of_day\" = '" + timeOfDay + "')";
+    	return getTrucksListByQuery(query);
+    	
+    }
  
+    
+    
+    private List<Truck> getTrucksListByQuery(String selectQuery) {
+    	List<Truck> truckList = new ArrayList<Truck>();
+    	
+    	// Select ALL Query
+    	//String selectQuery = "SELECT * FROM " + TABLE_TRUCKS;
+    	//String selectQuery = query;
+    	
+    	SQLiteDatabase db = this.getWritableDatabase();
+    	Cursor cursor = db.rawQuery(selectQuery, null);
+    	
+    	// looping through all rows and adding to list
+    	if (cursor.moveToFirst()) {
+    		do {
+    			Truck truck = new Truck();
+    			truck.setId(Integer.parseInt(cursor.getString(0)));
+    			truck.setName(cursor.getString(1));
+    			truck.setCuisine(cursor.getString(2));
+    			truck.setDescription(cursor.getString(3));
+    			
+    			// add back to the list
+    			truckList.add(truck);
+    		} while (cursor.moveToNext());
+    	}
+    	
+    	// return
+    	db.close();
+    	return truckList;
+    }
+    
+    
+    
+    
+    
+    
     /**
      * All CRUD(Create, Read, Update, Delete) Operations
      */
