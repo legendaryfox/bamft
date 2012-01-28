@@ -26,12 +26,14 @@ public final class R {
         public static final int sample_6=0x7f02000c;
         public static final int sample_7=0x7f02000d;
         public static final int sample_images=0x7f02000e;
+        public static final int square_icon=0x7f02000f;
     }
     public static final class id {
         public static final int gridview=0x7f050000;
+        public static final int icon=0x7f050004;
         public static final int landmarkDistanceText=0x7f050003;
         public static final int landmarkNameText=0x7f050002;
-        public static final int truckCuisineText=0x7f050004;
+        public static final int truckCuisineText=0x7f050005;
         public static final int truckNameText=0x7f050001;
     }
     public static final class layout {
