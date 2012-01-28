@@ -77,15 +77,15 @@ public class BamftActivity extends Activity {
         
         
         // Home page grid view
-        GridView gridview = (GridView) findViewById(R.id.gridview);
-        gridview.setAdapter(new ImageAdapter(this));
+        //GridView gridview = (GridView) findViewById(R.id.gridview);
+        //gridview.setAdapter(new ImageAdapter(this));
         
         // Calculate the formatted day of week and time of day
         Time now = new Time();
     	now.setToNow();
     	
-        final String dayOfWeek = DAYS_OF_WEEK[now.weekDay - 1]; // remember, 0 indexes
-        final String timeOfDay = getMealOfDay();
+        final String dayOfWeek = getDayOfWeek(now);
+        final String timeOfDay = getMealOfDay(now);
         
         
         
@@ -95,6 +95,8 @@ public class BamftActivity extends Activity {
     	String testingToastText = "It is currently " + dayOfWeek + " " + timeOfDay + ". Cache should be updated in : " + (cacheBirthday + CACHE_LIFE - now.toMillis(true))/1000 + " seconds.";
     	Toast.makeText(BamftActivity.this, testingToastText, Toast.LENGTH_LONG).show();
         
+    	
+    	/*
         gridview.setOnItemClickListener(new OnItemClickListener() {
         	//listen for what button is getting pushed...
         	
@@ -142,13 +144,11 @@ public class BamftActivity extends Activity {
         			break;
         		}        				
         		
-        		/* Moved to individual cases.
-        		loadTruckListIntent.putExtras(timeOfDayBundle);
-        		BamftActivity.this.startActivity(loadTruckListIntent);
-        		*/
+        		
         	}
         	
         });
+        */
         
         
         
@@ -265,15 +265,20 @@ public class BamftActivity extends Activity {
     	}
     }
     
+    public static String getDayOfWeek(Time now) {
+
+    	
+        return DAYS_OF_WEEK[now.weekDay - 1]; // remember, 0 indexes	
+    }
+    
     /**
      * Gets the appropriate name of the meal based upon the hour specified.
      * @param 
      * @return "Morning", "Afternoon", "Evening"
      */
-    public String getMealOfDay() {
+    public static String getMealOfDay(Time now) {
     	
-    	Time now = new Time();
-    	now.setToNow();
+    	
     	
     	Time morning_start = new Time(now);
     	morning_start.set(now.second, now.minute, MORNING_START_HOUR, now.monthDay, now.month, now.year);
@@ -340,6 +345,74 @@ public class BamftActivity extends Activity {
 			e.printStackTrace();
 		}
 		return builder.toString();
+    }
+    
+    public void menuClickFunction(final View v) {
+    	
+    	Time now = new Time();
+    	now.setToNow();
+    	
+        final String dayOfWeek = getDayOfWeek(now);
+        final String timeOfDay = getMealOfDay(now);
+        
+    	Bundle timeBundle = new Bundle();
+		timeBundle.putString("dayOfWeek", dayOfWeek);
+		timeBundle.putString("timeOfDay", timeOfDay); //default just in case...note that putString automatically overwrites existing values too
+		
+		
+		
+		switch(v.getId()) {
+		
+		case R.id.menu_item_search_nearby:
+			//Load Morning trucks
+			//Toast.makeText(BamftActivity.this, "" + dayOfWeek + " Morning trucks", Toast.LENGTH_SHORT).show();
+			//timeBundle.putString("timeOfDay", timeOfDay);
+			Toast.makeText(BamftActivity.this,  "Nearby open trucks (for " + dayOfWeek + " " + timeOfDay + ")", Toast.LENGTH_SHORT).show();
+			
+			Intent loadScheduleListIntent = new Intent(BamftActivity.this, ScheduleListActivity.class);
+			loadScheduleListIntent.putExtras(timeBundle);
+    		BamftActivity.this.startActivity(loadScheduleListIntent);
+    		
+			break;
+		case R.id.menu_item_list_all:
+			//Load Afternoon trucks
+			Toast.makeText(BamftActivity.this,  "All trucks (open and closed)", Toast.LENGTH_SHORT).show();
+			
+			Intent loadTruckListIntent = new Intent(BamftActivity.this, TruckListActivity.class);
+			timeBundle.putString("timeOfDay", "Afternoon");
+			loadTruckListIntent.putExtras(timeBundle);
+    		BamftActivity.this.startActivity(loadTruckListIntent);
+			break;
+		case R.id.menu_item_map_view:
+			//Load Evening trucks
+			Toast.makeText(BamftActivity.this,  "Not functional yet...", Toast.LENGTH_SHORT).show();
+			/*
+			timeBundle.putString("timeOfDay", "Evening");
+			loadScheduleListIntent.putExtras(timeBundle);
+    		BamftActivity.this.startActivity(loadScheduleListIntent);
+    		*/
+			
+			
+			
+			
+			
+			break;
+		case R.id.menu_item_surprise_me:
+			// Force data cache
+			
+			SharedPreferences settings = getSharedPreferences(BAMFT_PREFS_NAME, 0);
+	    	SharedPreferences.Editor editor = settings.edit();
+			editor.putLong(PREFS_CACHE_UPDATED, 0);
+	    	editor.commit();
+			prepareData();
+			
+			Toast.makeText(BamftActivity.this, "Updated Cache...", Toast.LENGTH_SHORT).show();
+
+			break;
+		}        		
+    	
+    	
+    	
     }
     
    

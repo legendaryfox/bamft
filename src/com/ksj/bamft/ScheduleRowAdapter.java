@@ -3,24 +3,23 @@ package com.ksj.bamft;
 import java.util.List;
 
 import android.content.Context;
-import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class TruckRowAdapter extends ArrayAdapter<Truck> {
+public class ScheduleRowAdapter extends ArrayAdapter<Schedule> {
 	
 	DatabaseHandler db = new DatabaseHandler(this.getContext());
 	
 	private final Context context;
-	private final List<Truck> truckList;
+	private final List<Schedule> scheduleList;
 	
-	public TruckRowAdapter(Context context, int textViewResourceId, List<Truck> truckList) {
-		super(context, textViewResourceId, truckList);
+	public ScheduleRowAdapter(Context context, int textViewResourceId, List<Schedule> scheduleList) {
+		super(context, textViewResourceId, scheduleList);
 		this.context = context;
-		this.truckList = truckList;
+		this.scheduleList = scheduleList;
 	}
 	
 
@@ -32,16 +31,14 @@ public class TruckRowAdapter extends ArrayAdapter<Truck> {
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			rowView = inflater.inflate(R.layout.truck_row, parent, false);		
 		}
-		Truck truck = truckList.get(position);
-		if (truck != null) {
+		Schedule schedule = scheduleList.get(position);
+		if (schedule != null) {
 			
 			//Just for example - we will probably get different values later.
 			TextView truckNameText = (TextView) rowView.findViewById(R.id.truckNameText);
 			TextView truckCuisineText = (TextView) rowView.findViewById(R.id.truckCuisineText);
 			
-			Time now = new Time();
-	    	now.setToNow();
-			
+			Truck truck = db.getTruck(schedule.truck_id);
 			
 			if (truckNameText != null) {
 				truckNameText.setText(truck.getName());

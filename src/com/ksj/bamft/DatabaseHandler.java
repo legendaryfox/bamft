@@ -8,6 +8,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
  
 public class DatabaseHandler extends SQLiteOpenHelper {
  
@@ -129,6 +130,39 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	return getSchedulesListByQuery(query);
     }
     
+    public Schedule getScheduleByTruckAndDayAndTime(Truck truck, String dayOfWeek, String timeOfDay) {
+    	
+    	SQLiteDatabase db = this.getReadableDatabase();
+    	
+    	/*
+    	Cursor cursor = db.query(TABLE_SCHEDULES, 
+    			new String[] { KEY_SCHEDULE_ID, KEY_SCHEDULE_DAY_OF_WEEK, KEY_SCHEDULE_TIME_OF_DAY, KEY_SCHEDULE_TRUCK_ID, KEY_SCHEDULE_LANDMARK_ID }, 
+    			KEY_SCHEDULE_TRUCK_ID + "=? AND " + KEY_SCHEDULE_DAY_OF_WEEK + "=? AND " + KEY_SCHEDULE_TIME_OF_DAY + "=?",
+    			new String[] { String.valueOf(truck.getId()), dayOfWeek, timeOfDay },
+    			null,
+    			null,
+    			null,
+    			null);
+    	*/
+    	String query = "SELECT \"schedules\".* FROM \"" + TABLE_SCHEDULES + "\""
+    			+ "WHERE (\"schedules\".\"day_of_week\" = '" + dayOfWeek + "')"
+    			+ "AND (\"schedules\".\"time_of_day\" = '" + timeOfDay + "')"
+    			+ "AND (\"schedules\".\"truck_id\" = '" + truck.id + "')";
+    	
+    	Cursor cursor = db.rawQuery(query, null);
+    	if (cursor != null)
+    		cursor.moveToFirst();
+    	if (cursor.getCount() > 0) {
+    		Schedule schedule = new Schedule(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), Integer.parseInt(cursor.getString(3)), Integer.parseInt(cursor.getString(4)));
+    		db.close();
+    		return schedule;
+    	} else {
+    		db.close();
+    		return null;
+    	}
+    	
+    }
+    
     
     
    
@@ -194,6 +228,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     			new String[] { KEY_LANDMARK_ID, KEY_LANDMARK_NAME, KEY_LANDMARK_XCOORD, KEY_LANDMARK_YCOORD }, 
     			KEY_LANDMARK_ID + "=?",
     			new String[] { String.valueOf(id) }, null, null, null, null);
+    	
+    	
+    			
     	if (cursor != null)
     		cursor.moveToFirst();
     	

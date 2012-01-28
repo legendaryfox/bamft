@@ -11,29 +11,30 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class TruckListActivity extends ListActivity {
+public class ScheduleListActivity extends ListActivity {
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         
-
         //dynamically load time of day based on previous Activity.
+        String timeOfDay = "Afternoon"; //set this as default for safety
+        String dayOfWeek = "Thursday"; //set this as a defualt for safety
         Bundle timeBundle = this.getIntent().getExtras();
-        final String timeOfDay = timeBundle.getString("timeOfDay"); 
-        final String dayOfWeek = timeBundle.getString("dayOfWeek"); 
-        
+        timeOfDay = timeBundle.getString("timeOfDay");
+        dayOfWeek = timeBundle.getString("dayOfWeek");
         
         //First, we get the food truck data from the API
         final DatabaseHandler db = new DatabaseHandler(this); 
         //TODO: Port database handler into Application object - 
         //see http://stackoverflow.com/questions/3433883/creating-a-service-to-share-database-connection-between-all-activities-in-androi
         
-        final List<Truck> truckList = db.getAllTrucks();
+        final List<Schedule> scheduleList = db.getSchedulesByDayAndTime(dayOfWeek, timeOfDay);
         
         //this part is for displaying it in the ListView
-        TruckRowAdapter adapter = new TruckRowAdapter(this.getBaseContext(), R.layout.truck_row, truckList);
+        //note that we still use R.layout.truck_row
+        ScheduleRowAdapter adapter = new ScheduleRowAdapter(this.getBaseContext(), R.layout.truck_row, scheduleList);
         setListAdapter(adapter);
         
         // Here is where we do the actual display.
@@ -45,29 +46,27 @@ public class TruckListActivity extends ListActivity {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         		//Proof of concept...
-             	Truck truck = truckList.get(position);
-             	
-             	/*
-             	//Load the schedule (for the intent/next activity)
-             	//TODO: This is probably...memory intensive....
-             	Schedule schedule = db.getScheduleByTruckAndDayAndTime(truck, dayOfWeek, timeOfDay);
-             	int clean_schedule_id = 0;
-             	if (schedule != null)
-             		clean_schedule_id = schedule.id;
-             	*/
-             	
+        		int truck_id = scheduleList.get(position).truck_id;
+        		Truck truck = db.getTruck(truck_id);
+        		
+        		int landmark_id = scheduleList.get(position).landmark_id;
+        		Landmark landmark = db.getLandmark(landmark_id);
+        		
+        		String location_string = landmark.getName() + " at (" + landmark.getXcoord() + ", " + landmark.getYcoord() + ")";
+        		Toast.makeText(getApplicationContext(), location_string, Toast.LENGTH_SHORT).show();
+        		
         		// Load the activity
         		
         		// Create the intent
-        		Intent loadTruckProfileIntent = new Intent(TruckListActivity.this, TruckProfileActivity.class);
+        		Intent loadScheduleProfileIntent = new Intent(ScheduleListActivity.this, ScheduleProfileActivity.class);
         		
         		// create the schedule bundle
-        		Bundle truckIdBundle = new Bundle();
-        		truckIdBundle.putInt("truckId", truck.getId());
-        		loadTruckProfileIntent.putExtras(truckIdBundle);
+        		Bundle scheduleIdBundle = new Bundle();
+        		scheduleIdBundle.putInt("scheduleId", scheduleList.get(position).id);
+        		loadScheduleProfileIntent.putExtras(scheduleIdBundle);
         	
         		// Start the activity
-        		TruckListActivity.this.startActivity(loadTruckProfileIntent);
+        		ScheduleListActivity.this.startActivity(loadScheduleProfileIntent);
         		
         		
         	}

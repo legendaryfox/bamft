@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical">
-    
-    
+    android:orientation="vertical"
+    android:clickable="true">
     
     <!-- ##################DIVIDER##################### -->
     
@@ -14,7 +12,6 @@
 	    android:id="@+id/menu_item_search_nearby"
 	    android:layout_width="fill_parent"
 	    android:orientation="horizontal"
-	    android:onClick="menuClickFunction"
 	    android:layout_height="wrap_content"> 
 	    
 		<ImageView android:id="@+id/square_icon"
@@ -54,7 +51,6 @@
 	    android:id="@+id/menu_item_list_all"
 	    android:layout_width="fill_parent"
 	    android:orientation="horizontal"
-	    android:onClick="menuClickFunction"
 	    android:layout_height="wrap_content"> 
 	    
 		<ImageView android:id="@+id/square_icon"
@@ -94,7 +90,6 @@
 	    android:id="@+id/menu_item_map_view"
 	    android:layout_width="fill_parent"
 	    android:orientation="horizontal"
-	    android:onClick="menuClickFunction"
 	    android:layout_height="wrap_content"> 
 	    
 		<ImageView android:id="@+id/square_icon"
@@ -134,7 +129,6 @@
 	    android:id="@+id/menu_item_surprise_me"
 	    android:layout_width="fill_parent"
 	    android:orientation="horizontal"
-	    android:onClick="menuClickFunction"
 	    android:layout_height="wrap_content"> 
 	    
 		<ImageView android:id="@+id/square_icon"
