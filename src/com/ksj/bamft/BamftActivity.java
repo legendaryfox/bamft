@@ -72,7 +72,7 @@ public class BamftActivity extends Activity {
         gridview.setAdapter(new ImageAdapter(this));
         
         
-        //For debugging purposes - showing hte life of the cache.
+        //For debugging purposes - showing the life of the cache.
         Time now = new Time();
     	now.setToNow();
     	long cacheBirthday = settings.getLong(PREFS_CACHE_UPDATED, 0);

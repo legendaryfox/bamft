@@ -3,6 +3,7 @@ package com.ksj.bamft;
 import java.util.List;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,7 +24,9 @@ public class TruckListActivity extends ListActivity {
         timeOfDay = timeOfDayBundle.getString("timeOfDay");
         
         //First, we get the food truck data from the API
-        final DatabaseHandler db = new DatabaseHandler(this);
+        final DatabaseHandler db = new DatabaseHandler(this); //TODO: Port database handler into Application object - 
+        //see http://stackoverflow.com/questions/3433883/creating-a-service-to-share-database-connection-between-all-activities-in-androi
+        
         final List<Schedule> scheduleList = db.getSchedulesByDayAndTime("Thursday", timeOfDay);
         
         //this part is for displaying it in the ListView
@@ -47,6 +50,21 @@ public class TruckListActivity extends ListActivity {
         		
         		String location_string = landmark.getName() + " at (" + landmark.getXcoord() + ", " + landmark.getYcoord() + ")";
         		Toast.makeText(getApplicationContext(), location_string, Toast.LENGTH_SHORT).show();
+        		
+        		// Load the activity
+        		
+        		// Create the intent
+        		Intent loadTruckProfileIntent = new Intent(TruckListActivity.this, TruckProfileActivity.class);
+        		
+        		// create the schedule bundle
+        		Bundle scheduleIdBundle = new Bundle();
+        		scheduleIdBundle.putInt("scheduleId", scheduleList.get(position).id);
+        		loadTruckProfileIntent.putExtras(scheduleIdBundle);
+        	
+        		// Start the activity
+        		TruckListActivity.this.startActivity(loadTruckProfileIntent);
+        		
+        		
         	}
         });
         
