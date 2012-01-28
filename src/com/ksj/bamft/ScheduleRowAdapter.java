@@ -38,7 +38,7 @@ public class ScheduleRowAdapter extends ArrayAdapter<Schedule> {
 			TextView truckNameText = (TextView) rowView.findViewById(R.id.truckNameText);
 			TextView truckCuisineText = (TextView) rowView.findViewById(R.id.truckCuisineText);
 			
-			Truck truck = db.getTruck(schedule.truck_id);
+			Truck truck = db.getTruck(schedule.getTruckId());
 			
 			if (truckNameText != null) {
 				truckNameText.setText(truck.getName());

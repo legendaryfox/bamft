@@ -2,11 +2,11 @@ package com.ksj.bamft;
 
 public class Schedule {
 	
-	int id;
-	String day_of_week;
-	String time_of_day;
-	int truck_id;
-	int landmark_id;
+	private int id;
+	private String day_of_week;
+	private String time_of_day;
+	private int truck_id;
+	private int landmark_id;
 	
 	public Schedule() {
 		

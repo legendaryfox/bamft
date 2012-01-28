@@ -2,10 +2,10 @@ package com.ksj.bamft;
 
 public class Truck {
 	
-	int id;
-	String name;
-	String cuisine;
-	String description;
+	private int id;
+	private String name;
+	private String cuisine;
+	private String description;
 	
 	public Truck() {
 		

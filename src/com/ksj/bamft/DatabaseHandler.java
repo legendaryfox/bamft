@@ -147,7 +147,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	String query = "SELECT \"schedules\".* FROM \"" + TABLE_SCHEDULES + "\""
     			+ "WHERE (\"schedules\".\"day_of_week\" = '" + dayOfWeek + "')"
     			+ "AND (\"schedules\".\"time_of_day\" = '" + timeOfDay + "')"
-    			+ "AND (\"schedules\".\"truck_id\" = '" + truck.id + "')";
+    			+ "AND (\"schedules\".\"truck_id\" = '" + truck.getId() + "')";
     	
     	Cursor cursor = db.rawQuery(query, null);
     	if (cursor != null)

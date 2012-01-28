@@ -46,10 +46,10 @@ public class ScheduleListActivity extends ListActivity {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         		//Proof of concept...
-        		int truck_id = scheduleList.get(position).truck_id;
+        		int truck_id = scheduleList.get(position).getTruckId();
         		Truck truck = db.getTruck(truck_id);
         		
-        		int landmark_id = scheduleList.get(position).landmark_id;
+        		int landmark_id = scheduleList.get(position).getLandmarkId();
         		Landmark landmark = db.getLandmark(landmark_id);
         		
         		String location_string = landmark.getName() + " at (" + landmark.getXcoord() + ", " + landmark.getYcoord() + ")";
@@ -62,7 +62,7 @@ public class ScheduleListActivity extends ListActivity {
         		
         		// create the schedule bundle
         		Bundle scheduleIdBundle = new Bundle();
-        		scheduleIdBundle.putInt("scheduleId", scheduleList.get(position).id);
+        		scheduleIdBundle.putInt("scheduleId", scheduleList.get(position).getId());
         		loadScheduleProfileIntent.putExtras(scheduleIdBundle);
         	
         		// Start the activity

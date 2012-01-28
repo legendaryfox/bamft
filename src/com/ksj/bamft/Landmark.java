@@ -2,10 +2,10 @@ package com.ksj.bamft;
 
 public class Landmark {
 	
-	int id;
-	String name;
-	String xcoord;
-	String ycoord;
+	private int id;
+	private String name;
+	private String xcoord;
+	private String ycoord;
 	
 	// Empty constructor
 	public Landmark() {
