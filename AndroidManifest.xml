@@ -11,7 +11,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
         <activity
-            android:name=".BamftActivity"
+            android:name=".activity.BamftActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,7 +21,7 @@
         </activity>
         
         <activity 
-            android:name=".ScheduleListActivity"
+            android:name=".activity.ScheduleListActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.SCHEDULELIST" />
@@ -33,7 +33,7 @@
         </activity>
         
         <activity 
-            android:name=".TruckListActivity"
+            android:name=".activity.TruckListActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.TRUCKLIST" />
@@ -45,8 +45,8 @@
         </activity>
         
         <activity
-            android:name=".ScheduleProfileActivity"
-            android:label="@string/app_name" >
+            android:name=".activity.ScheduleProfileActivity"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.SCHEDULEPROFILE" />
                 
@@ -55,7 +55,7 @@
         </activity>
         
         <activity
-            android:name=".TruckProfileActivity"
+            android:name=".activity.TruckProfileActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.TRUCKPROFILE" />
