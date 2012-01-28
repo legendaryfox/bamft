@@ -281,30 +281,40 @@ public class BamftActivity extends Activity {
     	
     	
     	Time morning_start = new Time(now);
-    	morning_start.set(now.second, now.minute, MORNING_START_HOUR, now.monthDay, now.month, now.year);
+    	morning_start.set(0, 0, MORNING_START_HOUR, now.monthDay, now.month, now.year);
     	
     	Time afternoon_start = new Time(now);
-    	afternoon_start.set(now.second, now.minute, AFTERNOON_START_HOUR, now.monthDay, now.month, now.year);
+    	afternoon_start.set(0, 0, AFTERNOON_START_HOUR, now.monthDay, now.month, now.year);
     	
     	Time evening_start = new Time(now);
-    	evening_start.set(now.second, now.minute, EVENING_START_HOUR, now.monthDay, now.month, now.year);
+    	evening_start.set(0, 0, EVENING_START_HOUR, now.monthDay, now.month, now.year);
     	
     	Time closing = new Time(now);
     	closing.set(now.second, now.minute, CLOSING_HOUR, now.monthDay, now.month, now.year);
     	
+    	Log.d("MEAL", "Now: " + now.hour + ":" + now.minute + " Morning: " + morning_start.hour + ":" + morning_start.minute + " Afternoon: " + afternoon_start.hour + ":" + afternoon_start.minute + " Evening: " + evening_start.hour + ":" + evening_start.minute + " Closing: " + closing.hour + ":" + closing.minute);
+    	
     	if (now.after(morning_start) && now.before(afternoon_start)) {
     		// morning service
+    		Log.d("MEAL", "MORNING");
     		return MORNING_MEAL_STRING;
+    		
     	} else if (now.after(afternoon_start) && now.before(evening_start)) {
     		// afternoon service
+    		Log.d("MEAL", "AFTERNOON");
     		return AFTERNOON_MEAL_STRING;
+    		
     	} else if (now.after(evening_start) && now.before(closing)) {
     		// evneing service
+    		Log.d("MEAL", "EVENING");
     		return EVENING_MEAL_STRING;
+    		
     		
     	} else {
     		// closed
+    		Log.d("MEAL", "CLOSED");
     		return CLOSED_MEAL_STRING;
+    		
     	}
     	
     	
