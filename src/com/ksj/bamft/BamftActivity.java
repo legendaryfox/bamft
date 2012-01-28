@@ -40,10 +40,19 @@ public class BamftActivity extends Activity {
 	public static final String BAMFT_PREFS_NAME = "BamftPrefsFile";
 	public static final String PREFS_CACHE_UPDATED = "cacheUpdated"; // preference for last update of cache. type is Long.
 	private static long CACHE_LIFE = 5 * 60 * 1000; // how long the cached SQLite life should be (in millis).
-
 	
+	private static final String[] DAYS_OF_WEEK = new String[] {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+	private static final String[] TIMES_OF_DAY = new String[] {"Morning", "Afternoon", "Evening"};
 	
+	public static final String MORNING_MEAL_STRING = "Morning";
+	public static final String AFTERNOON_MEAL_STRING = "Afternoon";
+	public static final String EVENING_MEAL_STRING = "Evening";
+	public static final String CLOSED_MEAL_STRING = "Closed";
 	
+	private static final int MORNING_START_HOUR = 7;
+	private static final int AFTERNOON_START_HOUR = 10;
+	private static final int EVENING_START_HOUR = 15;
+	private static final int CLOSING_HOUR = 23;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,45 +80,53 @@ public class BamftActivity extends Activity {
         GridView gridview = (GridView) findViewById(R.id.gridview);
         gridview.setAdapter(new ImageAdapter(this));
         
-        
-        //For debugging purposes - showing the life of the cache.
+        // Calculate the formatted day of week and time of day
         Time now = new Time();
     	now.setToNow();
+    	
+        final String dayOfWeek = DAYS_OF_WEEK[now.weekDay - 1]; // remember, 0 indexes
+        final String timeOfDay = getMealOfDay();
+        
+        
+        
+        //For debugging purposes - showing the life of the cache.
+        
     	long cacheBirthday = settings.getLong(PREFS_CACHE_UPDATED, 0);
     	
-        Toast.makeText(BamftActivity.this, "Cache should be updated in : " + (cacheBirthday + CACHE_LIFE - now.toMillis(true))/1000 + " seconds.", Toast.LENGTH_SHORT).show();
-
+        //Toast.makeText(BamftActivity.this, "Cache should be updated in : " + (cacheBirthday + CACHE_LIFE - now.toMillis(true))/1000 + " seconds.", Toast.LENGTH_SHORT).show();
+    	Toast.makeText(BamftActivity.this, "It is currently " + dayOfWeek + " " + timeOfDay, Toast.LENGTH_LONG).show();
         
         gridview.setOnItemClickListener(new OnItemClickListener() {
         	//listen for what button is getting pushed...
         	
         	public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
-        		Bundle timeOfDayBundle = new Bundle();
-        		timeOfDayBundle.putString("timeOfDay", "Afternoon"); //default just in case...note that putString automatically overwrites existing values too
+        		Bundle timeBundle = new Bundle();
+        		timeBundle.putString("dayOfWeek", dayOfWeek);
+        		timeBundle.putString("timeOfDay", timeOfDay); //default just in case...note that putString automatically overwrites existing values too
         		
         		Intent loadTruckListIntent = new Intent(BamftActivity.this, TruckListActivity.class);
         		
         		switch(position) {
         		case 0:
         			//Load Morning trucks
-        			Toast.makeText(BamftActivity.this, "Morning Trucks", Toast.LENGTH_SHORT).show();
-        			timeOfDayBundle.putString("timeOfDay", "Morning");
-        			loadTruckListIntent.putExtras(timeOfDayBundle);
+        			Toast.makeText(BamftActivity.this, "" + dayOfWeek + " Morning trucks", Toast.LENGTH_SHORT).show();
+        			timeBundle.putString("timeOfDay", "Morning");
+        			loadTruckListIntent.putExtras(timeBundle);
             		BamftActivity.this.startActivity(loadTruckListIntent);
         			break;
         		case 1:
         			//Load Afternoon trucks
-        			Toast.makeText(BamftActivity.this, "Afternoon Trucks", Toast.LENGTH_SHORT).show();
-        			timeOfDayBundle.putString("timeOfDay", "Afternoon");
-        			loadTruckListIntent.putExtras(timeOfDayBundle);
+        			Toast.makeText(BamftActivity.this,  "" + dayOfWeek + " Afternoon trucks", Toast.LENGTH_SHORT).show();
+        			timeBundle.putString("timeOfDay", "Afternoon");
+        			loadTruckListIntent.putExtras(timeBundle);
             		BamftActivity.this.startActivity(loadTruckListIntent);
         			break;
         		case 2:
         			//Load Evening trucks
-        			Toast.makeText(BamftActivity.this, "Evening Trucks", Toast.LENGTH_SHORT).show();
-        			timeOfDayBundle.putString("timeOfDay", "Evening");
-        			loadTruckListIntent.putExtras(timeOfDayBundle);
+        			Toast.makeText(BamftActivity.this,  "" + dayOfWeek + " Evening trucks", Toast.LENGTH_SHORT).show();
+        			timeBundle.putString("timeOfDay", "Evening");
+        			loadTruckListIntent.putExtras(timeBundle);
             		BamftActivity.this.startActivity(loadTruckListIntent);
         			break;
         		case 3:
@@ -249,6 +266,45 @@ public class BamftActivity extends Activity {
     	}
     }
     
+    /**
+     * Gets the appropriate name of the meal based upon the hour specified.
+     * @param 
+     * @return "Morning", "Afternoon", "Evening"
+     */
+    public String getMealOfDay() {
+    	
+    	Time now = new Time();
+    	now.setToNow();
+    	
+    	Time morning_start = new Time(now);
+    	morning_start.set(now.second, now.minute, MORNING_START_HOUR, now.monthDay, now.month, now.year);
+    	
+    	Time afternoon_start = new Time(now);
+    	afternoon_start.set(now.second, now.minute, AFTERNOON_START_HOUR, now.monthDay, now.month, now.year);
+    	
+    	Time evening_start = new Time(now);
+    	evening_start.set(now.second, now.minute, EVENING_START_HOUR, now.monthDay, now.month, now.year);
+    	
+    	Time closing = new Time(now);
+    	closing.set(now.second, now.minute, CLOSING_HOUR, now.monthDay, now.month, now.year);
+    	
+    	if (now.after(morning_start) && now.before(afternoon_start)) {
+    		// morning service
+    		return MORNING_MEAL_STRING;
+    	} else if (now.after(afternoon_start) && now.before(evening_start)) {
+    		// afternoon service
+    		return AFTERNOON_MEAL_STRING;
+    	} else if (now.after(evening_start) && now.before(closing)) {
+    		// evneing service
+    		return EVENING_MEAL_STRING;
+    		
+    	} else {
+    		// closed
+    		return CLOSED_MEAL_STRING;
+    	}
+    	
+    	
+    }
     
     /**
      * Reads the server data from specified URL. Essentially a web page http-get function. 

@@ -20,14 +20,16 @@ public class TruckListActivity extends ListActivity {
         
         //dynamically load time of day based on previous Activity.
         String timeOfDay = "Afternoon"; //set this as default for safety
-        Bundle timeOfDayBundle = this.getIntent().getExtras();
-        timeOfDay = timeOfDayBundle.getString("timeOfDay");
+        String dayOfWeek = "Thursday"; //set this as a defualt for safety
+        Bundle timeBundle = this.getIntent().getExtras();
+        timeOfDay = timeBundle.getString("timeOfDay");
+        dayOfWeek = timeBundle.getString("dayOfWeek");
         
         //First, we get the food truck data from the API
         final DatabaseHandler db = new DatabaseHandler(this); //TODO: Port database handler into Application object - 
         //see http://stackoverflow.com/questions/3433883/creating-a-service-to-share-database-connection-between-all-activities-in-androi
         
-        final List<Schedule> scheduleList = db.getSchedulesByDayAndTime("Thursday", timeOfDay);
+        final List<Schedule> scheduleList = db.getSchedulesByDayAndTime(dayOfWeek, timeOfDay);
         
         //this part is for displaying it in the ListView
         TruckRowAdapter adapter = new TruckRowAdapter(this.getBaseContext(), R.layout.truck_row, scheduleList);
