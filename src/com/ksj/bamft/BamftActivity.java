@@ -89,12 +89,11 @@ public class BamftActivity extends Activity {
         
         
         
-        //For debugging purposes - showing the life of the cache.
+        //For debugging purposes - showing the life of the cache and today's day.
         
     	long cacheBirthday = settings.getLong(PREFS_CACHE_UPDATED, 0);
-    	
-        //Toast.makeText(BamftActivity.this, "Cache should be updated in : " + (cacheBirthday + CACHE_LIFE - now.toMillis(true))/1000 + " seconds.", Toast.LENGTH_SHORT).show();
-    	Toast.makeText(BamftActivity.this, "It is currently " + dayOfWeek + " " + timeOfDay, Toast.LENGTH_LONG).show();
+    	String testingToastText = "It is currently " + dayOfWeek + " " + timeOfDay + ". Cache should be updated in : " + (cacheBirthday + CACHE_LIFE - now.toMillis(true))/1000 + " seconds.";
+    	Toast.makeText(BamftActivity.this, testingToastText, Toast.LENGTH_LONG).show();
         
         gridview.setOnItemClickListener(new OnItemClickListener() {
         	//listen for what button is getting pushed...

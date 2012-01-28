@@ -26,7 +26,8 @@ public class TruckListActivity extends ListActivity {
         dayOfWeek = timeBundle.getString("dayOfWeek");
         
         //First, we get the food truck data from the API
-        final DatabaseHandler db = new DatabaseHandler(this); //TODO: Port database handler into Application object - 
+        final DatabaseHandler db = new DatabaseHandler(this); 
+        //TODO: Port database handler into Application object - 
         //see http://stackoverflow.com/questions/3433883/creating-a-service-to-share-database-connection-between-all-activities-in-androi
         
         final List<Schedule> scheduleList = db.getSchedulesByDayAndTime(dayOfWeek, timeOfDay);
