@@ -19,9 +19,6 @@ public class Truck {
 	}
 	
 	
-	
-	
-	
 	// basic getters/setters
 	
 	public int getId() {

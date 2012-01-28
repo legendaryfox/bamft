@@ -3,21 +3,21 @@ package com.ksj.bamft;
 public class Schedule {
 	
 	private int id;
-	private String day_of_week;
-	private String time_of_day;
-	private int truck_id;
-	private int landmark_id;
+	private int truckId;
+	private int landmarkId;
+	private String dayOfWeek;
+	private String timeOfDay;
 	
 	public Schedule() {
 		
 	}
 	
-	public Schedule(int id, String day_of_week, String time_of_day, int truck_id, int landmark_id) {
+	public Schedule(int id, String dayOfWeek, String timeOfDay, int truckId, int landmarkId) {
 		this.id = id;
-		this.day_of_week = day_of_week;
-		this.time_of_day = time_of_day;
-		this.truck_id = truck_id;
-		this.landmark_id = landmark_id;
+		this.dayOfWeek = dayOfWeek;
+		this.timeOfDay = timeOfDay;
+		this.truckId = truckId;
+		this.landmarkId = landmarkId;
 	}
 	
 	//basic setter/getters
@@ -31,39 +31,35 @@ public class Schedule {
 	}
 	
 	public String getDayOfWeek() {
-		return this.day_of_week;
+		return this.dayOfWeek;
 	}
 	
 	public void setDayOfWeek(String day_of_week) {
-		this.day_of_week = day_of_week;
+		this.dayOfWeek = day_of_week;
 	}
 	
 	public String getTimeOfDay() {
-		return this.time_of_day;
+		return this.timeOfDay;
 	}
 	
 	public void setTimeOfDay(String time_of_day) {
-		this.time_of_day = time_of_day;
+		this.timeOfDay = time_of_day;
 	}
 	
 	
 	public int getTruckId() {
-		return this.truck_id;
+		return this.truckId;
 	}
 	
 	public void setTruckId(int truck_id) {
-		this.truck_id = truck_id;
+		this.truckId = truck_id;
 	}
 	
 	public int getLandmarkId() {
-		return this.landmark_id;
+		return this.landmarkId;
 	}
 	
 	public void setLandmarkId(int landmark_id) {
-		this.landmark_id = landmark_id;
+		this.landmarkId = landmark_id;
 	}
-	
-	
-	
-
 }
