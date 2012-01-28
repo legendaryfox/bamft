@@ -2,13 +2,13 @@ package com.ksj.bamft.activity;
 
 import java.util.List;
 
-import com.ksh.bamft.adapter.ScheduleRowAdapter;
-import com.ksh.bamft.model.Landmark;
-import com.ksh.bamft.model.Schedule;
-import com.ksh.bamft.model.Truck;
 import com.ksj.bamft.R;
 import com.ksj.bamft.R.layout;
+import com.ksj.bamft.adapter.ScheduleRowAdapter;
 import com.ksj.bamft.database.DatabaseHandler;
+import com.ksj.bamft.model.Landmark;
+import com.ksj.bamft.model.Schedule;
+import com.ksj.bamft.model.Truck;
 
 import android.app.ListActivity;
 import android.content.Intent;

@@ -3,9 +3,9 @@ package com.ksj.bamft.database;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ksh.bamft.model.Landmark;
-import com.ksh.bamft.model.Schedule;
-import com.ksh.bamft.model.Truck;
+import com.ksj.bamft.model.Landmark;
+import com.ksj.bamft.model.Schedule;
+import com.ksj.bamft.model.Truck;
 
 import android.content.ContentValues;
 import android.content.Context;

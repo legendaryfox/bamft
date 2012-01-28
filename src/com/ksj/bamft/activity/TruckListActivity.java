@@ -2,11 +2,11 @@ package com.ksj.bamft.activity;
 
 import java.util.List;
 
-import com.ksh.bamft.adapter.TruckRowAdapter;
-import com.ksh.bamft.model.Truck;
 import com.ksj.bamft.R;
 import com.ksj.bamft.R.layout;
+import com.ksj.bamft.adapter.TruckRowAdapter;
 import com.ksj.bamft.database.DatabaseHandler;
+import com.ksj.bamft.model.Truck;
 
 import android.app.ListActivity;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package com.ksh.bamft.model;
+package com.ksj.bamft.model;
 
 public class Truck {
 	

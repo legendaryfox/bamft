@@ -1,4 +1,4 @@
-package com.ksh.bamft.adapter;
+package com.ksj.bamft.adapter;
 
 import com.ksj.bamft.R;
 import com.ksj.bamft.R.drawable;

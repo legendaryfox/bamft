@@ -1,32 +1,32 @@
-package com.ksh.bamft.adapter;
+package com.ksj.bamft.adapter;
 
 import java.util.List;
 
-import com.ksh.bamft.model.Schedule;
-import com.ksh.bamft.model.Truck;
 import com.ksj.bamft.R;
 import com.ksj.bamft.R.id;
 import com.ksj.bamft.R.layout;
 import com.ksj.bamft.database.DatabaseHandler;
+import com.ksj.bamft.model.Truck;
 
 import android.content.Context;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class ScheduleRowAdapter extends ArrayAdapter<Schedule> {
+public class TruckRowAdapter extends ArrayAdapter<Truck> {
 	
 	DatabaseHandler db = new DatabaseHandler(this.getContext());
 	
 	private final Context context;
-	private final List<Schedule> scheduleList;
+	private final List<Truck> truckList;
 	
-	public ScheduleRowAdapter(Context context, int textViewResourceId, List<Schedule> scheduleList) {
-		super(context, textViewResourceId, scheduleList);
+	public TruckRowAdapter(Context context, int textViewResourceId, List<Truck> truckList) {
+		super(context, textViewResourceId, truckList);
 		this.context = context;
-		this.scheduleList = scheduleList;
+		this.truckList = truckList;
 	}
 	
 
@@ -38,14 +38,16 @@ public class ScheduleRowAdapter extends ArrayAdapter<Schedule> {
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			rowView = inflater.inflate(R.layout.truck_row, parent, false);		
 		}
-		Schedule schedule = scheduleList.get(position);
-		if (schedule != null) {
+		Truck truck = truckList.get(position);
+		if (truck != null) {
 			
 			//Just for example - we will probably get different values later.
 			TextView truckNameText = (TextView) rowView.findViewById(R.id.truckNameText);
 			TextView truckCuisineText = (TextView) rowView.findViewById(R.id.truckCuisineText);
 			
-			Truck truck = db.getTruck(schedule.getTruckId());
+			Time now = new Time();
+	    	now.setToNow();
+			
 			
 			if (truckNameText != null) {
 				truckNameText.setText(truck.getName());
