@@ -49,7 +49,7 @@ public class BamftActivity extends Activity {
 	public static final String PREFS_CACHE_UPDATED = "cacheUpdated"; // preference for last update of cache. type is Long.
 	private static long CACHE_LIFE = 5 * 60 * 1000; // how long the cached SQLite life should be (in millis).
 	
-	private static final String[] DAYS_OF_WEEK = new String[] {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+	private static final String[] DAYS_OF_WEEK = new String[] {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 	private static final String[] TIMES_OF_DAY = new String[] {"Morning", "Afternoon", "Evening"};
 	
 	public static final String MORNING_MEAL_STRING = "Morning";
@@ -276,7 +276,7 @@ public class BamftActivity extends Activity {
     public static String getDayOfWeek(Time now) {
 
     	
-        return DAYS_OF_WEEK[now.weekDay - 1]; // remember, 0 indexes	
+        return DAYS_OF_WEEK[now.weekDay]; 
     }
     
     /**
@@ -288,31 +288,31 @@ public class BamftActivity extends Activity {
     	
     	
     	
-    	Time morning_start = new Time(now);
-    	morning_start.set(0, 0, MORNING_START_HOUR, now.monthDay, now.month, now.year);
+    	Time morningStart = new Time(now);
+    	morningStart.set(0, 0, MORNING_START_HOUR, now.monthDay, now.month, now.year);
     	
-    	Time afternoon_start = new Time(now);
-    	afternoon_start.set(0, 0, AFTERNOON_START_HOUR, now.monthDay, now.month, now.year);
+    	Time afternoonStart = new Time(now);
+    	afternoonStart.set(0, 0, AFTERNOON_START_HOUR, now.monthDay, now.month, now.year);
     	
-    	Time evening_start = new Time(now);
-    	evening_start.set(0, 0, EVENING_START_HOUR, now.monthDay, now.month, now.year);
+    	Time eveningStart = new Time(now);
+    	eveningStart.set(0, 0, EVENING_START_HOUR, now.monthDay, now.month, now.year);
     	
     	Time closing = new Time(now);
     	closing.set(now.second, now.minute, CLOSING_HOUR, now.monthDay, now.month, now.year);
     	
-    	Log.d("MEAL", "Now: " + now.hour + ":" + now.minute + " Morning: " + morning_start.hour + ":" + morning_start.minute + " Afternoon: " + afternoon_start.hour + ":" + afternoon_start.minute + " Evening: " + evening_start.hour + ":" + evening_start.minute + " Closing: " + closing.hour + ":" + closing.minute);
+    	Log.d("MEAL", "Now: " + now.hour + ":" + now.minute + " Morning: " + morningStart.hour + ":" + morningStart.minute + " Afternoon: " + afternoonStart.hour + ":" + afternoonStart.minute + " Evening: " + eveningStart.hour + ":" + eveningStart.minute + " Closing: " + closing.hour + ":" + closing.minute);
     	
-    	if (now.after(morning_start) && now.before(afternoon_start)) {
+    	if (now.after(morningStart) && now.before(afternoonStart)) {
     		// morning service
     		Log.d("MEAL", "MORNING");
     		return MORNING_MEAL_STRING;
     		
-    	} else if (now.after(afternoon_start) && now.before(evening_start)) {
+    	} else if (now.after(afternoonStart) && now.before(eveningStart)) {
     		// afternoon service
     		Log.d("MEAL", "AFTERNOON");
     		return AFTERNOON_MEAL_STRING;
     		
-    	} else if (now.after(evening_start) && now.before(closing)) {
+    	} else if (now.after(eveningStart) && now.before(closing)) {
     		// evneing service
     		Log.d("MEAL", "EVENING");
     		return EVENING_MEAL_STRING;
