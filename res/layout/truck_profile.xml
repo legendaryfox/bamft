@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
@@ -12,34 +12,50 @@
 	    android:text="Kick*ss Cupcakes"
 	    android:textSize="30sp" />
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
+     <TextView
+		android:id="@+id/landmarkNameText"
+		android:layout_width="wrap_content"   
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:padding="2dp"
+        android:layout_below="@+id/truckNameText"
+        android:text="Prudential Center"
+        android:textSize="17sp" />
+     
+     <TextView
+		android:id="@+id/landmarkDistanceText"
+		android:layout_alignParentRight="true"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:padding="2dp"
+		android:text="2.6 mi"
+		android:textSize="17sp" />
 
-        <TextView
-            android:id="@+id/landmarkNameText"
-            
-			android:layout_width="wrap_content"   
-
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:layout_below="@+id/truckNameText"
-            android:text="Prudential Center"
-            android:textSize="17sp" />
+	<LinearLayout
+	    android:orientation="horizontal"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:layout_alignParentBottom="true"
+    	android:gravity="fill_horizontal">
         
-        <TextView
-			android:id="@+id/landmarkDistanceText"
-			android:layout_alignParentRight="true"
-			
-			android:layout_width="wrap_content"
-			
-			android:layout_height="wrap_content"
-			android:padding="2dp"
-			android:text="2.6 mi"
-			android:textSize="17sp" />
-    </RelativeLayout>
-
-        
-
-</LinearLayout>
+	    <Button
+	        android:id="@+id/truckProfileScheduleButton"
+	        android:text="@string/schedule"
+	    	android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content" />
+	    <Button
+	        android:id="@+id/truckProfileMenuButton"
+	        android:text="@string/menu"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" />
+	    <Button
+	        android:id="@+id/truckProfileTwitterButton"
+	        android:text="@string/twitter"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" />
+	    <Button
+	        android:id="@+id/truckProfilePicturesButton"
+	        android:text="@string/pictures"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" />
+    </LinearLayout>        
+</RelativeLayout>

@@ -1,7 +1,10 @@
 package com.ksj.bamft.model;
 
-public class Truck {
+import java.io.Serializable;
+
+public class Truck implements Serializable {
 	
+	private static final long serialVersionUID = 3368751234089509108L;
 	private int id;
 	private String name;
 	private String cuisine;

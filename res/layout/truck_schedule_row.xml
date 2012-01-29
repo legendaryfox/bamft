@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">     
+   
+	<TextView
+	    android:id="@+id/truckScheduleDayOfWeek"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:padding="2dp"
+	    android:textSize="18sp" />
+
+	<TextView
+		android:id="@+id/truckScheduleTimeOfDay"
+		android:layout_width="wrap_content"   
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:textSize="18sp"
+        android:layout_toRightOf="@id/truckScheduleDayOfWeek"/>
+	
+	<TextView
+		android:id="@+id/truckScheduleLandmark"
+		android:layout_width="wrap_content"   
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:textSize="18sp"
+        android:layout_below="@id/truckScheduleTimeOfDay"/>
+</RelativeLayout>
