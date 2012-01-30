@@ -17,16 +17,12 @@ public class TruckScheduleListActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		/* get information passed from last activity
-		 *	- timeOfDay
-		 *	- dayOfWeek
-		 *	- truck or truckId
-		 */
+		// Extract info from bundle
 		
 		Bundle extras = this.getIntent().getExtras();
 		Truck truck = (Truck) extras.get(Constants.TRUCK);
-		String timeOfDay = extras.getString(Constants.TIME_OF_DAY);
-		String dayOfWeek = extras.getString(Constants.DAY_OF_WEEK);
+		
+		// Grab schedule info from database and create ListView
 		
 		final DatabaseHandler db = new DatabaseHandler(this);
 		

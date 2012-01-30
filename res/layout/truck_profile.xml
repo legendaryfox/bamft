@@ -29,6 +29,21 @@
 		android:padding="2dp"
 		android:text="2.6 mi"
 		android:textSize="17sp" />
+     
+     <Button 
+         android:id="@+id/truckProfileMapsButton"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_below="@id/truckNameText"
+         android:text="Google Maps" />
+     
+ 	<com.google.android.maps.MapView
+ 	    android:id="@+id/truckProfileMap"
+		android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:apiKey="@string/maps_key"
+        android:layout_below="@id/landmarkNameText" />    
 
 	<LinearLayout
 	    android:orientation="horizontal"

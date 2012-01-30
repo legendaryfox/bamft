@@ -25,7 +25,6 @@ public class TruckScheduleRowAdapter extends ArrayAdapter<Schedule> {
 		this.context = context;
 		this.scheduleList = scheduleList;
 	}
-	
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
