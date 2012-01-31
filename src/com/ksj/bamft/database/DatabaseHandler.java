@@ -86,7 +86,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	db.execSQL(CREATE_TRUCKS_TABLE);
     	db.execSQL(CREATE_SCHEDULES_TABLE);
     	
-    	
+    	db.close();
     }
  
     // Upgrading database
