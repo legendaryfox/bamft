@@ -101,7 +101,52 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
     
-    public void recreateTables() {
+    public void recreateTable(String tableName) {
+    	 	
+    	SQLiteDatabase db = this.getWritableDatabase();
+
+    	if (TABLE_LANDMARKS == tableName) {
+    		db.execSQL("DROP TABLE IF EXISTS " + TABLE_LANDMARKS);
+    		String CREATE_LANDMARKS_TABLE = "CREATE TABLE " + TABLE_LANDMARKS
+        			+ "(" 
+        			+ KEY_LANDMARK_ID + " INTEGER PRIMARY KEY,"
+        			+ KEY_LANDMARK_NAME + " TEXT,"
+        			+ KEY_LANDMARK_XCOORD + " TEXT,"
+        			+ KEY_LANDMARK_YCOORD + " TEXT"
+        			+ ")";
+    		db.execSQL(CREATE_LANDMARKS_TABLE);
+    		
+    	} else if (TABLE_TRUCKS == tableName) {
+    		db.execSQL("DROP TABLE IF EXISTS " + TABLE_TRUCKS);
+    		String CREATE_TRUCKS_TABLE = "CREATE TABLE " + TABLE_TRUCKS
+        			+ "(" 
+        			+ KEY_TRUCK_ID + " INTEGER PRIMARY KEY,"
+        			+ KEY_TRUCK_NAME + " TEXT,"
+        			+ KEY_TRUCK_CUISINE + " TEXT,"
+        			+ KEY_TRUCK_DESCRIPTION + " TEXT"
+        			+ ")";
+    		db.execSQL(CREATE_TRUCKS_TABLE);
+    		
+    	} else if (TABLE_SCHEDULES == tableName) {
+    		db.execSQL("DROP TABLE IF EXISTS " + TABLE_SCHEDULES);
+    		String CREATE_SCHEDULES_TABLE = "CREATE TABLE " + TABLE_SCHEDULES
+        			+ "("
+        			+ KEY_SCHEDULE_ID + " INTEGER PRIMARY KEY,"
+        			+ KEY_SCHEDULE_DAY_OF_WEEK + " TEXT,"
+        			+ KEY_SCHEDULE_TIME_OF_DAY + " TEXT,"
+        			+ KEY_SCHEDULE_TRUCK_ID + " TEXT,"
+        			+ KEY_SCHEDULE_LANDMARK_ID + " TEXT"
+        			+ ")";
+    		db.execSQL(CREATE_SCHEDULES_TABLE);
+    		
+    	} else {
+    		//error...
+    	}
+    	
+    	
+    }
+    
+    public void recreateAllTables() {
     	SQLiteDatabase db = this.getWritableDatabase();
     	
     	db.execSQL("DROP TABLE IF EXISTS " + TABLE_LANDMARKS);
@@ -110,7 +155,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
  
         // Create tables again
         onCreate(db);
-    	
     }
     
     /*

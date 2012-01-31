@@ -102,176 +102,72 @@ public class BamftActivity extends Activity {
     	long cacheBirthday = settings.getLong(PREFS_CACHE_UPDATED, 0);
     	String testingToastText = "It is currently " + dayOfWeek + " " + timeOfDay + ". Cache should be updated in : " + (cacheBirthday + CACHE_LIFE - now.toMillis(true))/1000 + " seconds.";
     	Toast.makeText(BamftActivity.this, testingToastText, Toast.LENGTH_LONG).show();
-        
-    	
-    	/*
-        gridview.setOnItemClickListener(new OnItemClickListener() {
-        	//listen for what button is getting pushed...
-        	
-        	public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-
-        		Bundle timeBundle = new Bundle();
-        		timeBundle.putString("dayOfWeek", dayOfWeek);
-        		timeBundle.putString("timeOfDay", timeOfDay); //default just in case...note that putString automatically overwrites existing values too
-        		
-        		Intent loadTruckListIntent = new Intent(BamftActivity.this, TruckListActivity.class);
-        		
-        		switch(position) {
-        		case 0:
-        			//Load Morning trucks
-        			Toast.makeText(BamftActivity.this, "" + dayOfWeek + " Morning trucks", Toast.LENGTH_SHORT).show();
-        			timeBundle.putString("timeOfDay", "Morning");
-        			loadTruckListIntent.putExtras(timeBundle);
-            		BamftActivity.this.startActivity(loadTruckListIntent);
-        			break;
-        		case 1:
-        			//Load Afternoon trucks
-        			Toast.makeText(BamftActivity.this,  "" + dayOfWeek + " Afternoon trucks", Toast.LENGTH_SHORT).show();
-        			timeBundle.putString("timeOfDay", "Afternoon");
-        			loadTruckListIntent.putExtras(timeBundle);
-            		BamftActivity.this.startActivity(loadTruckListIntent);
-        			break;
-        		case 2:
-        			//Load Evening trucks
-        			Toast.makeText(BamftActivity.this,  "" + dayOfWeek + " Evening trucks", Toast.LENGTH_SHORT).show();
-        			timeBundle.putString("timeOfDay", "Evening");
-        			loadTruckListIntent.putExtras(timeBundle);
-            		BamftActivity.this.startActivity(loadTruckListIntent);
-        			break;
-        		case 3:
-        			// Force data cache
-        			
-        			SharedPreferences settings = getSharedPreferences(BAMFT_PREFS_NAME, 0);
-        	    	SharedPreferences.Editor editor = settings.edit();
-        			editor.putLong(PREFS_CACHE_UPDATED, 0);
-        	    	editor.commit();
-        			prepareData();
-        			
-        			Toast.makeText(BamftActivity.this, "Updated Cache...", Toast.LENGTH_SHORT).show();
-
-        			break;
-        		}        				
-        		
-        		
-        	}
-        	
-        });
-        */
-        
-        
+    
         
     }
     
-    
-    /**
-     * Prepares the data by querying the bamftserver and updating internal SQL database
-     * 
-     */
-    public void prepareData() {
-    	
-    	SharedPreferences settings = getSharedPreferences(BAMFT_PREFS_NAME, 0);
-    	SharedPreferences.Editor editor = settings.edit();
+public void menuClickFunction(final View v) {
     	
     	Time now = new Time();
     	now.setToNow();
     	
-    	long cacheBirthday = settings.getLong("cacheUpdated", 0);
-    	if ((now.toMillis(true) - cacheBirthday) > CACHE_LIFE) {
-    		// now minus the birthday is bigger than the expected age - so we should re-grab from cache
+        final String dayOfWeek = getDayOfWeek(now);
+        final String timeOfDay = getMealOfDay(now);
+        
+    	Bundle timeBundle = new Bundle();
+		timeBundle.putString("dayOfWeek", dayOfWeek);
+		timeBundle.putString("timeOfDay", timeOfDay); //default just in case...note that putString automatically overwrites existing values too
+		
+		
+		
+		switch(v.getId()) {
+		
+		case R.id.menu_item_search_nearby:
+			//Load Morning trucks
+			//Toast.makeText(BamftActivity.this, "" + dayOfWeek + " Morning trucks", Toast.LENGTH_SHORT).show();
+			//timeBundle.putString("timeOfDay", timeOfDay);
+			Toast.makeText(BamftActivity.this,  "Nearby open trucks (for " + dayOfWeek + " " + timeOfDay + ")", Toast.LENGTH_SHORT).show();
+			
+			Intent loadScheduleListIntent = new Intent(BamftActivity.this, ScheduleListActivity.class);
+			loadScheduleListIntent.putExtras(timeBundle);
+    		BamftActivity.this.startActivity(loadScheduleListIntent);
     		
-    	
-	    	
-	    	DatabaseHandler db = new DatabaseHandler(this);
-	    	
-	    	// First, we pull get the data from the Landmark, Truck, and Schedule tables.
-	    	String landmarksDumpData = readServerData(LANDMARKS_DUMP_URL);
-	    	String trucksDumpData = readServerData(TRUCKS_DUMP_URL);
-	    	String schedulesDumpData = readServerData(SCHEDULES_DUMP_URL);
-	    	
-	    	// Dump the database
-	    	db.recreateTables();
-	    	
-	    	//Then, we open the JSON
-	    	
-	    	
-	    	//Landmarks
-	    	try {
-	    		JSONArray landmarksArray = new JSONArray(landmarksDumpData);
-	    		
-	    		for (int i = 0; i < landmarksArray.length(); i++) {
-	    			//Iterate through each entry and save to DB
-	    			JSONObject landmarkObject = landmarksArray.getJSONObject(i).getJSONObject("landmark");
-	    			Landmark landmark = new Landmark(
-	    					landmarkObject.getInt("id"), 
-	    					landmarkObject.getString("name"), 
-	    					landmarkObject.getString("xcoord"), 
-	    					landmarkObject.getString("ycoord"));
-	    			db.addLandmark(landmark);
-	    			
-	    		}
-	    		
-	    	} catch (Exception e) {
-	    		e.printStackTrace();
-	    	}
-	    	
-	    	//Trucks
-	    	try {
-	    		JSONArray trucksArray = new JSONArray(trucksDumpData);
-	    		
-	    		for (int i = 0; i < trucksArray.length(); i++) {
-	    			//Iterate through each entry and save to DB
-	    			JSONObject truckObject = trucksArray.getJSONObject(i).getJSONObject("truck");
-	    			Truck truck = new Truck(
-	    					truckObject.getInt("id"), 
-	    					truckObject.getString("name"), 
-	    					truckObject.getString("cuisine"), 
-	    					truckObject.getString("description"));
-	    			
-	    			//just for now
-	    			truck.setCuisine("Cuiseinetest " + truck.getId());
-	    			truck.setDescription("Descriptiontest " + truck.getId());
-	    			
-	    			db.addTruck(truck);
-	    			
-	    		}
-	    		
-	    	} catch (Exception e) {
-	    		e.printStackTrace();
-	    	}
-	    	
-	    	//Schedules
-	    	try {
-	    		JSONArray schedulesArray = new JSONArray(schedulesDumpData);
-	    		
-	    		for (int i = 0; i < schedulesArray.length(); i++) {
-	    			//Iterate through each entry and save to DB
-	    			JSONObject scheduleObject = schedulesArray.getJSONObject(i).getJSONObject("schedule");
-	    			Schedule schedule = new Schedule(
-	    					scheduleObject.getInt("id"), 
-	    					scheduleObject.getString("day_of_week"), 
-	    					scheduleObject.getString("time_of_day"), 
-	    					scheduleObject.getInt("truck_id"),
-	    					scheduleObject.getInt("landmark_id"));
-	    			db.addSchedule(schedule);
-	    			
-	    		}
-	    		
-	    	} catch (Exception e) {
-	    		e.printStackTrace();
-	    	}
-	    	
-	    	
-	    	editor.putLong(PREFS_CACHE_UPDATED, now.toMillis(true));
+			break;
+		case R.id.menu_item_list_all:
+			//Load Afternoon trucks
+			Toast.makeText(BamftActivity.this,  "All trucks (open and closed)", Toast.LENGTH_SHORT).show();
+			
+			Intent loadTruckListIntent = new Intent(BamftActivity.this, TruckListActivity.class);
+			timeBundle.putString("timeOfDay", "Afternoon");
+			loadTruckListIntent.putExtras(timeBundle);
+    		BamftActivity.this.startActivity(loadTruckListIntent);
+			break;
+		case R.id.menu_item_map_view:
+			//Load Evening trucks
+			Toast.makeText(BamftActivity.this,  "Not functional yet...", Toast.LENGTH_SHORT).show();
+			
+			
+			
+			break;
+		case R.id.menu_item_surprise_me:
+			// Force data cache
+			
+			SharedPreferences settings = getSharedPreferences(BAMFT_PREFS_NAME, 0);
+	    	SharedPreferences.Editor editor = settings.edit();
+			editor.putLong(PREFS_CACHE_UPDATED, 0);
 	    	editor.commit();
-	    	Toast.makeText(BamftActivity.this, "Cache was updated at " + now.toMillis(true), Toast.LENGTH_SHORT);
-	    	Log.d("CACHE", "Cache was updated at " + now.toMillis(true));
-	    	
-    	} else {
-    		
-    		Log.d("CACHE", "Cache was not updated.");
-    		
-    	}
+			prepareData();
+			
+			Toast.makeText(BamftActivity.this, "Updated Cache...", Toast.LENGTH_SHORT).show();
+
+			break;
+		}        		
+    	
+    	
+    	
     }
+    
+    
     
     public static String getDayOfWeek(Time now) {
 
@@ -328,6 +224,137 @@ public class BamftActivity extends Activity {
     	
     }
     
+
+    /**
+     * Prepares the data by querying the bamftserver and updating internal SQL database
+     * 
+     */
+    public void prepareData() {
+    	
+    	SharedPreferences settings = getSharedPreferences(BAMFT_PREFS_NAME, 0);
+    	SharedPreferences.Editor editor = settings.edit();
+    	
+    	Time now = new Time();
+    	now.setToNow();
+    	
+    	long cacheBirthday = settings.getLong("cacheUpdated", 0);
+    	if ((now.toMillis(true) - cacheBirthday) > CACHE_LIFE) {
+    		// now minus the birthday is bigger than the expected age - so we should re-grab from cache
+    		
+    	
+	    	// Connect to DB
+	    	DatabaseHandler db = new DatabaseHandler(this);
+	    	
+	    	// First, we pull get the data from the Landmark, Truck, and Schedule tables.
+	    	String landmarksDumpData = readServerData(LANDMARKS_DUMP_URL);
+	    	String trucksDumpData = readServerData(TRUCKS_DUMP_URL);
+	    	String schedulesDumpData = readServerData(SCHEDULES_DUMP_URL);
+	    	
+	    	// Dump the database
+	    	//db.recreateAllTables();
+	    	
+	    	boolean cacheSuccessFlag = true;
+	    	
+	    	// Landmarks
+	    	if (!landmarksDumpData.isEmpty()) {
+	    		db.recreateTable("landmarks");
+	    		
+	    		try {
+		    		JSONArray landmarksArray = new JSONArray(landmarksDumpData);
+		    		
+		    		for (int i = 0; i < landmarksArray.length(); i++) {
+		    			//Iterate through each entry and save to DB
+		    			JSONObject landmarkObject = landmarksArray.getJSONObject(i).getJSONObject("landmark");
+		    			Landmark landmark = new Landmark(
+		    					landmarkObject.getInt("id"), 
+		    					landmarkObject.getString("name"), 
+		    					landmarkObject.getString("xcoord"), 
+		    					landmarkObject.getString("ycoord"));
+		    			db.addLandmark(landmark);
+		    			
+		    		}
+		    		
+		    	} catch (Exception e) {
+		    		e.printStackTrace();
+		    	}
+	    		Log.d("PrepareData", "Landmarks data updated");
+	    	} else {
+	    		cacheSuccessFlag = false;
+	    	}
+	    	
+	    	
+	    	// Trucks
+	    	if (!trucksDumpData.isEmpty()) {
+	    		db.recreateTable("trucks");   		
+	    		try {
+		    		JSONArray trucksArray = new JSONArray(trucksDumpData);
+		    		
+		    		for (int i = 0; i < trucksArray.length(); i++) {
+		    			//Iterate through each entry and save to DB
+		    			JSONObject truckObject = trucksArray.getJSONObject(i).getJSONObject("truck");
+		    			Truck truck = new Truck(
+		    					truckObject.getInt("id"), 
+		    					truckObject.getString("name"), 
+		    					truckObject.getString("cuisine"), 
+		    					truckObject.getString("description"));
+		    			
+		    			//just for now
+		    			truck.setCuisine("Cuiseinetest " + truck.getId());
+		    			truck.setDescription("Descriptiontest " + truck.getId());
+		    			
+		    			db.addTruck(truck);
+		    			
+		    		}
+		    		
+		    	} catch (Exception e) {
+		    		e.printStackTrace();
+		    	}
+	    		Log.d("PrepareData", "Trucks data updated");
+	    	} else {
+	    		cacheSuccessFlag = false;
+	    	}
+	    	
+	    	
+	    	if (!schedulesDumpData.isEmpty()) {
+	    		db.recreateTable("schedules");
+	    		try {
+		    		JSONArray schedulesArray = new JSONArray(schedulesDumpData);
+		    		
+		    		for (int i = 0; i < schedulesArray.length(); i++) {
+		    			//Iterate through each entry and save to DB
+		    			JSONObject scheduleObject = schedulesArray.getJSONObject(i).getJSONObject("schedule");
+		    			Schedule schedule = new Schedule(
+		    					scheduleObject.getInt("id"), 
+		    					scheduleObject.getString("day_of_week"), 
+		    					scheduleObject.getString("time_of_day"), 
+		    					scheduleObject.getInt("truck_id"),
+		    					scheduleObject.getInt("landmark_id"));
+		    			db.addSchedule(schedule);
+		    			
+		    		}
+		    		
+		    	} catch (Exception e) {
+		    		e.printStackTrace();
+		    	}
+	    		Log.d("PrepareData", "Schedule data updated");
+	    	} else {
+	    		cacheSuccessFlag = false;
+	    	}
+	    	
+	    	if (cacheSuccessFlag) {
+	    		editor.putLong(PREFS_CACHE_UPDATED, now.toMillis(true));
+	    		editor.commit();
+	    	}
+	    	//Toast.makeText(BamftActivity.this, "Cache was updated at " + now.toMillis(true), Toast.LENGTH_SHORT);
+	    	//Log.d("CACHE", "Cache was updated at " + now.toMillis(true));
+	    	
+    	} else {
+    		
+    		Log.d("CACHE", "Cache was not updated.");
+    		
+    	}
+    }
+    
     /**
      * Reads the server data from specified URL. Essentially a web page http-get function. 
      * @param dumpUrl
@@ -346,6 +373,7 @@ public class BamftActivity extends Activity {
 			StatusLine statusLine = response.getStatusLine();
 			int statusCode = statusLine.getStatusCode();
 			if (statusCode == 200) { //HTTP 200 = "OKAY"
+				Log.d("APIConnection", "I got an HTTP200");
 				HttpEntity entity = response.getEntity();
 				InputStream content = entity.getContent();
 				BufferedReader reader = new BufferedReader(new InputStreamReader(content));
@@ -355,83 +383,21 @@ public class BamftActivity extends Activity {
 					builder.append(line);
 				}
 			} else {
+				Log.d("APIConnection", "Was not an HTTP200");
 				Log.e(BamftActivity.class.toString(), "Failed to download file");
 			}
 		} catch (ClientProtocolException e) {
+			Log.e("APIConnection", "ClientProtocol Failed to connect to API.");
 			e.printStackTrace();
 		} catch (IOException e) {
+			Log.e("APIConnection", "IO Exception Failed to connect to API.");
 			e.printStackTrace();
 		}
+    	Log.d("APIConnection", "API Value: " + builder.toString());
 		return builder.toString();
     }
     
-    public void menuClickFunction(final View v) {
-    	
-    	Time now = new Time();
-    	now.setToNow();
-    	
-        final String dayOfWeek = getDayOfWeek(now);
-        final String timeOfDay = getMealOfDay(now);
-        
-    	Bundle timeBundle = new Bundle();
-		timeBundle.putString("dayOfWeek", dayOfWeek);
-		timeBundle.putString("timeOfDay", timeOfDay); //default just in case...note that putString automatically overwrites existing values too
-		
-		
-		
-		switch(v.getId()) {
-		
-		case R.id.menu_item_search_nearby:
-			//Load Morning trucks
-			//Toast.makeText(BamftActivity.this, "" + dayOfWeek + " Morning trucks", Toast.LENGTH_SHORT).show();
-			//timeBundle.putString("timeOfDay", timeOfDay);
-			Toast.makeText(BamftActivity.this,  "Nearby open trucks (for " + dayOfWeek + " " + timeOfDay + ")", Toast.LENGTH_SHORT).show();
-			
-			Intent loadScheduleListIntent = new Intent(BamftActivity.this, ScheduleListActivity.class);
-			loadScheduleListIntent.putExtras(timeBundle);
-    		BamftActivity.this.startActivity(loadScheduleListIntent);
-    		
-			break;
-		case R.id.menu_item_list_all:
-			//Load Afternoon trucks
-			Toast.makeText(BamftActivity.this,  "All trucks (open and closed)", Toast.LENGTH_SHORT).show();
-			
-			Intent loadTruckListIntent = new Intent(BamftActivity.this, TruckListActivity.class);
-			timeBundle.putString("timeOfDay", "Afternoon");
-			loadTruckListIntent.putExtras(timeBundle);
-    		BamftActivity.this.startActivity(loadTruckListIntent);
-			break;
-		case R.id.menu_item_map_view:
-			//Load Evening trucks
-			Toast.makeText(BamftActivity.this,  "Not functional yet...", Toast.LENGTH_SHORT).show();
-			/*
-			timeBundle.putString("timeOfDay", "Evening");
-			loadScheduleListIntent.putExtras(timeBundle);
-    		BamftActivity.this.startActivity(loadScheduleListIntent);
-    		*/
-			
-			
-			
-			
-			
-			break;
-		case R.id.menu_item_surprise_me:
-			// Force data cache
-			
-			SharedPreferences settings = getSharedPreferences(BAMFT_PREFS_NAME, 0);
-	    	SharedPreferences.Editor editor = settings.edit();
-			editor.putLong(PREFS_CACHE_UPDATED, 0);
-	    	editor.commit();
-			prepareData();
-			
-			Toast.makeText(BamftActivity.this, "Updated Cache...", Toast.LENGTH_SHORT).show();
-
-			break;
-		}        		
-    	
-    	
-    	
-    }
+    
     
    
         
