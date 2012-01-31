@@ -118,19 +118,27 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      */
     
     /**
-     * Gets all schedules based upon a giving time and day (use string format, ie "Monday", "Evening");
+     * Gets all schedules based upon a given time and day (use string format, ie "Monday", "Evening");
      * Days: "Monday" to "Sunday";
      * Time: "Morning", "Afternoon", "Evening"
      * @param dayOfWeek
      * @param timeOfDay
      * @return List<Schedule> of schedules matching parameters
      */
-    
-    
     public List<Schedule> getSchedulesByDayAndTime(String dayOfWeek, String timeOfDay) {
     	String query = "SELECT \"schedules\".* FROM \"" + TABLE_SCHEDULES + "\""
     			+ "WHERE (\"schedules\".\"day_of_week\" = '" + dayOfWeek + "')"
     			+ "AND (\"schedules\".\"time_of_day\" = '" + timeOfDay + "')";
+    	
+    	return getSchedulesListByQuery(query);
+    }
+    
+    public List<Schedule> getSchedulesByTruck(Truck truck) {
+    	String query = 
+    			"SELECT \"schedules\".* " +
+    			"FROM \"" + TABLE_SCHEDULES + "\"" + 
+    			"WHERE (\"schedules\".\"truck_id\" = '" + truck.getId() + "')";
+    	
     	return getSchedulesListByQuery(query);
     }
     
@@ -460,7 +468,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     
     private List<Schedule> getSchedulesListByQuery(String selectQuery) {
     	List<Schedule> scheduleList = new ArrayList<Schedule>();
-    	
     	
     	SQLiteDatabase db = this.getWritableDatabase();
     	Cursor cursor = db.rawQuery(selectQuery, null);

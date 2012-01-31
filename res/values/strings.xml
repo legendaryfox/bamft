@@ -3,5 +3,15 @@
 
     <string name="hello">Hello World, BamftActivity!</string>
     <string name="app_name">Bamft</string>
+    
+    <!-- TRUCK PROFILE PAGES -->
 
+	<string name="schedule">Schedule</string>
+	<string name="menu">Menu</string>
+	<string name="twitter">Twitter</string>
+	<string name="pictures">Pictures</string>
+	
+	<!-- GOOGLE MAPS KEYS -->
+	
+	<string name="maps_key">0M7ZmQp2y_Eccf7uWqlRxTQYWnM3mpXYv-go0Bw</string> <!-- SUSANA'S KEY -->
 </resources>
