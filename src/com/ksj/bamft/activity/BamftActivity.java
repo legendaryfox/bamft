@@ -62,6 +62,7 @@ public class BamftActivity extends Activity {
 	private static final int EVENING_START_HOUR = 15;
 	private static final int CLOSING_HOUR = 23;
 	
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -298,9 +299,10 @@ public void menuClickFunction(final View v) {
 		    					truckObject.getString("cuisine"), 
 		    					truckObject.getString("description"));
 		    			
-		    			//just for now
-		    			truck.setCuisine("Cuiseinetest " + truck.getId());
-		    			truck.setDescription("Descriptiontest " + truck.getId());
+		    			
+		    			// Fix for null values
+		    			if (truck.getCuisine() == "null" || truck.getCuisine().isEmpty()) truck.setCuisine("N/A");
+		    			if (truck.getDescription() == "null" || truck.getDescription().isEmpty()) truck.setDescription("N/A");
 		    			
 		    			db.addTruck(truck);
 		    			
