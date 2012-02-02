@@ -85,6 +85,7 @@ public class TruckProfileActivity extends MapActivity {
         TextView truckNameTextView = (TextView)findViewById(R.id.truckNameText);
         TextView landmarkNameTextView = (TextView)findViewById(R.id.landmarkNameText);
         TextView landmarkDistanceTextView = (TextView)findViewById(R.id.landmarkDistanceText);
+        TextView truckDescriptionTextView = (TextView)findViewById(R.id.truckDescriptionText);
         
         
         //TODO: make it calculate real distance...lawl...
@@ -94,6 +95,7 @@ public class TruckProfileActivity extends MapActivity {
         truckNameTextView.setText(truck.getName());
         landmarkNameTextView.setText(landmark_name);
         landmarkDistanceTextView.setText(distance_string);
+        truckDescriptionTextView.setText(truck.getDescription());
         
         // Map view
         
@@ -148,6 +150,24 @@ public class TruckProfileActivity extends MapActivity {
         		// Start the activity
         		TruckProfileActivity.this.startActivity(loadTruckScheduleIntent);
 			}
+		});
+		
+		// Twitter button
+		
+		Button twitterButton = (Button) findViewById(R.id.truckProfileTwitterButton);
+		twitterButton.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View v) {
+				//Create intent
+				Intent loadTruckTwitterIntent = new Intent(TruckProfileActivity.this, TruckTwitterActivity.class);
+				
+				// Create extras bundle
+				
+				// Start the activity
+				TruckProfileActivity.this.startActivity(loadTruckTwitterIntent);
+				
+			}
+			
 		});
 	 }
 }

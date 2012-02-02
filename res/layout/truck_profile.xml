@@ -30,11 +30,20 @@
 		android:text="2.6 mi"
 		android:textSize="17sp" />
      
+     <TextView
+         android:id="@+id/truckDescriptionText"
+         android:layout_below="@+id/landmarkNameText"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:padding="2dp" 
+         android:textSize="16sp"
+         android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."/>
+     
      <Button 
          android:id="@+id/truckProfileMapsButton"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:layout_below="@id/truckNameText"
+         android:layout_below="@+id/truckDescriptionText"
          android:text="Google Maps" />
      
  	<com.google.android.maps.MapView
@@ -43,7 +52,7 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:apiKey="@string/maps_key"
-        android:layout_below="@id/landmarkNameText" />    
+        android:layout_below="@id/truckProfileMapsButton" />    
 
 	<LinearLayout
 	    android:orientation="horizontal"
