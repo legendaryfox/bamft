@@ -16,7 +16,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.R;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +27,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ksj.bamft.constants.Constants;
+
 public class TruckTwitterActivity extends ListActivity {
 	
 
@@ -35,7 +36,13 @@ public class TruckTwitterActivity extends ListActivity {
 				
 		super.onCreate(savedInstanceState);
 		
-		setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getFeedItems()));
+		// Extract info from bundle
+		
+		Bundle extras = this.getIntent().getExtras();
+		String twitterHandle = (String) extras.get(Constants.TWITTER);
+		
+		//TODO: Change from android.R.layout.simple_list_item_1
+		setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getFeedItems(twitterHandle)));
 		
 		ListView lv = getListView();
 		lv.setTextFilterEnabled(true);
@@ -49,24 +56,29 @@ public class TruckTwitterActivity extends ListActivity {
 		
 	}
 	
-	public ArrayList<String> getFeedItems() {
+	public ArrayList<String> getFeedItems(String twitterHandle) {
 		
 		ArrayList<String> list = new ArrayList<String>();
 		
-		String readTwitterFeed = readTwitterFeed();
+		if(twitterHandle.isEmpty()) {
+			list.add("This truck does not have a Twitter handle.");
+			return list;
+		}
+		
+		String readTwitterFeed = readTwitterFeed(twitterHandle);
+		
+		
 		try {
 			JSONArray jsonArray = new JSONArray(readTwitterFeed);
 			//JSONArray jsonArray = new JSONObject(readTwitterFeed).getJSONArray("features");
 			
 			
-			
-			Log.i(TruckTwitterActivity.class.getName(),
-					"Number of entries " + jsonArray.length());
+		
 			
 			
 			for (int i = 0; i < jsonArray.length(); i++) {
 				JSONObject jsonObject = jsonArray.getJSONObject(i);
-				Log.i(TruckTwitterActivity.class.getName(), jsonObject.getString("text"));
+				//Log.i(TruckTwitterActivity.class.getName(), jsonObject.getString("text"));
 				//Log.i(ParseJSON.class.getName(), jsonObject.getJSONObject("attributes").getString("TestFld"));
 				list.add(jsonObject.getString("text"));
 			}
@@ -76,16 +88,21 @@ public class TruckTwitterActivity extends ListActivity {
 			e.printStackTrace();
 		}
 		
+		if (list.size() == 0) {
+			list.add("No feed items to display");
+		}		
 		return list;
 		
 	}
 
-	public String readTwitterFeed() {
+	public String readTwitterFeed(String twitterHandle) {
+		
+		String twitterUrl = "http://twitter.com/statuses/user_timeline/" + twitterHandle + ".json";
 		StringBuilder builder = new StringBuilder();
 		HttpClient client = new DefaultHttpClient();
-		HttpGet httpGet = new HttpGet(
-				"http://twitter.com/statuses/user_timeline/vogella.json");
-		//HttpGet httpGet = new HttpGet("http://hubmaps2.cityofboston.gov/ArcGIS/rest/services/Dev_services/food_trucks/MapServer/1/query?text=%25&outFields=GPS%2CLocation%2CXCoord%2CYCoord%2CDayOfWeek%2CTimeOfDay%2CTestFld%2CShape&f=pjson");
+		HttpGet httpGet = new HttpGet(twitterUrl);
+		
+		
 		try {
 			HttpResponse response = client.execute(httpGet);
 			StatusLine statusLine = response.getStatusLine();
@@ -103,10 +120,10 @@ public class TruckTwitterActivity extends ListActivity {
 				Log.e(TruckTwitterActivity.class.toString(), "Failed to download file");
 			}
 		} catch (ClientProtocolException e) {
-			Log.i("LOLZER", "ClientProtocl");
+			Log.i(TruckTwitterActivity.class.toString(), "ClientProtocl");
 			e.printStackTrace();
 		} catch (IOException e) {
-			Log.i("LOLZER", "IOException");
+			Log.i(TruckTwitterActivity.class.toString(), "IOException");
 			e.printStackTrace();
 		}
 		return builder.toString();

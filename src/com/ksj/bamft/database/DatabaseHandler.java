@@ -309,7 +309,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	SQLiteDatabase db = this.getReadableDatabase();
     	
     	
-    	
     	Cursor cursor = db.query(TABLE_TRUCKS, 
     			new String[] { KEY_TRUCK_ID, KEY_TRUCK_NAME, KEY_TRUCK_CUISINE, KEY_TRUCK_DESCRIPTION, 
     			KEY_TRUCK_EMAIL, KEY_TRUCK_MENU, KEY_TRUCK_TWITTER, KEY_TRUCK_FACEBOOK, KEY_TRUCK_WEBSITE, KEY_TRUCK_YELP  }, 
@@ -318,7 +317,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	if (cursor != null)
     		cursor.moveToFirst();
     	
-    	Truck truck = new Truck(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3));
+    	Truck truck = new Truck(Integer.parseInt(cursor.getString(0)), 
+    			cursor.getString(1), 
+    			cursor.getString(2), 
+    			cursor.getString(3),
+    			cursor.getString(4),
+    			cursor.getString(5),
+    			cursor.getString(6),
+    			cursor.getString(7),
+    			cursor.getString(8),
+    			cursor.getString(9));
     	db.close();
     	return truck;
     }

@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -56,7 +57,7 @@ public class TruckProfileActivity extends MapActivity {
         
         //Grab the relevant data
         
-        final Truck truck = db.getTruck(truckId);      
+        final Truck truck = db.getTruck(truckId); 
         String landmark_name;
         float make_x;
         float make_y;
@@ -162,6 +163,9 @@ public class TruckProfileActivity extends MapActivity {
 				Intent loadTruckTwitterIntent = new Intent(TruckProfileActivity.this, TruckTwitterActivity.class);
 				
 				// Create extras bundle
+				Bundle extras = new Bundle();
+				extras.putString(Constants.TWITTER, truck.getTwitter());
+				loadTruckTwitterIntent.putExtras(extras);
 				
 				// Start the activity
 				TruckProfileActivity.this.startActivity(loadTruckTwitterIntent);

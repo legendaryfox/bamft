@@ -95,7 +95,9 @@ public class BamftActivity extends Activity {
         			+ "Website: " + t.getWebsite()
         			+ "Yelp: " + t.getYelp());
         }
+        
         */
+        
         
         
         
@@ -428,7 +430,7 @@ public void menuClickFunction(final View v) {
 			Log.e("APIConnection", "IO Exception Failed to connect to API.");
 			e.printStackTrace();
 		}
-    	Log.d("APIConnection", "API Value: " + builder.toString());
+    	//Log.d("APIConnection", "API Value: " + builder.toString());
 		return builder.toString();
     }
     
