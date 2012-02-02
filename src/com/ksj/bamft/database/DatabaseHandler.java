@@ -39,12 +39,51 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_TRUCK_NAME = "name";
     private static final String KEY_TRUCK_CUISINE = "cuisine";
     private static final String KEY_TRUCK_DESCRIPTION = "description";
+    private static final String KEY_TRUCK_EMAIL = "email";
+    private static final String KEY_TRUCK_MENU = "menu";
+    private static final String KEY_TRUCK_TWITTER = "twitter";
+    private static final String KEY_TRUCK_FACEBOOK = "facebook";
+    private static final String KEY_TRUCK_WEBSITE = "website";
+    private static final String KEY_TRUCK_YELP = "yelp";
+    
+   
     
     private static final String KEY_SCHEDULE_ID = "id";
     private static final String KEY_SCHEDULE_DAY_OF_WEEK = "day_of_week";
     private static final String KEY_SCHEDULE_TIME_OF_DAY = "time_of_day";
     private static final String KEY_SCHEDULE_TRUCK_ID = "truck_id";
     private static final String KEY_SCHEDULE_LANDMARK_ID = "landmark_id";
+    
+    private static final String CREATE_LANDMARKS_TABLE = "CREATE TABLE " + TABLE_LANDMARKS
+			+ "(" 
+			+ KEY_LANDMARK_ID + " INTEGER PRIMARY KEY,"
+			+ KEY_LANDMARK_NAME + " TEXT,"
+			+ KEY_LANDMARK_XCOORD + " TEXT,"
+			+ KEY_LANDMARK_YCOORD + " TEXT"
+			+ ")";
+	
+    private static final String CREATE_TRUCKS_TABLE = "CREATE TABLE " + TABLE_TRUCKS
+			+ "(" 
+			+ KEY_TRUCK_ID + " INTEGER PRIMARY KEY,"
+			+ KEY_TRUCK_NAME + " TEXT,"
+			+ KEY_TRUCK_CUISINE + " TEXT,"
+			+ KEY_TRUCK_DESCRIPTION + " TEXT,"
+			+ KEY_TRUCK_EMAIL + " TEXT,"
+			+ KEY_TRUCK_MENU + " TEXT,"
+			+ KEY_TRUCK_TWITTER + " TEXT,"
+			+ KEY_TRUCK_FACEBOOK + " TEXT,"
+			+ KEY_TRUCK_WEBSITE + " TEXT,"
+			+ KEY_TRUCK_YELP + " TEXT"
+			+ ")";
+	
+    private static final String CREATE_SCHEDULES_TABLE = "CREATE TABLE " + TABLE_SCHEDULES
+			+ "("
+			+ KEY_SCHEDULE_ID + " INTEGER PRIMARY KEY,"
+			+ KEY_SCHEDULE_DAY_OF_WEEK + " TEXT,"
+			+ KEY_SCHEDULE_TIME_OF_DAY + " TEXT,"
+			+ KEY_SCHEDULE_TRUCK_ID + " TEXT,"
+			+ KEY_SCHEDULE_LANDMARK_ID + " TEXT"
+			+ ")";
     
  
     public DatabaseHandler(Context context) {
@@ -55,32 +94,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         
-
-    	String CREATE_LANDMARKS_TABLE = "CREATE TABLE " + TABLE_LANDMARKS
-    			+ "(" 
-    			+ KEY_LANDMARK_ID + " INTEGER PRIMARY KEY,"
-    			+ KEY_LANDMARK_NAME + " TEXT,"
-    			+ KEY_LANDMARK_XCOORD + " TEXT,"
-    			+ KEY_LANDMARK_YCOORD + " TEXT"
-    			+ ")";
-    	
-    	String CREATE_TRUCKS_TABLE = "CREATE TABLE " + TABLE_TRUCKS
-    			+ "(" 
-    			+ KEY_TRUCK_ID + " INTEGER PRIMARY KEY,"
-    			+ KEY_TRUCK_NAME + " TEXT,"
-    			+ KEY_TRUCK_CUISINE + " TEXT,"
-    			+ KEY_TRUCK_DESCRIPTION + " TEXT"
-    			+ ")";
-    	
-    	String CREATE_SCHEDULES_TABLE = "CREATE TABLE " + TABLE_SCHEDULES
-    			+ "("
-    			+ KEY_SCHEDULE_ID + " INTEGER PRIMARY KEY,"
-    			+ KEY_SCHEDULE_DAY_OF_WEEK + " TEXT,"
-    			+ KEY_SCHEDULE_TIME_OF_DAY + " TEXT,"
-    			+ KEY_SCHEDULE_TRUCK_ID + " TEXT,"
-    			+ KEY_SCHEDULE_LANDMARK_ID + " TEXT"
-    			+ ")";
-    	
     	
     	db.execSQL(CREATE_LANDMARKS_TABLE);
     	db.execSQL(CREATE_TRUCKS_TABLE);
@@ -107,37 +120,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     	if (TABLE_LANDMARKS == tableName) {
     		db.execSQL("DROP TABLE IF EXISTS " + TABLE_LANDMARKS);
-    		String CREATE_LANDMARKS_TABLE = "CREATE TABLE " + TABLE_LANDMARKS
-        			+ "(" 
-        			+ KEY_LANDMARK_ID + " INTEGER PRIMARY KEY,"
-        			+ KEY_LANDMARK_NAME + " TEXT,"
-        			+ KEY_LANDMARK_XCOORD + " TEXT,"
-        			+ KEY_LANDMARK_YCOORD + " TEXT"
-        			+ ")";
     		db.execSQL(CREATE_LANDMARKS_TABLE);
+    		Log.d("RECREATE", "Recreating Landmark table");
     		
     	} else if (TABLE_TRUCKS == tableName) {
+    		
     		db.execSQL("DROP TABLE IF EXISTS " + TABLE_TRUCKS);
-    		String CREATE_TRUCKS_TABLE = "CREATE TABLE " + TABLE_TRUCKS
-        			+ "(" 
-        			+ KEY_TRUCK_ID + " INTEGER PRIMARY KEY,"
-        			+ KEY_TRUCK_NAME + " TEXT,"
-        			+ KEY_TRUCK_CUISINE + " TEXT,"
-        			+ KEY_TRUCK_DESCRIPTION + " TEXT"
-        			+ ")";
     		db.execSQL(CREATE_TRUCKS_TABLE);
+    		Log.d("RECREATE", "Recreating Trucks table: " + CREATE_TRUCKS_TABLE);
     		
     	} else if (TABLE_SCHEDULES == tableName) {
     		db.execSQL("DROP TABLE IF EXISTS " + TABLE_SCHEDULES);
-    		String CREATE_SCHEDULES_TABLE = "CREATE TABLE " + TABLE_SCHEDULES
-        			+ "("
-        			+ KEY_SCHEDULE_ID + " INTEGER PRIMARY KEY,"
-        			+ KEY_SCHEDULE_DAY_OF_WEEK + " TEXT,"
-        			+ KEY_SCHEDULE_TIME_OF_DAY + " TEXT,"
-        			+ KEY_SCHEDULE_TRUCK_ID + " TEXT,"
-        			+ KEY_SCHEDULE_LANDMARK_ID + " TEXT"
-        			+ ")";
     		db.execSQL(CREATE_SCHEDULES_TABLE);
+    		Log.d("RECREATE", "Recreating Schedules table");
     		
     	} else {
     		//error...
@@ -250,11 +245,26 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void addTruck(Truck truck) {
     	SQLiteDatabase db = this.getWritableDatabase();
     	
+    	 /*
+	     * private String email;
+		private String menu;
+		private String twitter;
+		private String facebook;
+		private String website;
+		private String yelp;
+	     */
+    	
     	ContentValues values = new ContentValues();
     	values.put(KEY_TRUCK_ID, truck.getId()); // Truck ID
     	values.put(KEY_TRUCK_NAME, truck.getName()); // Truck Name
     	values.put(KEY_TRUCK_CUISINE, truck.getCuisine()); // Truck cuisine
     	values.put(KEY_TRUCK_DESCRIPTION, truck.getDescription()); // Truck description
+    	values.put(KEY_TRUCK_EMAIL, truck.getEmail());
+    	values.put(KEY_TRUCK_MENU, truck.getMenu());
+    	values.put(KEY_TRUCK_TWITTER, truck.getTwitter());
+    	values.put(KEY_TRUCK_FACEBOOK, truck.getFacebook());
+    	values.put(KEY_TRUCK_WEBSITE, truck.getWebsite());
+    	values.put(KEY_TRUCK_YELP, truck.getYelp());
     	
     	// Insert row
     	db.insert(TABLE_TRUCKS, null, values);
@@ -298,8 +308,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public Truck getTruck(int id) {
     	SQLiteDatabase db = this.getReadableDatabase();
     	
+    	
+    	
     	Cursor cursor = db.query(TABLE_TRUCKS, 
-    			new String[] { KEY_TRUCK_ID, KEY_TRUCK_NAME, KEY_TRUCK_CUISINE, KEY_TRUCK_DESCRIPTION }, 
+    			new String[] { KEY_TRUCK_ID, KEY_TRUCK_NAME, KEY_TRUCK_CUISINE, KEY_TRUCK_DESCRIPTION, 
+    			KEY_TRUCK_EMAIL, KEY_TRUCK_MENU, KEY_TRUCK_TWITTER, KEY_TRUCK_FACEBOOK, KEY_TRUCK_WEBSITE, KEY_TRUCK_YELP  }, 
     			KEY_TRUCK_ID + "=?",
     			new String[] { String.valueOf(id) }, null, null, null, null);
     	if (cursor != null)
@@ -364,9 +377,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	
     	ContentValues values = new ContentValues();
 
+    	
+    	
     	values.put(KEY_TRUCK_NAME, truck.getName());
     	values.put(KEY_TRUCK_CUISINE, truck.getCuisine());
     	values.put(KEY_TRUCK_DESCRIPTION, truck.getDescription());
+    	values.put(KEY_TRUCK_EMAIL, truck.getEmail());
+    	values.put(KEY_TRUCK_MENU, truck.getMenu());
+    	values.put(KEY_TRUCK_TWITTER, truck.getTwitter());
+    	values.put(KEY_TRUCK_FACEBOOK, truck.getFacebook());
+    	values.put(KEY_TRUCK_WEBSITE, truck.getWebsite());
+    	values.put(KEY_TRUCK_YELP, truck.getYelp());
     	
     	// update row
     	int return_val =  db.update(TABLE_TRUCKS, values, KEY_TRUCK_ID + " = ?",
@@ -494,11 +515,27 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	// looping through all rows and adding to list
     	if (cursor.moveToFirst()) {
     		do {
+    			
+    		
     			Truck truck = new Truck();
     			truck.setId(Integer.parseInt(cursor.getString(0)));
     			truck.setName(cursor.getString(1));
     			truck.setCuisine(cursor.getString(2));
     			truck.setDescription(cursor.getString(3));
+    			truck.setEmail(cursor.getString(4));
+    			truck.setMenu(cursor.getString(5));
+    			truck.setTwitter(cursor.getString(6));
+    			truck.setFacebook(cursor.getString(7));
+    			truck.setWebsite(cursor.getString(8));
+    			truck.setWebsite(cursor.getString(9));
+    			
+    			
+    			
+    			
+    			
+    			
+    			
+    			
     			
     			// add back to the list
     			truckList.add(truck);

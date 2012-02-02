@@ -10,6 +10,13 @@ public class Truck implements Serializable {
 	private String cuisine;
 	private String description;
 	
+	private String email;
+	private String menu;
+	private String twitter;
+	private String facebook;
+	private String website;
+	private String yelp;
+	
 	public Truck() {
 		
 	}
@@ -21,9 +28,71 @@ public class Truck implements Serializable {
 		this.description = description;
 	}
 	
+	public Truck(int id, String name, String cuisine, String description, String email, String menu, String twitter, String facebook, String website, String yelp) {
+		this.id = id;
+		this.name = name;
+		this.cuisine = cuisine;
+		this.description = description;
+		
+		this.email = email;
+		this.menu = menu;
+		this.twitter = twitter;
+		this.facebook = facebook;
+		this.website = website;
+		this.yelp = yelp;
+	}
+	
 	
 	// basic getters/setters
 	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getMenu() {
+		return menu;
+	}
+
+	public void setMenu(String menu) {
+		this.menu = menu;
+	}
+
+	public String getTwitter() {
+		return twitter;
+	}
+
+	public void setTwitter(String twitter) {
+		this.twitter = twitter;
+	}
+
+	public String getFacebook() {
+		return facebook;
+	}
+
+	public void setFacebook(String facebook) {
+		this.facebook = facebook;
+	}
+
+	public String getWebsite() {
+		return website;
+	}
+
+	public void setWebsite(String website) {
+		this.website = website;
+	}
+
+	public String getYelp() {
+		return yelp;
+	}
+
+	public void setYelp(String yelp) {
+		this.yelp = yelp;
+	}
+
 	public int getId() {
 		return this.id;
 	}

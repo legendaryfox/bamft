@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -62,6 +63,8 @@ public class BamftActivity extends Activity {
 	private static final int EVENING_START_HOUR = 15;
 	private static final int CLOSING_HOUR = 23;
 	
+	private static final String EMPTY_FIELD_STRING = "";
+	
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,7 +80,24 @@ public class BamftActivity extends Activity {
         for (Schedule s : scheduleList) {
         	Log.d("Schedule: ", "ID: " + s.getId() + "Truck: " + s.getTruckId() + "Landmark: " + s.getLandmarkId());
         }
+        
+        List<Truck> truckList = db.getAllTrucks();
+
+        for (Truck t : truckList) {
+        	Log.d("Truck: ", "ID: " + t.getId()
+        			+ "Name: " + t.getName()
+        			+ "Cuisine: " + t.getCuisine()
+        			+ "Description: " + t.getDescription()
+        			+ "Email: " + t.getEmail()
+        			+ "Menu: " + t.getMenu()
+        			+ "Twitter: " + t.getTwitter()
+        			+ "Facebook: " + t.getFacebook()
+        			+ "Website: " + t.getWebsite()
+        			+ "Yelp: " + t.getYelp());
+        }
         */
+        
+        
         
         SharedPreferences settings = getSharedPreferences(BAMFT_PREFS_NAME, 0);
         
@@ -297,12 +317,25 @@ public void menuClickFunction(final View v) {
 		    					truckObject.getInt("id"), 
 		    					truckObject.getString("name"), 
 		    					truckObject.getString("cuisine"), 
-		    					truckObject.getString("description"));
+		    					truckObject.getString("description"),
+		    					truckObject.getString("email"),
+		    					truckObject.getString("menu"),
+		    					truckObject.getString("twitter"),
+		    					truckObject.getString("facebook"),
+		    					truckObject.getString("website"),
+		    					truckObject.getString("yelp"));
 		    			
 		    			
 		    			// Fix for null values
-		    			if (truck.getCuisine() == "null" || truck.getCuisine().isEmpty()) truck.setCuisine("N/A");
-		    			if (truck.getDescription() == "null" || truck.getDescription().isEmpty()) truck.setDescription("N/A");
+		    			if (truck.getCuisine() == "null" || truck.getCuisine().isEmpty()) truck.setCuisine(EMPTY_FIELD_STRING);
+		    			if (truck.getDescription() == "null" || truck.getDescription().isEmpty()) truck.setDescription(EMPTY_FIELD_STRING);
+		    			if (truck.getEmail() == "null" || truck.getEmail().isEmpty()) truck.setEmail(EMPTY_FIELD_STRING);
+		    			if (truck.getMenu() == "null" || truck.getMenu().isEmpty()) truck.setMenu(EMPTY_FIELD_STRING);
+		    			if (truck.getTwitter() == "null" || truck.getTwitter().isEmpty()) truck.setTwitter(EMPTY_FIELD_STRING);
+		    			if (truck.getFacebook() == "null" || truck.getFacebook().isEmpty()) truck.setFacebook(EMPTY_FIELD_STRING);
+		    			if (truck.getWebsite() == "null" || truck.getWebsite().isEmpty()) truck.setWebsite(EMPTY_FIELD_STRING);
+		    			if (truck.getYelp() == "null" || truck.getYelp().isEmpty()) truck.setYelp(EMPTY_FIELD_STRING);
+		    			
 		    			
 		    			db.addTruck(truck);
 		    			
