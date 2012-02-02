@@ -54,6 +54,8 @@ public final class R {
         public static final int truckScheduleDayOfWeek=0x7f050014;
         public static final int truckScheduleLandmark=0x7f050016;
         public static final int truckScheduleTimeOfDay=0x7f050015;
+        public static final int tweetContent=0x7f050017;
+        public static final int tweetDate=0x7f050018;
     }
     public static final class layout {
         public static final int list_item=0x7f030000;
@@ -67,6 +69,7 @@ public final class R {
         public static final int truck_schedule=0x7f030008;
         public static final int truck_schedule_row=0x7f030009;
         public static final int truck_twitter=0x7f03000a;
+        public static final int tweet_item=0x7f03000b;
     }
     public static final class string {
         public static final int app_name=0x7f040001;

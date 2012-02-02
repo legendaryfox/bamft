@@ -22,15 +22,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ksj.bamft.R;
+import com.ksj.bamft.adapter.TweetItemAdapter;
 import com.ksj.bamft.constants.Constants;
+import com.ksj.bamft.model.Tweet;
 
 public class TruckTwitterActivity extends ListActivity {
 	
+	private final String NO_TWITTER_HANDLE = "This truck does not have a Twitter handle.";
+	private final String NO_TWEETS = "No tweets to display.";
 
 	public void onCreate(Bundle savedInstanceState) {
 				
@@ -42,45 +46,43 @@ public class TruckTwitterActivity extends ListActivity {
 		String twitterHandle = (String) extras.get(Constants.TWITTER);
 		
 		//TODO: Change from android.R.layout.simple_list_item_1
-		setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getFeedItems(twitterHandle)));
+		TweetItemAdapter adapter = new TweetItemAdapter(this, R.layout.tweet_item, getFeedItems(twitterHandle));
+		setListAdapter(adapter);
 		
 		ListView lv = getListView();
 		lv.setTextFilterEnabled(true);
 		
+		/*
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				//When clicked, show a toast with the TextView text
 				Toast.makeText(getApplicationContext(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
 			}
 		});
+		*/
 		
 	}
 	
-	public ArrayList<String> getFeedItems(String twitterHandle) {
+	public ArrayList<Tweet> getFeedItems(String twitterHandle) {
 		
-		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<Tweet> list = new ArrayList<Tweet>();
 		
 		if(twitterHandle.isEmpty()) {
-			list.add("This truck does not have a Twitter handle.");
+			list.add(new Tweet("", NO_TWITTER_HANDLE));
 			return list;
 		}
 		
 		String readTwitterFeed = readTwitterFeed(twitterHandle);
-		
-		
 		try {
 			JSONArray jsonArray = new JSONArray(readTwitterFeed);
-			//JSONArray jsonArray = new JSONObject(readTwitterFeed).getJSONArray("features");
-			
-			
-		
 			
 			
 			for (int i = 0; i < jsonArray.length(); i++) {
 				JSONObject jsonObject = jsonArray.getJSONObject(i);
-				//Log.i(TruckTwitterActivity.class.getName(), jsonObject.getString("text"));
-				//Log.i(ParseJSON.class.getName(), jsonObject.getJSONObject("attributes").getString("TestFld"));
-				list.add(jsonObject.getString("text"));
+				String time = jsonObject.getString("created_at"); //TODO: format this to look pretty
+				String content = jsonObject.getString("text");
+
+				list.add(new Tweet(time, content) );
 			}
 			
 			
@@ -89,7 +91,7 @@ public class TruckTwitterActivity extends ListActivity {
 		}
 		
 		if (list.size() == 0) {
-			list.add("No feed items to display");
+			list.add(new Tweet("", NO_TWEETS));
 		}		
 		return list;
 		

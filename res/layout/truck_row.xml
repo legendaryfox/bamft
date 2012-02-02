@@ -5,12 +5,13 @@
     
    
 	<ImageView android:id="@+id/icon"
-	        android:layout_width="50dp"
-	        android:layout_height="50dp"
-	        android:layout_marginRight="6dip"
-	        android:scaleType="fitCenter"
-	        android:padding="8dp"
-	       	android:src="@drawable/square_icon" />
+	    android:contentDescription="Truck Icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="6dip"
+        android:scaleType="fitCenter"
+        android:padding="8dp"
+       	android:src="@drawable/square_icon" />
 	
 	<LinearLayout 
 	    android:orientation="vertical"
