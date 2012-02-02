@@ -2,7 +2,6 @@ package com.ksj.bamft.activity;
 
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -13,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
@@ -25,10 +25,18 @@ import com.ksj.bamft.model.MapOverlays;
 import com.ksj.bamft.model.Schedule;
 import com.ksj.bamft.model.Truck;
 
-public class ScheduleProfileActivity extends Activity {
+public class ScheduleProfileActivity extends MapActivity {
 	
+	@Override
+	protected boolean isRouteDisplayed() {
+		return false;
+	}
+	
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		 
+		
+		
 		super.onCreate(savedInstanceState);
 	        
 	        
@@ -136,6 +144,9 @@ public class ScheduleProfileActivity extends Activity {
 				Intent loadTruckTwitterIntent = new Intent(ScheduleProfileActivity.this, TruckTwitterActivity.class);
 				
 				// Create extras bundle
+				Bundle extras = new Bundle();
+				extras.putString(Constants.TWITTER, truck.getTwitter());
+				loadTruckTwitterIntent.putExtras(extras);
 				
 				// Start the activity
 				ScheduleProfileActivity.this.startActivity(loadTruckTwitterIntent);
