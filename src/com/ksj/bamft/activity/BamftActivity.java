@@ -193,6 +193,9 @@ public void menuClickFunction(final View v) {
     	
     	Log.d("MEAL", "Now: " + now.hour + ":" + now.minute + " Morning: " + morningStart.hour + ":" + morningStart.minute + " Afternoon: " + afternoonStart.hour + ":" + afternoonStart.minute + " Evening: " + eveningStart.hour + ":" + eveningStart.minute + " Closing: " + closing.hour + ":" + closing.minute);
     	
+    	
+    	
+    	
     	if (now.after(morningStart) && now.before(afternoonStart)) {
     		// morning service
     		Log.d("MEAL", "MORNING");
