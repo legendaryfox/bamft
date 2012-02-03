@@ -33,5 +33,5 @@ public class Constants {
 	
 	public static final String BAMFT_PREFS_NAME = "BamftPrefsFile";
 	public static final String PREFS_CACHE_UPDATED = "cacheUpdated"; // preference for last update of cache. type is Long.
-	public static long CACHE_LIFE = 5 * 60 * 1000; // how long the cached SQLite life should be (in millis).
+	public static long CACHE_LIFE = 60 * 60 * 1000; // how long the cached SQLite life should be (in millis).
 }

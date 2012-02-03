@@ -36,6 +36,9 @@
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:padding="2dp" 
+         android:maxLines="6"
+         android:lines="6"
+         android:scrollbars="vertical"
          android:textSize="16sp"
          android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."/>
      
