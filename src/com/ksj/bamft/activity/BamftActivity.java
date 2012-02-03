@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -16,15 +15,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.ksj.bamft.R;
-import com.ksj.bamft.R.id;
-import com.ksj.bamft.R.layout;
-import com.ksj.bamft.constants.Constants;
-import com.ksj.bamft.database.DatabaseHandler;
-import com.ksj.bamft.model.Landmark;
-import com.ksj.bamft.model.Schedule;
-import com.ksj.bamft.model.Truck;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -34,10 +24,14 @@ import android.os.Bundle;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.GridView;
 import android.widget.Toast;
+
+import com.ksj.bamft.R;
+import com.ksj.bamft.constants.Constants;
+import com.ksj.bamft.database.DatabaseHandler;
+import com.ksj.bamft.model.Landmark;
+import com.ksj.bamft.model.Schedule;
+import com.ksj.bamft.model.Truck;
 
 
 
