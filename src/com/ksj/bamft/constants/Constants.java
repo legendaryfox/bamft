@@ -1,8 +1,37 @@
 package com.ksj.bamft.constants;
 
 public class Constants {
+
+	// URLs
+	
+	public static final String LANDMARKS_DUMP_URL = "http://bamftserver.heroku.com/landmarks/full_dump";
+	public static final String TRUCKS_DUMP_URL = "http://bamftserver.heroku.com/trucks/full_dump";
+	public static final String SCHEDULES_DUMP_URL = "http://bamftserver.heroku.com/schedules/full_dump";
+	
+	// Time
+	
+	public static final String[] DAYS_OF_WEEK = new String[] {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+	public static final String[] TIMES_OF_DAY = new String[] {"Morning", "Afternoon", "Evening"};
+	public static final String MORNING_MEAL_STRING = "Morning";
+	public static final String AFTERNOON_MEAL_STRING = "Afternoon";
+	public static final String EVENING_MEAL_STRING = "Evening";
+	public static final String CLOSED_MEAL_STRING = "Closed";
+	public static final int MORNING_START_HOUR = 7;
+	public static final int AFTERNOON_START_HOUR = 10;
+	public static final int EVENING_START_HOUR = 15;
+	public static final int CLOSING_HOUR = 23;
+	public static final String EMPTY_FIELD_STRING = "";
+	
+	// Bundle names
+	
 	public static final String TIME_OF_DAY = "timeOfDay";
 	public static final String DAY_OF_WEEK = "dayOfWeek";
 	public static final String TRUCK = "truck";
 	public static final String TWITTER = "twitter";
+	
+	// Miscellaneous
+	
+	public static final String BAMFT_PREFS_NAME = "BamftPrefsFile";
+	public static final String PREFS_CACHE_UPDATED = "cacheUpdated"; // preference for last update of cache. type is Long.
+	public static long CACHE_LIFE = 5 * 60 * 1000; // how long the cached SQLite life should be (in millis).
 }
