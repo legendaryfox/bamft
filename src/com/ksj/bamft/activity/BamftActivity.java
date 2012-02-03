@@ -279,7 +279,7 @@ public void menuClickFunction(final View v) {
 	    	boolean cacheSuccessFlag = true;
 	    	
 	    	// Landmarks
-	    	if (!landmarksDumpData.isEmpty()) {
+	    	if (landmarksDumpData.length() > 0) {
 	    		db.recreateTable("landmarks");
 	    		
 	    		try {
@@ -307,7 +307,7 @@ public void menuClickFunction(final View v) {
 	    	
 	    	
 	    	// Trucks
-	    	if (!trucksDumpData.isEmpty()) {
+	    	if (trucksDumpData.length() > 0) {
 	    		db.recreateTable("trucks");   		
 	    		try {
 		    		JSONArray trucksArray = new JSONArray(trucksDumpData);
@@ -329,14 +329,14 @@ public void menuClickFunction(final View v) {
 		    			
 		    			
 		    			// Fix for null values
-		    			if (truck.getCuisine() == "null" || truck.getCuisine().isEmpty()) truck.setCuisine(EMPTY_FIELD_STRING);
-		    			if (truck.getDescription() == "null" || truck.getDescription().isEmpty()) truck.setDescription(EMPTY_FIELD_STRING);
-		    			if (truck.getEmail() == "null" || truck.getEmail().isEmpty()) truck.setEmail(EMPTY_FIELD_STRING);
-		    			if (truck.getMenu() == "null" || truck.getMenu().isEmpty()) truck.setMenu(EMPTY_FIELD_STRING);
-		    			if (truck.getTwitter() == "null" || truck.getTwitter().isEmpty()) truck.setTwitter(EMPTY_FIELD_STRING);
-		    			if (truck.getFacebook() == "null" || truck.getFacebook().isEmpty()) truck.setFacebook(EMPTY_FIELD_STRING);
-		    			if (truck.getWebsite() == "null" || truck.getWebsite().isEmpty()) truck.setWebsite(EMPTY_FIELD_STRING);
-		    			if (truck.getYelp() == "null" || truck.getYelp().isEmpty()) truck.setYelp(EMPTY_FIELD_STRING);
+		    			if (truck.getCuisine() == "null" || truck.getCuisine().length() < 1) truck.setCuisine(EMPTY_FIELD_STRING);
+		    			if (truck.getDescription() == "null" || truck.getDescription().length() < 1) truck.setDescription(EMPTY_FIELD_STRING);
+		    			if (truck.getEmail() == "null" || truck.getEmail().length() < 1) truck.setEmail(EMPTY_FIELD_STRING);
+		    			if (truck.getMenu() == "null" || truck.getMenu().length() < 1) truck.setMenu(EMPTY_FIELD_STRING);
+		    			if (truck.getTwitter() == "null" || truck.getTwitter().length() < 1) truck.setTwitter(EMPTY_FIELD_STRING);
+		    			if (truck.getFacebook() == "null" || truck.getFacebook().length() < 1) truck.setFacebook(EMPTY_FIELD_STRING);
+		    			if (truck.getWebsite() == "null" || truck.getWebsite().length() < 1) truck.setWebsite(EMPTY_FIELD_STRING);
+		    			if (truck.getYelp() == "null" || truck.getYelp().length() < 1) truck.setYelp(EMPTY_FIELD_STRING);
 		    			
 		    			
 		    			db.addTruck(truck);
@@ -352,7 +352,7 @@ public void menuClickFunction(final View v) {
 	    	}
 	    	
 	    	
-	    	if (!schedulesDumpData.isEmpty()) {
+	    	if (schedulesDumpData.length() > 0) {
 	    		db.recreateTable("schedules");
 	    		try {
 		    		JSONArray schedulesArray = new JSONArray(schedulesDumpData);

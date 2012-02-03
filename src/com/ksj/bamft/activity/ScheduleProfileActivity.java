@@ -63,9 +63,13 @@ public class ScheduleProfileActivity extends MapActivity {
         TextView truckDescriptionTextView = (TextView)findViewById(R.id.truckDescriptionText);
         
         //TODO: make it calculate real distance...lawl...
-        float make_x = new Float(landmark.getXcoord());
-        float make_y = new Float(landmark.getYcoord());
-        float make_distance = make_x / make_y;
+        //float make_x = new Float(landmark.getXcoord());
+        //float make_y = new Float(landmark.getYcoord());
+        //float make_distance = make_x / make_y;
+        
+        // temporarily set make_distance to 0 until we get correct data
+        // from API
+        float make_distance = 0;
         String distance_string = String.format("%.2g", make_distance) + " mi";
         
         truckNameTextView.setText(truck.getName());

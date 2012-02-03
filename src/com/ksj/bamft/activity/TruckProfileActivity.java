@@ -67,9 +67,15 @@ public class TruckProfileActivity extends MapActivity {
         if (schedule != null) { 
         	Landmark landmark = db.getLandmark(schedule.getLandmarkId());
         	landmark_name = landmark.getName();
-        	make_x = new Float(landmark.getXcoord());
-	        make_y = new Float(landmark.getYcoord());
-	        make_distance = make_x / make_y;
+        	//make_x = new Float(landmark.getXcoord());
+	        //make_y = new Float(landmark.getYcoord());
+	        //make_distance = make_x / make_y;
+        	
+        	// temporarily set to 0 until we get correct data
+        	// from API
+        	make_x = 0;
+        	make_y = 0;
+        	make_distance = 0;
         }
         
         else {

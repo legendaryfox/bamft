@@ -67,7 +67,7 @@ public class TruckTwitterActivity extends ListActivity {
 		
 		ArrayList<Tweet> list = new ArrayList<Tweet>();
 		
-		if(twitterHandle.isEmpty()) {
+		if(twitterHandle.length() < 1) {
 			list.add(new Tweet("", NO_TWITTER_HANDLE));
 			return list;
 		}
