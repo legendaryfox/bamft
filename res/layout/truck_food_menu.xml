@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/menuText"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:padding="2dp" 
+	android:textSize="16sp"
+	android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."/>

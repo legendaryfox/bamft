@@ -163,6 +163,26 @@ public class TruckProfileActivity extends MapActivity {
 			}
 		});
 		
+		// Menu button
+		Button menuButton = (Button) findViewById(R.id.truckProfileMenuButton);
+		menuButton.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View v) {
+				//Create intent
+				Intent loadTruckMenuIntent = new Intent(TruckProfileActivity.this, TruckMenuActivity.class);
+				
+				// Create extras bundle
+				Bundle extras = new Bundle();
+				extras.putString(Constants.MENU, truck.getMenu());
+				loadTruckMenuIntent.putExtras(extras);
+				
+				// Start the activity
+				TruckProfileActivity.this.startActivity(loadTruckMenuIntent);
+				
+			}
+			
+		});
+		
 		// Twitter button
 		
 		Button twitterButton = (Button) findViewById(R.id.truckProfileTwitterButton);
@@ -170,7 +190,7 @@ public class TruckProfileActivity extends MapActivity {
 			
 			public void onClick(View v) {
 				//Create intent
-				Intent loadTruckTwitterIntent = new Intent(TruckProfileActivity.this, TruckTwitterActivity.class);
+				Intent loadTruckTwitterIntent = new Intent(TruckProfileActivity.this, TruckTwitterListActivity.class);
 				
 				// Create extras bundle
 				Bundle extras = new Bundle();
@@ -183,5 +203,8 @@ public class TruckProfileActivity extends MapActivity {
 			}
 			
 		});
+		
+		
+		
 	 }
 }

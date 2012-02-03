@@ -31,7 +31,7 @@ import com.ksj.bamft.adapter.TweetItemAdapter;
 import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.model.Tweet;
 
-public class TruckTwitterActivity extends ListActivity {
+public class TruckTwitterListActivity extends ListActivity {
 	
 	private final String NO_TWITTER_HANDLE = "This truck does not have a Twitter handle.";
 	private final String NO_TWEETS = "No tweets to display.";
@@ -119,13 +119,13 @@ public class TruckTwitterActivity extends ListActivity {
 					builder.append(line);
 				}
 			} else {
-				Log.e(TruckTwitterActivity.class.toString(), "Failed to download file");
+				Log.e(TruckTwitterListActivity.class.toString(), "Failed to download file");
 			}
 		} catch (ClientProtocolException e) {
-			Log.i(TruckTwitterActivity.class.toString(), "ClientProtocl");
+			Log.i(TruckTwitterListActivity.class.toString(), "ClientProtocl");
 			e.printStackTrace();
 		} catch (IOException e) {
-			Log.i(TruckTwitterActivity.class.toString(), "IOException");
+			Log.i(TruckTwitterListActivity.class.toString(), "IOException");
 			e.printStackTrace();
 		}
 		return builder.toString();

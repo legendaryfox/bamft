@@ -149,7 +149,7 @@ public class ScheduleProfileActivity extends MapActivity {
 			
 			public void onClick(View v) {
 				//Create intent
-				Intent loadTruckTwitterIntent = new Intent(ScheduleProfileActivity.this, TruckTwitterActivity.class);
+				Intent loadTruckTwitterIntent = new Intent(ScheduleProfileActivity.this, TruckTwitterListActivity.class);
 				
 				// Create extras bundle
 				Bundle extras = new Bundle();
