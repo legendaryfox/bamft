@@ -26,9 +26,17 @@ public class Constants {
 	
 	public static final String TIME_OF_DAY = "timeOfDay";
 	public static final String DAY_OF_WEEK = "dayOfWeek";
+	public static final String SCHEDULE = "schedule";
 	public static final String TRUCK = "truck";
 	public static final String MENU = "menu";
 	public static final String TWITTER = "twitter";
+	
+	// User location & maps
+	
+	public static final String USER_LATITUDE = "userLatitude";
+	public static final String USER_LONGITUDE = "userLongitude";
+	public static final int LOCATION_REFRESH_TIME = 60000;
+	public static final int LOCATION_REFRESH_DISTANCE = 5;
 	
 	// Miscellaneous
 	

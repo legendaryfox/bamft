@@ -2,28 +2,90 @@ package com.ksj.bamft.activity;
 
 import java.util.List;
 
-import com.ksj.bamft.R;
-import com.ksj.bamft.R.layout;
-import com.ksj.bamft.adapter.ScheduleRowAdapter;
-import com.ksj.bamft.database.DatabaseHandler;
-import com.ksj.bamft.model.Landmark;
-import com.ksj.bamft.model.Schedule;
-import com.ksj.bamft.model.Truck;
-
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.ksj.bamft.R;
+import com.ksj.bamft.adapter.ScheduleRowAdapter;
+import com.ksj.bamft.constants.Constants;
+import com.ksj.bamft.database.DatabaseHandler;
+import com.ksj.bamft.model.Landmark;
+import com.ksj.bamft.model.Schedule;
+import com.ksj.bamft.model.Truck;
+
 public class ScheduleListActivity extends ListActivity {
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+     // Create a listener to get the user's location
+
+        LocationListener locationListener = new LocationListener() {
+
+    		public void onLocationChanged(Location location) {
+    			double latitude = location.getLatitude();
+    			double longitude = location.getLongitude();
+    			
+    			Log.d("LocationListener", latitude + " " + longitude);
+    		}
+
+    		public void onProviderDisabled(String provider) {
+    			
+    		}
+
+    		public void onProviderEnabled(String provider) {
+    			
+    		}
+
+    		public void onStatusChanged(String provider, int status, Bundle extras) {
+    			
+    		}
+    	};
+    	
+    	// Create a location manager
+    	
+    	LocationManager locationManager = 
+    			(LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+    	
+    	// Get enabled location provider with the best accuracy
+    	
+    	String bestLocationProvider;
+    	
+    	Criteria criteria = new Criteria();
+    	criteria.setAccuracy(Criteria.ACCURACY_FINE);
+    	
+    	bestLocationProvider = locationManager.getBestProvider(criteria, true);
+        
+        // Register location listener with location manager
+        
+        locationManager.requestLocationUpdates(
+        		LocationManager.NETWORK_PROVIDER,
+        		Constants.LOCATION_REFRESH_TIME,
+        		Constants.LOCATION_REFRESH_DISTANCE,
+        		locationListener);
+        
+        // Get user location
+        
+        final Location userLocation = locationManager.getLastKnownLocation(bestLocationProvider);
+        
+        // Stop listening for user location
+        
+        locationManager.removeUpdates(locationListener);
+        
+        Log.d("UserLocation", userLocation.getLatitude() + " " + userLocation.getLongitude());
 
         
         //dynamically load time of day based on previous Activity.
@@ -69,9 +131,11 @@ public class ScheduleListActivity extends ListActivity {
         		Intent loadScheduleProfileIntent = new Intent(ScheduleListActivity.this, ScheduleProfileActivity.class);
         		
         		// create the schedule bundle
-        		Bundle scheduleIdBundle = new Bundle();
-        		scheduleIdBundle.putInt("scheduleId", scheduleList.get(position).getId());
-        		loadScheduleProfileIntent.putExtras(scheduleIdBundle);
+        		Bundle extras = new Bundle();
+        		extras.putSerializable(Constants.SCHEDULE, scheduleList.get(position));
+        		extras.putDouble(Constants.USER_LATITUDE, userLocation.getLatitude());
+        		extras.putDouble(Constants.USER_LONGITUDE, userLocation.getLongitude());
+        		loadScheduleProfileIntent.putExtras(extras);
         	
         		// Start the activity
         		ScheduleListActivity.this.startActivity(loadScheduleProfileIntent);

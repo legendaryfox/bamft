@@ -22,8 +22,8 @@ import com.google.android.maps.OverlayItem;
 import com.ksj.bamft.R;
 import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.database.DatabaseHandler;
+import com.ksj.bamft.maps.MapOverlays;
 import com.ksj.bamft.model.Landmark;
-import com.ksj.bamft.model.MapOverlays;
 import com.ksj.bamft.model.Schedule;
 import com.ksj.bamft.model.Truck;
 

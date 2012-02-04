@@ -21,8 +21,8 @@ import com.google.android.maps.OverlayItem;
 import com.ksj.bamft.R;
 import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.database.DatabaseHandler;
+import com.ksj.bamft.maps.MapOverlays;
 import com.ksj.bamft.model.Landmark;
-import com.ksj.bamft.model.MapOverlays;
 import com.ksj.bamft.model.Schedule;
 import com.ksj.bamft.model.Truck;
 
@@ -40,18 +40,18 @@ public class ScheduleProfileActivity extends MapActivity {
 		
 		super.onCreate(savedInstanceState);
 	        
-	        
-        // start doing stuff?
+	    // Grab stuff passed from last activity 
+        Bundle receivedExtras = this.getIntent().getExtras();
+        Schedule schedule = (Schedule) receivedExtras.getSerializable(Constants.SCHEDULE);
+        final double userLatitude = receivedExtras.getDouble(Constants.USER_LATITUDE);
+        final double userLongitude = receivedExtras.getDouble(Constants.USER_LONGITUDE);
         
         //Open database connect
         final DatabaseHandler db = new DatabaseHandler(this);
         
-        Bundle scheduleIdBundle = this.getIntent().getExtras();
-        int scheduleId = scheduleIdBundle.getInt("scheduleId");
-        
+
         
         //Grab the relevant data
-        Schedule schedule = db.getSchedule(scheduleId);
         final Truck truck = db.getTruck(schedule.getTruckId());
         Landmark landmark = db.getLandmark(schedule.getLandmarkId());
         
@@ -102,6 +102,7 @@ public class ScheduleProfileActivity extends MapActivity {
         mapController.setCenter(truckLocation);
         
         // Google Maps button -- temporary, only here for testing intents to !
+        
         Time now = new Time();
     	now.setToNow();
         
@@ -112,8 +113,11 @@ public class ScheduleProfileActivity extends MapActivity {
         mapsButton.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View arg0) {
-		        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, 
-		        		Uri.parse("geo:0,0?q=37.423156,-122.084917 (" + truck.getName() + ")"));
+		       // Intent intent = new Intent(android.content.Intent.ACTION_VIEW, 
+		        //		Uri.parse("geo:0,0?q=37.423156,-122.084917 (" + truck.getName() + ")"));
+				
+				Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+						Uri.parse("geo:0,0?q=" + userLatitude + "," + userLongitude + "(you are here)"));
 		        
 		        intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
 		        

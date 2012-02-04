@@ -1,7 +1,10 @@
 package com.ksj.bamft.model;
 
-public class Schedule {
+import java.io.Serializable;
+
+public class Schedule implements Serializable {
 	
+	private static final long serialVersionUID = -8758085257141140831L;
 	private int id;
 	private int truckId;
 	private int landmarkId;

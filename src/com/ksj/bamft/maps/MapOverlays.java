@@ -1,4 +1,4 @@
-package com.ksj.bamft.model;
+package com.ksj.bamft.maps;
 
 import java.util.ArrayList;
 
