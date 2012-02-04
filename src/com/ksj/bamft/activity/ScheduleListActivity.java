@@ -10,6 +10,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,6 +22,7 @@ import com.ksj.bamft.R;
 import com.ksj.bamft.adapter.ScheduleRowAdapter;
 import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.database.DatabaseHandler;
+import com.ksj.bamft.maps.SimpleLocationListener;
 import com.ksj.bamft.model.Landmark;
 import com.ksj.bamft.model.Schedule;
 import com.ksj.bamft.model.Truck;
@@ -31,51 +33,39 @@ public class ScheduleListActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-     // Create a listener to get the user's location
+        // Create a location listener and manager to get the user's location
 
-        LocationListener locationListener = new LocationListener() {
-
-    		public void onLocationChanged(Location location) {
-    			double latitude = location.getLatitude();
-    			double longitude = location.getLongitude();
-    			
-    			Log.d("LocationListener", latitude + " " + longitude);
-    		}
-
-    		public void onProviderDisabled(String provider) {
-    			
-    		}
-
-    		public void onProviderEnabled(String provider) {
-    			
-    		}
-
-    		public void onStatusChanged(String provider, int status, Bundle extras) {
-    			
-    		}
-    	};
-    	
-    	// Create a location manager
+        LocationListener locationListener = new SimpleLocationListener();
     	
     	LocationManager locationManager = 
     			(LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
     	
     	// Get enabled location provider with the best accuracy
     	
-    	String bestLocationProvider;
-    	
     	Criteria criteria = new Criteria();
     	criteria.setAccuracy(Criteria.ACCURACY_FINE);
     	
-    	bestLocationProvider = locationManager.getBestProvider(criteria, true);
+    	String bestLocationProvider = locationManager.getBestProvider(criteria, true);
+    	
+    	// If user has a location provider enabled, register location listener with manager
+    	
+    	if (bestLocationProvider != null && locationManager.isProviderEnabled(bestLocationProvider)) {
+    		locationManager.requestLocationUpdates(
+            		LocationManager.NETWORK_PROVIDER,
+            		Constants.LOCATION_REFRESH_TIME,
+            		Constants.LOCATION_REFRESH_DISTANCE,
+            		locationListener);
+    	}
+    	
+    	// Else prompt user to turn on a location provider
+    	// TODO: fix this! pause ScheduleListActivity if settings page is called
+    	
+    	else {
+    		Toast.makeText(getApplicationContext(), "enable a location provider!", Toast.LENGTH_LONG).show();
+            Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            ScheduleListActivity.this.startActivity(myIntent);
+    	}
         
-        // Register location listener with location manager
-        
-        locationManager.requestLocationUpdates(
-        		LocationManager.NETWORK_PROVIDER,
-        		Constants.LOCATION_REFRESH_TIME,
-        		Constants.LOCATION_REFRESH_DISTANCE,
-        		locationListener);
         
         // Get user location
         
@@ -90,7 +80,7 @@ public class ScheduleListActivity extends ListActivity {
         
         //dynamically load time of day based on previous Activity.
         String timeOfDay = "Afternoon"; //set this as default for safety
-        String dayOfWeek = "Thursday"; //set this as a defualt for safety
+        String dayOfWeek = "Thursday"; //set this as a default for safety
         Bundle timeBundle = this.getIntent().getExtras();
         timeOfDay = timeBundle.getString("timeOfDay");
         dayOfWeek = timeBundle.getString("dayOfWeek");
@@ -143,9 +133,5 @@ public class ScheduleListActivity extends ListActivity {
         		
         	}
         });
-        
-        
     }
-    
-        
 }

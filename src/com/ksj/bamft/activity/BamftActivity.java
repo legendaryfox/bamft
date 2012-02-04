@@ -18,8 +18,6 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.location.Location;
-import android.location.LocationListener;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.util.Log;
@@ -36,7 +34,7 @@ import com.ksj.bamft.model.Truck;
 
 
 
-public class BamftActivity extends Activity implements LocationListener {
+public class BamftActivity extends Activity {
     
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -408,29 +406,4 @@ public void menuClickFunction(final View v) {
     	//Log.d("APIConnection", "API Value: " + builder.toString());
 		return builder.toString();
     }
-
-	public void onLocationChanged(Location location) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void onProviderDisabled(String provider) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void onProviderEnabled(String provider) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-		// TODO Auto-generated method stub
-		
-	}
-    
-    
-    
-   
-        
 }
