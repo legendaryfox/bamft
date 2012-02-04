@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -35,8 +36,6 @@ public class ScheduleProfileActivity extends MapActivity {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		 
-		
 		
 		super.onCreate(savedInstanceState);
 	        
@@ -82,7 +81,7 @@ public class ScheduleProfileActivity extends MapActivity {
         truckDescriptionTextView.setMovementMethod(new ScrollingMovementMethod());
         
         
-// Map view
+        // Map view
         
         MapView mapView = (MapView) findViewById(R.id.truckProfileMap);
         mapView.setBuiltInZoomControls(true);
@@ -92,7 +91,13 @@ public class ScheduleProfileActivity extends MapActivity {
         		this.getResources().getDrawable(R.drawable.androidmarker);
         MapOverlays overlay = new MapOverlays(overlayMarker);
         
-        GeoPoint truckLocation = new GeoPoint(19240000,-99120000);
+        int truckLongitude = (int) (Double.parseDouble(landmark.getXcoord()) * 1E6);
+        int truckLatitude = (int) (Double.parseDouble(landmark.getYcoord()) * 1E6);
+        
+        Log.d("TruckLatitude", Integer.toString(truckLatitude));
+        Log.d("TruckLongitude", Integer.toString(truckLongitude));
+        
+        GeoPoint truckLocation = new GeoPoint(truckLatitude, truckLongitude);
         OverlayItem overlayItem = new OverlayItem(truckLocation, "Hola, Mundo!", "I'm in Mexico City!");
         
         overlay.addOverlay(overlayItem);
@@ -100,6 +105,7 @@ public class ScheduleProfileActivity extends MapActivity {
         
         MapController mapController = mapView.getController();
         mapController.setCenter(truckLocation);
+        mapController.setZoom(17);
         
         // Google Maps button -- temporary, only here for testing intents to !
         
@@ -113,9 +119,6 @@ public class ScheduleProfileActivity extends MapActivity {
         mapsButton.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View arg0) {
-		       // Intent intent = new Intent(android.content.Intent.ACTION_VIEW, 
-		        //		Uri.parse("geo:0,0?q=37.423156,-122.084917 (" + truck.getName() + ")"));
-				
 				Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
 						Uri.parse("geo:0,0?q=" + userLatitude + "," + userLongitude + "(you are here)"));
 		        

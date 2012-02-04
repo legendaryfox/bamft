@@ -108,10 +108,8 @@ public void menuClickFunction(final View v) {
         final String timeOfDay = getMealOfDay(now);
         
     	Bundle timeBundle = new Bundle();
-		timeBundle.putString("dayOfWeek", dayOfWeek);
-		timeBundle.putString("timeOfDay", timeOfDay); //default just in case...note that putString automatically overwrites existing values too
-		
-		
+		timeBundle.putString(Constants.DAY_OF_WEEK, dayOfWeek);
+		timeBundle.putString(Constants.TIME_OF_DAY, timeOfDay); //default just in case...note that putString automatically overwrites existing values too
 		
 		switch(v.getId()) {
 		
