@@ -76,9 +76,12 @@ public final class R {
     public static final class string {
         public static final int app_name=0x7f040001;
         public static final int hello=0x7f040000;
+        /**  SUSANA'S KEY 
+         */
+        public static final int maps_key=0x7f040007;
         /**  GOOGLE MAPS KEYS 
          */
-        public static final int maps_key=0x7f040006;
+        public static final int maps_key_susana=0x7f040006;
         public static final int menu=0x7f040003;
         public static final int pictures=0x7f040005;
         /**  TRUCK PROFILE PAGES 

@@ -47,8 +47,8 @@ public class ScheduleListActivity extends ListActivity {
     	
     	String bestLocationProvider = locationManager.getBestProvider(criteria, true);
     	
-    	// If user has a location provider enabled, register location listener with manager
     	
+        
     	if (bestLocationProvider != null && locationManager.isProviderEnabled(bestLocationProvider)) {
     		locationManager.requestLocationUpdates(
             		LocationManager.NETWORK_PROVIDER,
