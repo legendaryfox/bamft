@@ -20,6 +20,13 @@ public class Landmark {
 		this.ycoord = ycoord;
 	}
 	
+	
+	@Override
+	public String toString() {
+		return "Landmark [id=" + id + ", name=" + name + ", xcoord=" + xcoord
+				+ ", ycoord=" + ycoord + "]";
+	}
+
 	// Basic getter/setters
 	public int getId() {
 		return this.id;

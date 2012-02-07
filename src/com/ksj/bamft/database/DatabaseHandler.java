@@ -3,6 +3,7 @@ package com.ksj.bamft.database;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ksj.bamft.model.FoodItem;
 import com.ksj.bamft.model.Landmark;
 import com.ksj.bamft.model.Schedule;
 import com.ksj.bamft.model.Truck;
@@ -27,7 +28,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String TABLE_LANDMARKS = "landmarks";
     private static final String TABLE_TRUCKS = "trucks";
     private static final String TABLE_SCHEDULES = "schedules";
-    private static final String TABLE_MENU_ITEMS = "menu_items";
+    private static final String TABLE_FOOD_ITEMS = "food_items";
  
 
     // Table column names
@@ -53,11 +54,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_SCHEDULE_TRUCK_ID = "truck_id";
     private static final String KEY_SCHEDULE_LANDMARK_ID = "landmark_id";
     
-    private static final String KEY_MENU_ITEM_ID = "id";
-    private static final String KEY_MENU_ITEM_NAME = "name";
-    private static final String KEY_MENU_ITEM_DESCRIPTION = "description";
-    private static final String KEY_MENU_ITEM_PRICE = "price";
-    private static final String KEY_MENU_ITEM_TRUCK_ID = "truck_id";
+    private static final String KEY_FOOD_ITEM_ID = "id";
+    private static final String KEY_FOOD_ITEM_NAME = "name";
+    private static final String KEY_FOOD_ITEM_DESCRIPTION = "description";
+    private static final String KEY_FOOD_ITEM_PRICE = "price";
+    private static final String KEY_FOOD_ITEM_TRUCK_ID = "truck_id";
     
     
     private static final String CREATE_LANDMARKS_TABLE = "CREATE TABLE " + TABLE_LANDMARKS
@@ -91,13 +92,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 			+ KEY_SCHEDULE_LANDMARK_ID + " TEXT"
 			+ ")";
     
-    private static final String CREATE_MENU_ITEMS_TABLE = "CREATE TABLE " + TABLE_MENU_ITEMS
+    private static final String CREATE_FOOD_ITEMS_TABLE = "CREATE TABLE " + TABLE_FOOD_ITEMS
     		+ "("
-    		+ KEY_MENU_ITEM_ID + " INTEGER PRIMARY KEY,"
-    		+ KEY_MENU_ITEM_NAME + " TEXT,"
-    		+ KEY_MENU_ITEM_DESCRIPTION + " TEXT,"
-    		+ KEY_MENU_ITEM_PRICE + " TEXT,"
-    		+ KEY_MENU_ITEM_TRUCK_ID + " TEXT"
+    		+ KEY_FOOD_ITEM_ID + " INTEGER PRIMARY KEY,"
+    		+ KEY_FOOD_ITEM_NAME + " TEXT,"
+    		+ KEY_FOOD_ITEM_DESCRIPTION + " TEXT,"
+    		+ KEY_FOOD_ITEM_PRICE + " TEXT,"
+    		+ KEY_FOOD_ITEM_TRUCK_ID + " TEXT"
     		+ ")";
     
  
@@ -113,7 +114,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	db.execSQL(CREATE_LANDMARKS_TABLE);
     	db.execSQL(CREATE_TRUCKS_TABLE);
     	db.execSQL(CREATE_SCHEDULES_TABLE);
-    	db.execSQL(CREATE_MENU_ITEMS_TABLE);
+    	db.execSQL(CREATE_FOOD_ITEMS_TABLE);
     	
     	//db.close();
     }
@@ -125,6 +126,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LANDMARKS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TRUCKS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SCHEDULES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FOOD_ITEMS);
  
         // Create tables again
         onCreate(db);
@@ -150,6 +152,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     		db.execSQL(CREATE_SCHEDULES_TABLE);
     		Log.d("RECREATE", "Recreating Schedules table");
     		
+    	} else if (TABLE_FOOD_ITEMS == tableName) {
+    		db.execSQL("DROP TABLE IF EXISTS " + TABLE_FOOD_ITEMS);
+    		db.execSQL(CREATE_FOOD_ITEMS_TABLE);
+    		Log.d("RECREATE", "Recreating FoodItems table");
+    		
     	} else {
     		//error...
     	}
@@ -163,6 +170,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	db.execSQL("DROP TABLE IF EXISTS " + TABLE_LANDMARKS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TRUCKS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SCHEDULES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FOOD_ITEMS);
  
         // Create tables again
         onCreate(db);
@@ -303,6 +311,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	db.close();
     }
     
+    public void addFoodItem(FoodItem foodItem) {
+    	SQLiteDatabase db = this.getWritableDatabase();
+    	
+    	ContentValues values = new ContentValues();
+    	values.put(KEY_FOOD_ITEM_ID, foodItem.getId());
+    	values.put(KEY_FOOD_ITEM_NAME, foodItem.getName());
+    	values.put(KEY_FOOD_ITEM_DESCRIPTION, foodItem.getDescription());
+    	values.put(KEY_FOOD_ITEM_PRICE, foodItem.getPrice());
+    	values.put(KEY_FOOD_ITEM_TRUCK_ID, foodItem.getTruckId());
+    	
+    	// Insert row
+    	db.insert(TABLE_FOOD_ITEMS, null, values);
+    	db.close();
+    	
+    	
+    }
+    
     public Landmark getLandmark(int id) {
     	SQLiteDatabase db = this.getReadableDatabase();
     	
@@ -362,6 +387,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	return schedule;
     }
     
+    public FoodItem getFoodItem(int id) {
+    	SQLiteDatabase db = this.getReadableDatabase();
+    	
+    	Cursor cursor = db.query(TABLE_FOOD_ITEMS,
+    			new String[] { KEY_FOOD_ITEM_ID, KEY_FOOD_ITEM_NAME, KEY_FOOD_ITEM_DESCRIPTION, KEY_FOOD_ITEM_PRICE, KEY_FOOD_ITEM_TRUCK_ID },
+    			KEY_FOOD_ITEM_ID + "=?",
+    			new String[] { String.valueOf(id) }, null, null, null, null);
+    	if (cursor != null)
+    		cursor.moveToFirst();
+    	
+    	FoodItem foodItem = new FoodItem(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3), Integer.parseInt(cursor.getString(4)));
+    	db.close();
+    	return foodItem;
+    }
+    
     public List<Landmark> getAllLandmarks() {
     	
     	String query = "SELECT * FROM " + TABLE_LANDMARKS;
@@ -378,6 +418,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	
     	String query = "SELECT * FROM " + TABLE_SCHEDULES;
     	return getSchedulesListByQuery(query);
+    }
+    
+    public List<FoodItem> getAllFoodItems() {
+    	
+    	String query = "SELECT * FROM " + TABLE_FOOD_ITEMS;
+    	return getFoodItemsListByQuery(query);
+    	
     }
     
     public int updateLandmark(Landmark landmark) {
@@ -439,6 +486,25 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	
     }
     
+    public int updateFoodItem(FoodItem foodItem) {
+    	SQLiteDatabase db = this.getWritableDatabase();
+    	
+    	ContentValues values = new ContentValues();
+    	values.put(KEY_FOOD_ITEM_ID, foodItem.getId());
+    	values.put(KEY_FOOD_ITEM_NAME, foodItem.getName());
+    	values.put(KEY_FOOD_ITEM_DESCRIPTION, foodItem.getDescription());
+    	values.put(KEY_FOOD_ITEM_PRICE, foodItem.getPrice());
+    	values.put(KEY_FOOD_ITEM_TRUCK_ID, foodItem.getTruckId());
+    	
+    	// update row
+    	int return_val = db.update(TABLE_FOOD_ITEMS, values, KEY_FOOD_ITEM_ID + " = ?",
+    			new String[] { String.valueOf(foodItem.getId()) });
+    	db.close();
+    	return return_val;
+    	
+    }
+    
+    
     // Deleting a single landmark
     public void deleteLandmark(Landmark landmark) {
     	SQLiteDatabase db = this.getWritableDatabase();
@@ -462,6 +528,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     			new String[] { String.valueOf(schedule.getId()) } );
     	db.close();
     	
+    }
+    
+    public void deleteFoodItem(FoodItem foodItem) {
+    	SQLiteDatabase db = this.getWritableDatabase();
+    	db.delete(TABLE_FOOD_ITEMS, KEY_FOOD_ITEM_ID + " =?",
+    			new String[] { String.valueOf(foodItem.getId()) } );
+    	db.close();
     }
     
     // Get landmark count
@@ -499,6 +572,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	db.close();
     	return cursor.getCount();
     	
+    }
+    
+    public int getFoodItemsCount() {
+    	String countQuery = "SELECT * FROM " + TABLE_FOOD_ITEMS;
+    	SQLiteDatabase db = this.getReadableDatabase();
+    	Cursor cursor = db.rawQuery(countQuery, null);
+    	cursor.close();
+    	
+    	// return count
+    	db.close();
+    	return cursor.getCount();
     }
     
     private List<Landmark> getLandmarksListByQuery(String selectQuery) {
@@ -596,6 +680,33 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	// return
     	db.close();
     	return scheduleList;
+    }
+    
+    private List<FoodItem> getFoodItemsListByQuery(String selectQuery) {
+    	List<FoodItem> foodItemList = new ArrayList<FoodItem>();
+    	
+    	SQLiteDatabase db = this.getWritableDatabase();
+    	Cursor cursor = db.rawQuery(selectQuery, null);
+    	
+    	// looping through all rows and adding to list
+    	if (cursor.moveToFirst()) {
+    		do {
+    			FoodItem foodItem = new FoodItem();
+    			foodItem.setId(Integer.parseInt(cursor.getString(0)));
+    			foodItem.setName(cursor.getString(1));
+    			foodItem.setDescription(cursor.getString(2));
+    			foodItem.setPrice(cursor.getString(3));
+    			foodItem.setTruckId(Integer.parseInt(cursor.getString(4)));
+    			
+    			
+    			// add back to the list
+    			foodItemList.add(foodItem);
+    		} while (cursor.moveToNext());
+    	}
+    	
+    	// return
+    	db.close();
+    	return foodItemList;
     }
     
     

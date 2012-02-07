@@ -11,7 +11,7 @@ public class Truck implements Serializable {
 	private String description;
 	
 	private String email;
-	private String menu;
+	private String menu; // TODO: we probably don't use this anymore...
 	private String twitter;
 	private String facebook;
 	private String website;
@@ -45,6 +45,14 @@ public class Truck implements Serializable {
 	
 	// basic getters/setters
 	
+	@Override
+	public String toString() {
+		return "Truck [id=" + id + ", name=" + name + ", cuisine=" + cuisine
+				+ ", description=" + description + ", email=" + email
+				+ ", menu=" + menu + ", twitter=" + twitter + ", facebook="
+				+ facebook + ", website=" + website + ", yelp=" + yelp + "]";
+	}
+
 	public String getEmail() {
 		return email;
 	}

@@ -1,28 +1,35 @@
 package com.ksj.bamft.model;
 
-public class MenuItem {
+public class FoodItem {
 	
 	private int id;
 	private String name;
 	private String description;
 	private String price;
-	private int truck_id;
+	private int truckId;
 	
 	
-	public MenuItem() {
+	public FoodItem() {
 
 	}
 
-	public MenuItem(int id, String name, String description, String price,
-			int truck_id) {
+	public FoodItem(int id, String name, String description, String price,
+			int truckId) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.price = price;
-		this.truck_id = truck_id;
+		this.truckId = truckId;
 	}
 	
+	@Override
+	public String toString() {
+		return "FoodItem [id=" + id + ", name=" + name + ", description="
+				+ description + ", price=" + price + ", truckId=" + truckId
+				+ "]";
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -47,11 +54,11 @@ public class MenuItem {
 	public void setPrice(String price) {
 		this.price = price;
 	}
-	public int getTruck_id() {
-		return truck_id;
+	public int getTruckId() {
+		return truckId;
 	}
-	public void setTruck_id(int truck_id) {
-		this.truck_id = truck_id;
+	public void setTruckId(int truckId) {
+		this.truckId = truckId;
 	}
 	
 

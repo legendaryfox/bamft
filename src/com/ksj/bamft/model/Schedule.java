@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class Schedule implements Serializable {
 	
+	
+
 	private static final long serialVersionUID = -8758085257141140831L;
 	private int id;
 	private int truckId;
@@ -21,6 +23,13 @@ public class Schedule implements Serializable {
 		this.timeOfDay = timeOfDay;
 		this.truckId = truckId;
 		this.landmarkId = landmarkId;
+	}
+	
+	@Override
+	public String toString() {
+		return "Schedule [id=" + id + ", truckId=" + truckId + ", landmarkId="
+				+ landmarkId + ", dayOfWeek=" + dayOfWeek + ", timeOfDay="
+				+ timeOfDay + "]";
 	}
 	
 	//basic setter/getters

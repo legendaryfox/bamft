@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 import com.ksj.bamft.R;
 import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.database.DatabaseHandler;
+import com.ksj.bamft.model.FoodItem;
 import com.ksj.bamft.model.Landmark;
 import com.ksj.bamft.model.Schedule;
 import com.ksj.bamft.model.Truck;
@@ -43,30 +45,32 @@ public class BamftActivity extends Activity {
         // Prepares the internal SQLite database, if need be (dictated by CACHE_LIFE).
         prepareData();
         
-        /* Testing area 
+        
+        //BEGIN TEST DATA
         final DatabaseHandler db = new DatabaseHandler(this);
-        List<Schedule> scheduleList = db.getAllSchedules();
-                
-        for (Schedule s : scheduleList) {
-        	Log.d("Schedule: ", "ID: " + s.getId() + "Truck: " + s.getTruckId() + "Landmark: " + s.getLandmarkId());
-        }
-        
+        List<Landmark> landmarkList = db.getAllLandmarks();
         List<Truck> truckList = db.getAllTrucks();
-
-        for (Truck t : truckList) {
-        	Log.d("Truck: ", "ID: " + t.getId()
-        			+ "Name: " + t.getName()
-        			+ "Cuisine: " + t.getCuisine()
-        			+ "Description: " + t.getDescription()
-        			+ "Email: " + t.getEmail()
-        			+ "Menu: " + t.getMenu()
-        			+ "Twitter: " + t.getTwitter()
-        			+ "Facebook: " + t.getFacebook()
-        			+ "Website: " + t.getWebsite()
-        			+ "Yelp: " + t.getYelp());
+        List<Schedule> scheduleList = db.getAllSchedules();
+        List<FoodItem> foodItemList = db.getAllFoodItems();
+             
+        for (Landmark l : landmarkList) {
+        	Log.d("Landmark", l.toString());
         }
+        for (Truck t : truckList) {
+        	Log.d("Truck", t.toString());
+        }
+        for (Schedule s : scheduleList) {
+        	Log.d("Schedule", s.toString());
+        }
+        for (FoodItem f : foodItemList) {
+        	Log.d("FoodItem", f.toString());
+        }
+        //END TEST DATA
         
-        */
+       
+
+       
+        
         
         
         
@@ -246,6 +250,7 @@ public void menuClickFunction(final View v) {
 	    	String landmarksDumpData = readServerData(Constants.LANDMARKS_DUMP_URL);
 	    	String trucksDumpData = readServerData(Constants.TRUCKS_DUMP_URL);
 	    	String schedulesDumpData = readServerData(Constants.SCHEDULES_DUMP_URL);
+	    	String foodItemsDumpData = readServerData(Constants.FOOD_ITEMS_DUMP_URL);
 	    	
 	    	// Dump the database
 	    	//db.recreateAllTables();
@@ -325,7 +330,7 @@ public void menuClickFunction(final View v) {
 	    		cacheSuccessFlag = false;
 	    	}
 	    	
-	    	
+	    	// SCHEDULES
 	    	if (schedulesDumpData.length() > 0) {
 	    		db.recreateTable("schedules");
 	    		try {
@@ -352,6 +357,39 @@ public void menuClickFunction(final View v) {
 	    		cacheSuccessFlag = false;
 	    	}
 	    	
+	    	// FOOD ITEMS
+	    	if (foodItemsDumpData.length() > 0) {
+	    		db.recreateTable("food_items");   		
+	    		try {
+		    		JSONArray foodItemsArray = new JSONArray(foodItemsDumpData);
+		    		
+		    		for (int i = 0; i < foodItemsArray.length(); i++) {
+		    			//Iterate through each entry and save to DB
+		    			JSONObject foodItemObject = foodItemsArray.getJSONObject(i).getJSONObject("menu_item");
+		    			FoodItem foodItem = new FoodItem(
+		    					
+		    					foodItemObject.getInt("id"),
+		    					foodItemObject.getString("name"),
+		    					foodItemObject.getString("description"),
+		    					foodItemObject.getString("price"),
+		    					foodItemObject.getInt("truck_id"));
+		    			
+		    			db.addFoodItem(foodItem);
+		    			
+		    		}
+		    		
+		    	} catch (Exception e) {
+		    		e.printStackTrace();
+		    	}
+	    		Log.d("PrepareData", "FoodItem data updated");
+	    	} else {
+	    		cacheSuccessFlag = false;
+	    	}
+	    	
+	    	
+	    	
+	    	
+	    	
 	    	if (cacheSuccessFlag) {
 	    		editor.putLong(Constants.PREFS_CACHE_UPDATED, now.toMillis(true));
 	    		editor.commit();
@@ -371,7 +409,7 @@ public void menuClickFunction(final View v) {
      * @param dumpUrl
      * @return data from the queried URL
      */
-    public String readServerData(String dumpUrl) {
+    private String readServerData(String dumpUrl) {
     	StringBuilder builder = new StringBuilder();
     	HttpClient client = new DefaultHttpClient();
     	
