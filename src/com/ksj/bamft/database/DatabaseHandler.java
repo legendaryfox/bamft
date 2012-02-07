@@ -27,6 +27,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String TABLE_LANDMARKS = "landmarks";
     private static final String TABLE_TRUCKS = "trucks";
     private static final String TABLE_SCHEDULES = "schedules";
+    private static final String TABLE_MENU_ITEMS = "menu_items";
  
 
     // Table column names
@@ -46,13 +47,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_TRUCK_WEBSITE = "website";
     private static final String KEY_TRUCK_YELP = "yelp";
     
-   
-    
     private static final String KEY_SCHEDULE_ID = "id";
     private static final String KEY_SCHEDULE_DAY_OF_WEEK = "day_of_week";
     private static final String KEY_SCHEDULE_TIME_OF_DAY = "time_of_day";
     private static final String KEY_SCHEDULE_TRUCK_ID = "truck_id";
     private static final String KEY_SCHEDULE_LANDMARK_ID = "landmark_id";
+    
+    private static final String KEY_MENU_ITEM_ID = "id";
+    private static final String KEY_MENU_ITEM_NAME = "name";
+    private static final String KEY_MENU_ITEM_DESCRIPTION = "description";
+    private static final String KEY_MENU_ITEM_PRICE = "price";
+    private static final String KEY_MENU_ITEM_TRUCK_ID = "truck_id";
+    
     
     private static final String CREATE_LANDMARKS_TABLE = "CREATE TABLE " + TABLE_LANDMARKS
 			+ "(" 
@@ -85,6 +91,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 			+ KEY_SCHEDULE_LANDMARK_ID + " TEXT"
 			+ ")";
     
+    private static final String CREATE_MENU_ITEMS_TABLE = "CREATE TABLE " + TABLE_MENU_ITEMS
+    		+ "("
+    		+ KEY_MENU_ITEM_ID + " INTEGER PRIMARY KEY,"
+    		+ KEY_MENU_ITEM_NAME + " TEXT,"
+    		+ KEY_MENU_ITEM_DESCRIPTION + " TEXT,"
+    		+ KEY_MENU_ITEM_PRICE + " TEXT,"
+    		+ KEY_MENU_ITEM_TRUCK_ID + " TEXT"
+    		+ ")";
+    
  
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -98,6 +113,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	db.execSQL(CREATE_LANDMARKS_TABLE);
     	db.execSQL(CREATE_TRUCKS_TABLE);
     	db.execSQL(CREATE_SCHEDULES_TABLE);
+    	db.execSQL(CREATE_MENU_ITEMS_TABLE);
     	
     	//db.close();
     }
