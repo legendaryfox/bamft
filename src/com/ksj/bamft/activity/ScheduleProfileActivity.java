@@ -94,9 +94,6 @@ public class ScheduleProfileActivity extends MapActivity {
         int truckLongitude = (int) (Double.parseDouble(landmark.getXcoord()) * 1E6);
         int truckLatitude = (int) (Double.parseDouble(landmark.getYcoord()) * 1E6);
         
-        Log.d("TruckLatitude", Integer.toString(truckLatitude));
-        Log.d("TruckLongitude", Integer.toString(truckLongitude));
-        
         GeoPoint truckLocation = new GeoPoint(truckLatitude, truckLongitude);
         OverlayItem overlayItem = new OverlayItem(truckLocation, "Hola, Mundo!", "I'm in Mexico City!");
         

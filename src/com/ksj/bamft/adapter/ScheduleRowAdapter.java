@@ -2,19 +2,17 @@ package com.ksj.bamft.adapter;
 
 import java.util.List;
 
-import com.ksj.bamft.R;
-import com.ksj.bamft.R.id;
-import com.ksj.bamft.R.layout;
-import com.ksj.bamft.database.DatabaseHandler;
-import com.ksj.bamft.model.Schedule;
-import com.ksj.bamft.model.Truck;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.ksj.bamft.R;
+import com.ksj.bamft.database.DatabaseHandler;
+import com.ksj.bamft.model.Schedule;
+import com.ksj.bamft.model.Truck;
 
 public class ScheduleRowAdapter extends ArrayAdapter<Schedule> {
 	

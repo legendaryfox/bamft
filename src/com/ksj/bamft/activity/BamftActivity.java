@@ -102,14 +102,17 @@ public class BamftActivity extends Activity {
 public void menuClickFunction(final View v) {
     	
     	Time now = new Time();
-    	now.setToNow();
+    	//now.setToNow();
+    	now.set(0, 0, 20, 7, 2, 2012);
     	
         final String dayOfWeek = getDayOfWeek(now);
         final String timeOfDay = getMealOfDay(now);
         
     	Bundle timeBundle = new Bundle();
-		timeBundle.putString(Constants.DAY_OF_WEEK, dayOfWeek);
-		timeBundle.putString(Constants.TIME_OF_DAY, timeOfDay); //default just in case...note that putString automatically overwrites existing values too
+		//timeBundle.putString(Constants.DAY_OF_WEEK, dayOfWeek);
+		//timeBundle.putString(Constants.TIME_OF_DAY, timeOfDay); //default just in case...note that putString automatically overwrites existing values too
+    	timeBundle.putString(Constants.DAY_OF_WEEK, "Tuesday");
+    	timeBundle.putString(Constants.TIME_OF_DAY, "Evening");
 		
 		switch(v.getId()) {
 		
