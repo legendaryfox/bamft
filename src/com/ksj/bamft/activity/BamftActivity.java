@@ -31,9 +31,6 @@ import com.ksj.bamft.model.Landmark;
 import com.ksj.bamft.model.Schedule;
 import com.ksj.bamft.model.Truck;
 
-
-
-
 public class BamftActivity extends Activity {
     
 	@Override
@@ -103,6 +100,7 @@ public void menuClickFunction(final View v) {
     	
     	Time now = new Time();
     	now.setToNow();
+    	//now.set(0, 0, 20, 7, 2, 2012);
     	
         final String dayOfWeek = getDayOfWeek(now);
         final String timeOfDay = getMealOfDay(now);
@@ -110,6 +108,8 @@ public void menuClickFunction(final View v) {
     	Bundle timeBundle = new Bundle();
 		timeBundle.putString(Constants.DAY_OF_WEEK, dayOfWeek);
 		timeBundle.putString(Constants.TIME_OF_DAY, timeOfDay); //default just in case...note that putString automatically overwrites existing values too
+    	//timeBundle.putString(Constants.DAY_OF_WEEK, "Tuesday");
+    	//timeBundle.putString(Constants.TIME_OF_DAY, "Evening");
 		
 		switch(v.getId()) {
 		
