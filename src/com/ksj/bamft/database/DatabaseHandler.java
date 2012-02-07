@@ -195,7 +195,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	
     	return getSchedulesListByQuery(query);
     }
-    
+    /**
+     * Gets all schedules given a truck
+     * @param truck
+     * @return
+     */
     public List<Schedule> getSchedulesByTruck(Truck truck) {
     	String query = 
     			"SELECT \"schedules\".* " +
@@ -205,6 +209,26 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	return getSchedulesListByQuery(query);
     }
     
+    /**
+     * Get all foodItems given a truck.
+     * @param truck
+     * @return
+     */
+    public List<FoodItem> getFoodItemsByTruck(Truck truck) {
+    	String query = 
+    			"SELECT \"food_items\".* " +
+    			"FROM \"" + TABLE_FOOD_ITEMS + "\"" +
+    			"WHERE (\"food_items\".\"truck_id\" = '" + truck.getId() + "')";
+    	return getFoodItemsListByQuery(query);
+    }
+    
+    /**
+     * Gets all schedules by a given truck, day, and time.
+     * @param truck
+     * @param dayOfWeek
+     * @param timeOfDay
+     * @return
+     */
     public Schedule getScheduleByTruckAndDayAndTime(Truck truck, String dayOfWeek, String timeOfDay) {
     	
     	SQLiteDatabase db = this.getReadableDatabase();

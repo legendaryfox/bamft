@@ -146,6 +146,26 @@ public class ScheduleProfileActivity extends MapActivity {
 			}
 		});
 		
+		// Menu button
+				Button menuButton = (Button) findViewById(R.id.truckProfileMenuButton);
+				menuButton.setOnClickListener(new View.OnClickListener() {
+					
+					public void onClick(View v) {
+						//Create intent
+						Intent loadTruckMenuIntent = new Intent(ScheduleProfileActivity.this, TruckMenuListActivity.class);
+						
+						// Create extras bundle
+						Bundle extras = new Bundle();
+						extras.putInt(Constants.TRUCK_ID, truck.getId()); // we'll pass the truck ID and let TruckMenuListActivity handle it.
+						loadTruckMenuIntent.putExtras(extras);
+						
+						// Start the activity
+						ScheduleProfileActivity.this.startActivity(loadTruckMenuIntent);
+						
+					}
+					
+				});
+		
 		// Twitter button
 		
 		Button twitterButton = (Button) findViewById(R.id.truckProfileTwitterButton);

@@ -30,6 +30,7 @@ public class Constants {
 	public static final String TRUCK = "truck";
 	public static final String MENU = "menu";
 	public static final String TWITTER = "twitter";
+	public static final String TRUCK_ID = "truck_id";
 	
 	// User location & maps
 	

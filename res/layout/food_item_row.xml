@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    
+    <TextView
+	    android:id="@+id/foodItemNameText"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:padding="2dp"
+	    android:text="Awesome Food"
+	    android:textSize="24sp" />
+
+
+     <TextView
+		android:id="@+id/foodItemPriceText"
+		android:layout_alignParentRight="true"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:padding="2dp"
+		android:text="$5.00"
+		android:textSize="24sp" />
+     
+     <TextView
+         android:id="@+id/foodItemDescriptionText"
+         android:layout_below="@+id/foodItemNameText"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:padding="2dp" 
+         android:textSize="15sp"
+         android:text="Awesome food will leave you wanting to eat more and more and more! Keep coming back for more!"/>
+     
+     
+</RelativeLayout>

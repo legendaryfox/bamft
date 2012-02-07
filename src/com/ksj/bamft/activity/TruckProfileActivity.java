@@ -23,6 +23,7 @@ import com.ksj.bamft.R;
 import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.database.DatabaseHandler;
 import com.ksj.bamft.maps.MapOverlays;
+import com.ksj.bamft.model.FoodItem;
 import com.ksj.bamft.model.Landmark;
 import com.ksj.bamft.model.Schedule;
 import com.ksj.bamft.model.Truck;
@@ -169,11 +170,11 @@ public class TruckProfileActivity extends MapActivity {
 			
 			public void onClick(View v) {
 				//Create intent
-				Intent loadTruckMenuIntent = new Intent(TruckProfileActivity.this, TruckMenuActivity.class);
+				Intent loadTruckMenuIntent = new Intent(TruckProfileActivity.this, TruckMenuListActivity.class);
 				
 				// Create extras bundle
 				Bundle extras = new Bundle();
-				extras.putString(Constants.MENU, truck.getMenu());
+				extras.putInt(Constants.TRUCK_ID, truck.getId()); // we'll pass the truck ID and let TruckMenuListActivity handle it.
 				loadTruckMenuIntent.putExtras(extras);
 				
 				// Start the activity
@@ -182,6 +183,7 @@ public class TruckProfileActivity extends MapActivity {
 			}
 			
 		});
+		
 		
 		// Twitter button
 		
