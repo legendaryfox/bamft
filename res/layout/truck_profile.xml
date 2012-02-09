@@ -84,5 +84,10 @@
 	        android:text="@string/pictures"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content" />
+	    <Button
+	        android:id="@+id/truckProfileYelpButton"
+	        android:text="@string/yelp"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" />
     </LinearLayout>        
 </RelativeLayout>

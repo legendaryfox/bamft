@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"> 
+    
+    
+    <ImageView android:id="@+id/yelpUserImage"
+	    android:contentDescription="User Image"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+		android:layout_alignParentLeft="true"
+        android:scaleType="fitCenter"
+        android:layout_margin="5dp"
+       	android:src="@drawable/blank_user_medium" />
+    
+    <RelativeLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="2dp"
+        android:layout_toRightOf="@+id/yelpUserImage">
+   
+		<ImageView android:id="@+id/yelpRatingImage"
+		    android:contentDescription="Yelp Rating"
+	        android:layout_width="84dp"
+	        android:layout_height="17dp"
+	        android:scaleType="fitCenter"
+	        android:layout_margin="5dp"
+	       	android:src="@drawable/fullstars" />
+	    
+	    
+	    
+	    <TextView 
+	        android:id="@+id/yelpReviewExcerpt"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_margin="5dp"
+	        android:textSize="12dp"
+	        android:layout_below="@+id/yelpRatingImage"
+	        android:layout_alignParentRight="true"
+	        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eu justo vel neque accumsan ultrices. Donec hendrerit elementum nullam." />
+	    
+	    <TextView 
+	        android:id="@+id/yelpUserName"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_margin="5dp"
+	        android:layout_marginTop="0dp"
+	        android:layout_below="@+id/yelpReviewExcerpt"
+	        android:layout_alignParentRight="true"
+	        android:textSize="9dp"
+	        android:text="Yelp User" />
+	    
+     </RelativeLayout>
+    
+</RelativeLayout>

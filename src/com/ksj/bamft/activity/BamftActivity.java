@@ -32,6 +32,7 @@ import com.ksj.bamft.model.FoodItem;
 import com.ksj.bamft.model.Landmark;
 import com.ksj.bamft.model.Schedule;
 import com.ksj.bamft.model.Truck;
+import com.ksj.bamft.yelp.Yelp;
 
 
 
@@ -42,10 +43,12 @@ public class BamftActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
      
+        //Yelp.testExecute();
+        
         // Prepares the internal SQLite database, if need be (dictated by CACHE_LIFE).
         prepareData();
         
-        
+        /*
         //BEGIN TEST DATA
         final DatabaseHandler db = new DatabaseHandler(this);
         List<Landmark> landmarkList = db.getAllLandmarks();
@@ -66,7 +69,7 @@ public class BamftActivity extends Activity {
         	Log.d("FoodItem", f.toString());
         }
         //END TEST DATA
-        
+        */
        
 
        
@@ -106,8 +109,8 @@ public class BamftActivity extends Activity {
 public void menuClickFunction(final View v) {
     	
     	Time now = new Time();
-    	//now.setToNow();
-    	now.set(0, 0, 20, 7, 2, 2012);
+    	now.setToNow();
+    	//now.set(0, 0, 20, 7, 2, 2012);
     	
         final String dayOfWeek = getDayOfWeek(now);
         final String timeOfDay = getMealOfDay(now);

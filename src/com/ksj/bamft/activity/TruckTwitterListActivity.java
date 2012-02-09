@@ -43,7 +43,7 @@ public class TruckTwitterListActivity extends ListActivity {
 		// Extract info from bundle
 		
 		Bundle extras = this.getIntent().getExtras();
-		String twitterHandle = (String) extras.get(Constants.TWITTER);
+		String twitterHandle = (String) extras.get(Constants.TWITTER_HANDLE);
 		
 		//TODO: Change from android.R.layout.simple_list_item_1
 		TweetItemAdapter adapter = new TweetItemAdapter(this, R.layout.tweet_item, getFeedItems(twitterHandle));

@@ -29,8 +29,9 @@ public class Constants {
 	public static final String SCHEDULE = "schedule";
 	public static final String TRUCK = "truck";
 	public static final String MENU = "menu";
-	public static final String TWITTER = "twitter";
+	public static final String TWITTER_HANDLE = "twitter_handle";
 	public static final String TRUCK_ID = "truck_id";
+	public static final String YELP_HANDLE = "yelp_handle";
 	
 	// User location & maps
 	
@@ -38,6 +39,13 @@ public class Constants {
 	public static final String USER_LONGITUDE = "userLongitude";
 	public static final int LOCATION_REFRESH_TIME = 60000;
 	public static final int LOCATION_REFRESH_DISTANCE = 5;
+	
+	// Yelp API Keys
+	
+	public static final String YELP_CONSUMER_KEY = "-5C4AuSdFEk_CG5eWkkspQ";
+	public static final String YELP_CONSUMER_SECRET = "tdqFAH50qL3aIYzmjXluFkWutug";
+	public static final String YELP_TOKEN = "mNCtTzIZhsSEKYILLYMq6HZtYXKWtkYB";
+	public static final String YELP_TOKEN_SECRET = "gCID4b-mQqNf7MxdYgcPMGywWDU";
 	
 	// Miscellaneous
 	

@@ -27,6 +27,7 @@ import com.ksj.bamft.model.FoodItem;
 import com.ksj.bamft.model.Landmark;
 import com.ksj.bamft.model.Schedule;
 import com.ksj.bamft.model.Truck;
+import com.ksj.bamft.yelp.Yelp;
 
 public class TruckProfileActivity extends MapActivity {
 	
@@ -128,6 +129,16 @@ public class TruckProfileActivity extends MapActivity {
         MapController mapController = mapView.getController();
         mapController.setCenter(truckLocation);
         
+        // BEGIN YELP TESTING STUFF
+        /*Log.d("YELP", "Yelp should start running..");
+		Yelp yelp = new Yelp();
+		yelp.getBusinessInfo(truck.getYelp());
+		Log.d("YELP", "Yelp should've run...");
+     	*/
+     	// END YELP STUFF
+        
+        
+        
         // Google Maps button -- temporary, only here for testing intents to !
         
         Button mapsButton = (Button) findViewById(R.id.truckProfileMapsButton);
@@ -196,7 +207,7 @@ public class TruckProfileActivity extends MapActivity {
 				
 				// Create extras bundle
 				Bundle extras = new Bundle();
-				extras.putString(Constants.TWITTER, truck.getTwitter());
+				extras.putString(Constants.TWITTER_HANDLE, truck.getTwitter());
 				loadTruckTwitterIntent.putExtras(extras);
 				
 				// Start the activity
@@ -205,6 +216,28 @@ public class TruckProfileActivity extends MapActivity {
 			}
 			
 		});
+		
+		// Yelp Button
+        Button yelpButton = (Button) findViewById(R.id.truckProfileYelpButton);
+        yelpButton.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View v) {
+				// Create intent
+				Intent loadTruckYelpIntent = new Intent(TruckProfileActivity.this, TruckYelpListActivity.class);
+				
+				// Create extras bundle
+				Bundle extras = new Bundle();
+				extras.putString(Constants.YELP_HANDLE, truck.getYelp());
+				loadTruckYelpIntent.putExtras(extras);
+				
+				// Star the activity
+				TruckProfileActivity.this.startActivity(loadTruckYelpIntent);
+
+				
+			}
+		});
+		
+		
 		
 		
 		

@@ -177,7 +177,7 @@ public class ScheduleProfileActivity extends MapActivity {
 				
 				// Create extras bundle
 				Bundle extras = new Bundle();
-				extras.putString(Constants.TWITTER, truck.getTwitter());
+				extras.putString(Constants.TWITTER_HANDLE, truck.getTwitter());
 				loadTruckTwitterIntent.putExtras(extras);
 				
 				// Start the activity
@@ -185,6 +185,26 @@ public class ScheduleProfileActivity extends MapActivity {
 				
 			}
 			
+		});
+		
+		// Yelp Button
+        Button yelpButton = (Button) findViewById(R.id.truckProfileYelpButton);
+        yelpButton.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View v) {
+				// Create intent
+				Intent loadTruckYelpIntent = new Intent(ScheduleProfileActivity.this, TruckYelpListActivity.class);
+				
+				// Create extras bundle
+				Bundle extras = new Bundle();
+				extras.putString(Constants.YELP_HANDLE, truck.getYelp());
+				loadTruckYelpIntent.putExtras(extras);
+				
+				// Star the activity
+				ScheduleProfileActivity.this.startActivity(loadTruckYelpIntent);
+
+				
+			}
 		});
         
 	 }
