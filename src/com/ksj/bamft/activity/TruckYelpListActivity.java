@@ -42,13 +42,14 @@ public class TruckYelpListActivity extends ListActivity {
 
 	private final String NO_YELP_HANDLE = "This truck does not have a Yelp handle.";
 	private final String NO_REVIEWS = "No reviews to display.";
+	
+	private final String DIALOG_YELP_TITLE = "Yelp";
+	private final String DIALOG_ACCESSING_YELP = "Accessing Yelp reviews...";
 
-	private static String downloadYelpFeed;
 	private static String yelpHandle;
-	private static ProgressDialog dialog;
-
-
 	private static ArrayList<YelpReview> yelpReviewItems;
+	
+	private static ProgressDialog dialog;
 	private static Handler handler;
 	private static Thread downloadYelpThread;
 	private YelpRunnable yelpRunnable = new YelpRunnable();
@@ -79,7 +80,7 @@ public class TruckYelpListActivity extends ListActivity {
 		// Check if the thread is already running
 		downloadYelpThread = (Thread) getLastNonConfigurationInstance();
 		if (downloadYelpThread != null && downloadYelpThread.isAlive()) {
-			dialog = ProgressDialog.show(this, "Yelp", "Accessing Yelp reviews....");
+			dialog = ProgressDialog.show(this, DIALOG_YELP_TITLE, DIALOG_ACCESSING_YELP);
 		}
 
 		downloadYelpItems();
@@ -88,7 +89,7 @@ public class TruckYelpListActivity extends ListActivity {
 
 	public void downloadYelpItems() {
 		// Begin the long process, start the dialog box
-		dialog = ProgressDialog.show(this, "Yelp", "Accessing Yelp reviews....");
+		dialog = ProgressDialog.show(this, DIALOG_YELP_TITLE, DIALOG_ACCESSING_YELP);
 		
 		downloadYelpThread = new DownloadYelpThread(yelpRunnable);
 		downloadYelpThread.start();
@@ -140,11 +141,9 @@ public class TruckYelpListActivity extends ListActivity {
 		ArrayList<YelpReview> list = new ArrayList<YelpReview>();
 
 		if(yelpHandle.length() < 1) {
-			//list.add(new Tweet("", NO_YELP_HANDLE));
 			return list;
 		}
 
-		//String readYelpFeed = readYelpFeed(yelpHandle);
 		Yelp yelp = new Yelp();
 		String yelpFeed = yelp.getBusinessInfo(yelpHandle);
 		try {

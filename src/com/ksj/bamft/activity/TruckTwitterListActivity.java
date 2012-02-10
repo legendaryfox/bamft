@@ -17,7 +17,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,55 +30,119 @@ import android.widget.Toast;
 
 import com.ksj.bamft.R;
 import com.ksj.bamft.adapter.TweetItemAdapter;
+import com.ksj.bamft.adapter.YelpReviewItemAdapter;
 import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.model.Tweet;
+import com.ksj.bamft.model.YelpReview;
 
 public class TruckTwitterListActivity extends ListActivity {
+
+	private final static String NO_TWITTER_HANDLE = "This truck does not have a Twitter handle.";
+	private final static String NO_TWEETS = "No tweets to display.";
 	
-	private final String NO_TWITTER_HANDLE = "This truck does not have a Twitter handle.";
-	private final String NO_TWEETS = "No tweets to display.";
+	private final String DIALOG_TWITTER_TITLE = "Twitter";
+	private final String DIALOG_ACCESSING_TWITTER = "Accessing Tweets...";
+
+	private static String twitterHandle;
+	private static ArrayList<Tweet> tweetItems;
+
+	private static ProgressDialog dialog;
+	private static Handler handler;
+	private static Thread downloadTwitterThread;
+	private TwitterRunnable twitterRunnable = new TwitterRunnable();
 
 	public void onCreate(Bundle savedInstanceState) {
-				
+
 		super.onCreate(savedInstanceState);
-		
+
 		// Extract info from bundle
-		
+
 		Bundle extras = this.getIntent().getExtras();
-		String twitterHandle = (String) extras.get(Constants.TWITTER_HANDLE);
-		
-		//TODO: Change from android.R.layout.simple_list_item_1
-		TweetItemAdapter adapter = new TweetItemAdapter(this, R.layout.tweet_item, getFeedItems(twitterHandle));
-		setListAdapter(adapter);
-		
-		ListView lv = getListView();
-		lv.setTextFilterEnabled(true);
-		
-		/*
-		lv.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				//When clicked, show a toast with the TextView text
-				Toast.makeText(getApplicationContext(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
-			}
-		});
-		*/
-		
+		twitterHandle = (String) extras.get(Constants.TWITTER_HANDLE);
+
+		handler = new Handler();
+		twitterRunnable.setListView(getListView());
+
+
+		if (tweetItems != null) {
+			TweetItemAdapter adapter = new TweetItemAdapter(this, R.layout.tweet_item, tweetItems);
+			ListView lv = getListView();
+			lv.setAdapter(adapter);
+		}
+
+		// Check if the thread is already running
+		downloadTwitterThread = (Thread) getLastNonConfigurationInstance();
+		if (downloadTwitterThread != null && downloadTwitterThread.isAlive()) {
+			dialog = ProgressDialog.show(this, DIALOG_TWITTER_TITLE, DIALOG_ACCESSING_TWITTER);
+		}
+
+		downloadTwitterItems();
+
 	}
 	
-	public ArrayList<Tweet> getFeedItems(String twitterHandle) {
+	public void downloadTwitterItems() {
+		// Begin the long process, start the dialog box
+		dialog = ProgressDialog.show(this, DIALOG_TWITTER_TITLE, DIALOG_ACCESSING_TWITTER);
 		
+		downloadTwitterThread = new DownloadTwitterThread(twitterRunnable);
+		downloadTwitterThread.start();
+
+	}
+	
+	static private class DownloadTwitterThread extends Thread {
+
+		private final TwitterRunnable myTwitterRunnable;
+
+		/*
+		 * VOODOO: We need to do this because of the way Adapters work within the whole Static/Nonstatic framework.
+		 * This is why we need to repass the above "normal" twitterRunnable into this *final* twitterRunnable.
+		 */
+		public DownloadTwitterThread(TwitterRunnable twitterRunnable) {
+			this.myTwitterRunnable = twitterRunnable;
+		}
+
+		@Override
+		public void run() {
+			tweetItems = getFeedItems(twitterHandle); // <-- this is the longest part.
+			handler.post(myTwitterRunnable); // <-- once we finish the above long part, we can run the runnable part.
+
+		}
+	}
+	
+	private class TwitterRunnable implements Runnable {
+
+		private ListView listView;
+
+		public void setListView(ListView listView) {
+			this.listView = listView;
+		}
+
+		public void run() {
+			TweetItemAdapter adapter = new TweetItemAdapter(TruckTwitterListActivity.this.getBaseContext(), R.layout.tweet_item, tweetItems);
+			listView.setAdapter(adapter);
+			
+			// Finished loading, dismiss the dialog
+			dialog.dismiss();
+		}
+	}
+
+
+
+
+	static public ArrayList<Tweet> getFeedItems(String twitterHandle) {
+
 		ArrayList<Tweet> list = new ArrayList<Tweet>();
-		
+
 		if(twitterHandle.length() < 1) {
 			list.add(new Tweet("", NO_TWITTER_HANDLE));
 			return list;
 		}
-		
+
 		String readTwitterFeed = readTwitterFeed(twitterHandle);
 		try {
 			JSONArray jsonArray = new JSONArray(readTwitterFeed);
-			
-			
+
+
 			for (int i = 0; i < jsonArray.length(); i++) {
 				JSONObject jsonObject = jsonArray.getJSONObject(i);
 				String time = jsonObject.getString("created_at"); //TODO: format this to look pretty
@@ -84,27 +150,27 @@ public class TruckTwitterListActivity extends ListActivity {
 
 				list.add(new Tweet(time, content) );
 			}
-			
-			
+
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		if (list.size() == 0) {
 			list.add(new Tweet("", NO_TWEETS));
 		}		
 		return list;
-		
+
 	}
 
-	public String readTwitterFeed(String twitterHandle) {
-		
+	static public String readTwitterFeed(String twitterHandle) {
+
 		String twitterUrl = "http://twitter.com/statuses/user_timeline/" + twitterHandle + ".json";
 		StringBuilder builder = new StringBuilder();
 		HttpClient client = new DefaultHttpClient();
 		HttpGet httpGet = new HttpGet(twitterUrl);
-		
-		
+
+
 		try {
 			HttpResponse response = client.execute(httpGet);
 			StatusLine statusLine = response.getStatusLine();
