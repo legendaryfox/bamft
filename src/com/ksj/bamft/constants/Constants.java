@@ -9,6 +9,7 @@ public class Constants {
 	public static final String SCHEDULES_DUMP_URL = "http://bamftserver.heroku.com/schedules/full_dump";
 	public static final String FOOD_ITEMS_DUMP_URL = "http://bamftserver.heroku.com/menu_items/full_dump";
 	public static final String FACTLETS_DUMP_URL = "http://bamftserver.heroku.com/factlets/full_dump";
+
 	// Time
 	
 	public static final String[] DAYS_OF_WEEK = new String[] {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
@@ -40,6 +41,12 @@ public class Constants {
 	public static final String USER_LONGITUDE = "userLongitude";
 	public static final int LOCATION_REFRESH_TIME = 60000;
 	public static final int LOCATION_REFRESH_DISTANCE = 5;
+	public static final double BPL_LATITUDE = 42.349673;
+	public static final double BPL_LONGITUDE = -71.078612;
+	
+	// Messages (toasts, etc.)
+	
+	public static final String ALL_TRUCKS_CLOSED = "All trucks are currently closed :(";
 	
 	// Yelp API Keys
 	
