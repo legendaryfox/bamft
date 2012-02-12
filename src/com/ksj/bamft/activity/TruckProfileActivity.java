@@ -118,7 +118,7 @@ public class TruckProfileActivity extends MapActivity {
         List<Overlay> overlayToDisplay = mapView.getOverlays();
         Drawable overlayMarker =
         		this.getResources().getDrawable(R.drawable.androidmarker);
-        MapOverlays overlay = new MapOverlays(overlayMarker, this.getApplicationContext());
+        MapOverlays overlay = new MapOverlays(overlayMarker);
         
         GeoPoint truckLocation = new GeoPoint(19240000,-99120000);
         OverlayItem overlayItem = new OverlayItem(truckLocation, "Hola, Mundo!", "I'm in Mexico City!");

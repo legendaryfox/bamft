@@ -89,7 +89,7 @@ public class ScheduleProfileActivity extends MapActivity {
         List<Overlay> overlayToDisplay = mapView.getOverlays();
         Drawable overlayMarker =
         		this.getResources().getDrawable(R.drawable.androidmarker);
-        MapOverlays overlay = new MapOverlays(overlayMarker, this);
+        MapOverlays overlay = new MapOverlays(overlayMarker);
         
         int truckLongitude = (int) (Double.parseDouble(landmark.getXcoord()) * 1E6);
         int truckLatitude = (int) (Double.parseDouble(landmark.getYcoord()) * 1E6);
@@ -98,7 +98,6 @@ public class ScheduleProfileActivity extends MapActivity {
         OverlayItem overlayItem = new OverlayItem(truckLocation, "Hola, Mundo!", "I'm in Mexico City!");
         
         overlay.addOverlay(overlayItem);
-        overlay.populateNow();
         overlayToDisplay.add(overlay);
         
         MapController mapController = mapView.getController();

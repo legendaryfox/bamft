@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    android:installLocation="preferExternal"
     package="com.ksj.bamft"
     android:versionCode="1"
-    android:versionName="1.0">
+    android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="8" />
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="8" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    
+
     <application
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
-        
         <uses-library android:name="com.google.android.maps" />
-        
+
         <activity
             android:name=".activity.BamftActivity"
             android:label="@string/app_name" >
@@ -26,92 +27,78 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <activity 
+        <activity
             android:name=".activity.ScheduleListActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.SCHEDULELIST" />
-                
+
                 <category android:name="android.intent.category.ALTERNATIVE" />
-                
             </intent-filter>
-            
         </activity>
-        
-        <activity 
+        <activity
+            android:name=".activity.TruckYelpListActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.TRUCKYELPLIST" />
+
+                <category android:name="android.intent.category.ALTERNATIVE" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".activity.TruckListActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.TRUCKLIST" />
-                
+
                 <category android:name="android.intent.category.ALTERNATIVE" />
-                
             </intent-filter>
-            
         </activity>
-        
         <activity
             android:name=".activity.TruckScheduleListActivity"
-            android:label="@string/app_name">
-            
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.TRUCKSCHEDULELIST" />
+
                 <category android:name="android.intent.category.ALTERNATIVE" />
             </intent-filter>
         </activity>
-        
         <activity
             android:name=".activity.TruckMenuListActivity"
-            android:label="@string/app_name">
-            
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.TRUCKMENU" />
+
                 <category android:name="android.intent.category.ALTERNATIVE" />
             </intent-filter>
         </activity>
-        
         <activity
             android:name=".activity.TruckTwitterListActivity"
-            android:label="@string/app_name">
-            
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.TRUCKTWITTER" />
+
                 <category android:name="android.intent.category.ALTERNATIVE" />
             </intent-filter>
-            
         </activity>
-        
         <activity
             android:name=".activity.ScheduleProfileActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.SCHEDULEPROFILE" />
-                
+
                 <category android:name="android.intent.category.ALTERNATIVE" />
             </intent-filter>
         </activity>
-        
         <activity
             android:name=".activity.TruckProfileActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.TRUCKPROFILE" />
-                
+
                 <category android:name="android.intent.category.ALTERNATIVE" />
             </intent-filter>
         </activity>
-        
-        <activity
-            android:name=".activity.OpenTrucksMapActivity"
-            android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.OPENTRUCKSMAP" />
-                
-                <category android:name="android.intent.category.ALTERNATIVE" />
-            </intent-filter>
-        </activity>
-        
     </application>
 
 </manifest>
