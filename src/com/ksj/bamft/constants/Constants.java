@@ -40,6 +40,12 @@ public class Constants {
 	public static final String USER_LONGITUDE = "userLongitude";
 	public static final int LOCATION_REFRESH_TIME = 60000;
 	public static final int LOCATION_REFRESH_DISTANCE = 5;
+	public static final double BPL_LATITUDE = 42.349673;
+	public static final double BPL_LONGITUDE = -71.078612;
+	
+	// Messages (toasts, etc.)
+	
+	public static final String ALL_TRUCKS_CLOSED = "All trucks are currently closed :(";
 	
 	// Yelp API Keys
 	
