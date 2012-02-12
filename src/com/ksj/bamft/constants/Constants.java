@@ -8,6 +8,7 @@ public class Constants {
 	public static final String TRUCKS_DUMP_URL = "http://bamftserver.heroku.com/trucks/full_dump";
 	public static final String SCHEDULES_DUMP_URL = "http://bamftserver.heroku.com/schedules/full_dump";
 	public static final String FOOD_ITEMS_DUMP_URL = "http://bamftserver.heroku.com/menu_items/full_dump";
+	public static final String FACTLETS_DUMP_URL = "http://bamftserver.heroku.com/factlets/full_dump";
 	// Time
 	
 	public static final String[] DAYS_OF_WEEK = new String[] {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};

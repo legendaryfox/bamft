@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.ksj.bamft.R;
 import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.database.DatabaseHandler;
+import com.ksj.bamft.model.Factlet;
 import com.ksj.bamft.model.FoodItem;
 import com.ksj.bamft.model.Landmark;
 import com.ksj.bamft.model.Schedule;
@@ -47,17 +48,18 @@ public class BamftActivity extends Activity {
 		//Yelp.testExecute();
 
 		// Prepares the internal SQLite database, if need be (dictated by CACHE_LIFE).
-		//prepareData();
+		prepareData();
 		BackgroundPrepareData task = new BackgroundPrepareData();
 		task.execute();
 
-		/*
+		
         //BEGIN TEST DATA
         final DatabaseHandler db = new DatabaseHandler(this);
         List<Landmark> landmarkList = db.getAllLandmarks();
         List<Truck> truckList = db.getAllTrucks();
         List<Schedule> scheduleList = db.getAllSchedules();
         List<FoodItem> foodItemList = db.getAllFoodItems();
+        List<Factlet> factletList = db.getAllFactlets();
 
         for (Landmark l : landmarkList) {
         	Log.d("Landmark", l.toString());
@@ -71,8 +73,10 @@ public class BamftActivity extends Activity {
         for (FoodItem f : foodItemList) {
         	Log.d("FoodItem", f.toString());
         }
+        for (Factlet a: factletList) {
+        	Log.d("Factlet", a.toString());
+        }
         //END TEST DATA
-		 */
 
 
 
@@ -161,10 +165,10 @@ public class BamftActivity extends Activity {
 			editor.putLong(Constants.PREFS_CACHE_UPDATED, 0);
 			editor.commit();
 			//prepareData();
-			
+
 			BackgroundPrepareData task = new BackgroundPrepareData();
 			task.execute();
-			
+
 			Toast.makeText(BamftActivity.this, "Updated Cache...", Toast.LENGTH_SHORT).show();
 
 			break;
@@ -260,6 +264,7 @@ public class BamftActivity extends Activity {
 			String trucksDumpData = readServerData(Constants.TRUCKS_DUMP_URL);
 			String schedulesDumpData = readServerData(Constants.SCHEDULES_DUMP_URL);
 			String foodItemsDumpData = readServerData(Constants.FOOD_ITEMS_DUMP_URL);
+			String factletsDumpData = readServerData(Constants.FACTLETS_DUMP_URL);
 
 			// Dump the database
 			//db.recreateAllTables();
@@ -395,9 +400,45 @@ public class BamftActivity extends Activity {
 				cacheSuccessFlag = false;
 			}
 
+			// FACTLETS
+			if (factletsDumpData.length() > 0) {
+				db.recreateTable("factlets");   		
+				try {
+					JSONArray factletsArray = new JSONArray(factletsDumpData);
+
+					for (int i = 0; i < factletsArray.length(); i++) {
+						//Iterate through each entry and save to DB
+						JSONObject factletObject = factletsArray.getJSONObject(i).getJSONObject("factlet");
+						
+						// In case truckId is null, which is usually the case.
+						int truckId;
+						if (factletObject.isNull("truck_id")) {
+							truckId = 0;
+						} else {
+							truckId = factletObject.getInt("truck_id");
+						}
+						Factlet factlet = new Factlet(
+
+								factletObject.getInt("id"),
+								factletObject.getString("title"),
+								factletObject.getString("content"),
+								truckId);
+
+						db.addFactlet(factlet);
+
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				Log.d("PrepareData", "Factlets data updated");
+			} else {
+				cacheSuccessFlag = false;
+			}
 
 
 
+			// DONE - update prefs
 
 			if (cacheSuccessFlag) {
 				editor.putLong(Constants.PREFS_CACHE_UPDATED, now.toMillis(true));
@@ -465,14 +506,14 @@ public class BamftActivity extends Activity {
 			for (int i = 0; i < count; i++) {
 				readServerData(dumpUrls[i]);
 			}
-			
+
 			return null;
 		}
 
 
-		
+
 	}
-	*/
+	 */
 	private class BackgroundPrepareData extends AsyncTask<Void, Void, Void> {
 
 		@Override
@@ -481,8 +522,8 @@ public class BamftActivity extends Activity {
 			prepareData();
 			return null;
 		}
-		
-		
+
+
 	}
 
 

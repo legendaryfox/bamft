@@ -3,6 +3,7 @@ package com.ksj.bamft.database;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ksj.bamft.model.Factlet;
 import com.ksj.bamft.model.FoodItem;
 import com.ksj.bamft.model.Landmark;
 import com.ksj.bamft.model.Schedule;
@@ -29,6 +30,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String TABLE_TRUCKS = "trucks";
     private static final String TABLE_SCHEDULES = "schedules";
     private static final String TABLE_FOOD_ITEMS = "food_items";
+    private static final String TABLE_FACTLETS = "factlets";
  
 
     // Table column names
@@ -59,6 +61,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_FOOD_ITEM_DESCRIPTION = "description";
     private static final String KEY_FOOD_ITEM_PRICE = "price";
     private static final String KEY_FOOD_ITEM_TRUCK_ID = "truck_id";
+    
+    private static final String KEY_FACTLET_ID = "id";
+    private static final String KEY_FACTLET_TITLE = "title";
+    private static final String KEY_FACTLET_CONTENT = "content";
+    private static final String KEY_FACTLET_TRUCK_ID = "truck_id";
     
     
     private static final String CREATE_LANDMARKS_TABLE = "CREATE TABLE " + TABLE_LANDMARKS
@@ -101,6 +108,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     		+ KEY_FOOD_ITEM_TRUCK_ID + " TEXT"
     		+ ")";
     
+    private static final String CREATE_FACTLETS_TABLE = "CREATE TABLE " + TABLE_FACTLETS
+    		+ "("
+    		+ KEY_FACTLET_ID + " INTEGER PRIMARY KEY,"
+    		+ KEY_FACTLET_TITLE + " TEXT,"
+    		+ KEY_FACTLET_CONTENT + " TEXT,"
+    		+ KEY_FACTLET_TRUCK_ID + " TEXT"
+    		+ ")";
+    
  
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -115,6 +130,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	db.execSQL(CREATE_TRUCKS_TABLE);
     	db.execSQL(CREATE_SCHEDULES_TABLE);
     	db.execSQL(CREATE_FOOD_ITEMS_TABLE);
+    	db.execSQL(CREATE_FACTLETS_TABLE);
     	
     	//db.close();
     }
@@ -127,6 +143,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TRUCKS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SCHEDULES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_FOOD_ITEMS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FACTLETS);
  
         // Create tables again
         onCreate(db);
@@ -157,6 +174,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     		db.execSQL(CREATE_FOOD_ITEMS_TABLE);
     		Log.d("RECREATE", "Recreating FoodItems table");
     		
+    	} else if (TABLE_FACTLETS == tableName) {
+    		db.execSQL("DROP TABLE IF EXISTS " + TABLE_FACTLETS);
+    		db.execSQL(CREATE_FACTLETS_TABLE);
+    		Log.d("RECREATE", "Recreating Factlets table");
     	} else {
     		//error...
     	}
@@ -171,6 +192,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TRUCKS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SCHEDULES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_FOOD_ITEMS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FACTLETS);
  
         // Create tables again
         onCreate(db);
@@ -349,8 +371,24 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	db.insert(TABLE_FOOD_ITEMS, null, values);
     	db.close();
     	
+    }
+    
+    public void addFactlet(Factlet factlet) {
+    	SQLiteDatabase db = this.getWritableDatabase();
+    	
+    	ContentValues values = new ContentValues();
+    	values.put(KEY_FACTLET_ID, factlet.getId());
+    	values.put(KEY_FACTLET_TITLE, factlet.getTitle());
+    	values.put(KEY_FACTLET_CONTENT, factlet.getContent());
+    	values.put(KEY_FACTLET_TRUCK_ID, factlet.getTruckId());
+    	
+    	// Insert row
+    	db.insert(TABLE_FACTLETS, null, values);
+    	db.close();
     	
     }
+    
+    
     
     public Landmark getLandmark(int id) {
     	SQLiteDatabase db = this.getReadableDatabase();
@@ -426,6 +464,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	return foodItem;
     }
     
+    public Factlet getFactlet(int id) {
+    	SQLiteDatabase db = this.getReadableDatabase();
+    	
+    	Cursor cursor = db.query(TABLE_FACTLETS,
+    			new String[] { KEY_FACTLET_ID, KEY_FACTLET_TITLE, KEY_FACTLET_CONTENT, KEY_FACTLET_TRUCK_ID },
+    			KEY_FACTLET_ID + "=?",
+    			new String[] { String.valueOf(id) }, null, null, null, null);
+    	if (cursor != null)
+    		cursor.moveToFirst();
+    	
+    	Factlet factlet = new Factlet(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2),Integer.parseInt(cursor.getString(3)));
+    	db.close();
+    	return factlet;
+    }
+    
+    
+    
     public List<Landmark> getAllLandmarks() {
     	
     	String query = "SELECT * FROM " + TABLE_LANDMARKS;
@@ -448,6 +503,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	
     	String query = "SELECT * FROM " + TABLE_FOOD_ITEMS;
     	return getFoodItemsListByQuery(query);
+    	
+    }
+    
+public List<Factlet> getAllFactlets() {
+    	
+    	String query = "SELECT * FROM " + TABLE_FACTLETS;
+    	return getFactletsByQuery(query);
     	
     }
     
@@ -528,6 +590,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	
     }
     
+    public int updateFactlet(Factlet factlet) {
+    	SQLiteDatabase db = this.getWritableDatabase();
+    	
+    	ContentValues values = new ContentValues();
+    	values.put(KEY_FACTLET_ID, factlet.getId());
+    	values.put(KEY_FACTLET_TITLE, factlet.getTitle());
+    	values.put(KEY_FACTLET_CONTENT, factlet.getContent());
+    	values.put(KEY_FACTLET_TRUCK_ID, factlet.getTruckId());
+    	
+    	// update row
+    	int return_val = db.update(TABLE_FACTLETS, values, KEY_FACTLET_ID + " = ?",
+    			new String[] { String.valueOf(factlet.getId()) });
+    	db.close();
+    	return return_val;
+    	
+    }
+    
     
     // Deleting a single landmark
     public void deleteLandmark(Landmark landmark) {
@@ -558,6 +637,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	SQLiteDatabase db = this.getWritableDatabase();
     	db.delete(TABLE_FOOD_ITEMS, KEY_FOOD_ITEM_ID + " =?",
     			new String[] { String.valueOf(foodItem.getId()) } );
+    	db.close();
+    }
+    
+    public void deleteFactlet(Factlet factlet) {
+    	SQLiteDatabase db = this.getWritableDatabase();
+    	db.delete(TABLE_FACTLETS, KEY_FACTLET_ID + " =?",
+    			new String[] { String.valueOf(factlet.getId()) } );
     	db.close();
     }
     
@@ -600,6 +686,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     
     public int getFoodItemsCount() {
     	String countQuery = "SELECT * FROM " + TABLE_FOOD_ITEMS;
+    	SQLiteDatabase db = this.getReadableDatabase();
+    	Cursor cursor = db.rawQuery(countQuery, null);
+    	cursor.close();
+    	
+    	// return count
+    	db.close();
+    	return cursor.getCount();
+    }
+    
+    public int getFactletsCount() {
+    	String countQuery = "SELECT * FROM " + TABLE_FACTLETS;
     	SQLiteDatabase db = this.getReadableDatabase();
     	Cursor cursor = db.rawQuery(countQuery, null);
     	cursor.close();
@@ -731,6 +828,32 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     	// return
     	db.close();
     	return foodItemList;
+    }
+    
+    private List<Factlet> getFactletsByQuery(String selectQuery) {
+    	List<Factlet> factletList = new ArrayList<Factlet>();
+    	
+    	SQLiteDatabase db = this.getWritableDatabase();
+    	Cursor cursor = db.rawQuery(selectQuery, null);
+    	
+    	// looping through all rows and adding to list
+    	if (cursor.moveToFirst()) {
+    		do {
+    			Factlet factlet = new Factlet();
+    			factlet.setId(Integer.parseInt(cursor.getString(0)));
+    			factlet.setTitle(cursor.getString(1));
+    			factlet.setContent(cursor.getString(2));
+    			factlet.setTruckId(Integer.parseInt(cursor.getString(3)));
+    			
+    			
+    			// add back to the list
+    			factletList.add(factlet);
+    		} while (cursor.moveToNext());
+    	}
+    	
+    	// return
+    	db.close();
+    	return factletList;
     }
     
     
