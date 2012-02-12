@@ -10,7 +10,10 @@
 	<string name="menu">Menu</string>
 	<string name="twitter">Twitter</string>
 	<string name="pictures">Pictures</string>
+<<<<<<< HEAD
 	<string name="yelp">Reviews</string>
+=======
+>>>>>>> maps
 	
 	<!-- GOOGLE MAPS KEYS -->
 	
