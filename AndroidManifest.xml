@@ -99,6 +99,15 @@
                 <category android:name="android.intent.category.ALTERNATIVE" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activity.OpenTrucksMapActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.OPENTRUCKSMAP" />
+                
+                <category android:name="android.intent.category.ALTERNATIVE" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

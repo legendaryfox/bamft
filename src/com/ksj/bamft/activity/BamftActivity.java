@@ -123,10 +123,10 @@ public class BamftActivity extends Activity {
 		final String timeOfDay = getMealOfDay(now);
 
 		Bundle timeBundle = new Bundle();
-		//timeBundle.putString(Constants.DAY_OF_WEEK, dayOfWeek);
-		//timeBundle.putString(Constants.TIME_OF_DAY, timeOfDay); //default just in case...note that putString automatically overwrites existing values too
-		timeBundle.putString(Constants.DAY_OF_WEEK, "Tuesday");
-		timeBundle.putString(Constants.TIME_OF_DAY, "Evening");
+		timeBundle.putString(Constants.DAY_OF_WEEK, dayOfWeek);
+		timeBundle.putString(Constants.TIME_OF_DAY, timeOfDay); //default just in case...note that putString automatically overwrites existing values too
+		//timeBundle.putString(Constants.DAY_OF_WEEK, "Tuesday");
+		//timeBundle.putString(Constants.TIME_OF_DAY, "Evening");
 
 		switch(v.getId()) {
 
@@ -152,9 +152,11 @@ public class BamftActivity extends Activity {
 			break;
 		case R.id.menu_item_map_view:
 			//Load Evening trucks
-			Toast.makeText(BamftActivity.this,  "Not functional yet...", Toast.LENGTH_SHORT).show();
+			Toast.makeText(BamftActivity.this,  "All open trucks", Toast.LENGTH_SHORT).show();
 
-
+			Intent openTrucksMapIntent = new Intent(this, OpenTrucksMapActivity.class);
+			openTrucksMapIntent.putExtras(timeBundle);
+			startActivity(openTrucksMapIntent);
 
 			break;
 		case R.id.menu_item_surprise_me:
