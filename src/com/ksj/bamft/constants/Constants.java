@@ -9,6 +9,8 @@ public class Constants {
 	public static final String SCHEDULES_DUMP_URL = "http://bamftserver.heroku.com/schedules/full_dump";
 	public static final String FOOD_ITEMS_DUMP_URL = "http://bamftserver.heroku.com/menu_items/full_dump";
 	public static final String FACTLETS_DUMP_URL = "http://bamftserver.heroku.com/factlets/full_dump";
+	public static final String HUBWAY_XML = "http://www.thehubway.com/data/stations/bikeStations.xml";
+	
 	// Time
 	
 	public static final String[] DAYS_OF_WEEK = new String[] {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
@@ -55,9 +57,8 @@ public class Constants {
 	public static final String YELP_TOKEN_SECRET = "gCID4b-mQqNf7MxdYgcPMGywWDU";
 	
 	// Miscellaneous
-	
 	public static final int MAX_NUM_TRUCKS = 50; // used when creating data structures to determine how much space to allocate
 	public static final String BAMFT_PREFS_NAME = "BamftPrefsFile";
 	public static final String PREFS_CACHE_UPDATED = "cacheUpdated"; // preference for last update of cache. type is Long.
-	public static long CACHE_LIFE = 60 * 60 * 1000; // how long the cached SQLite life should be (in millis).
+	public static final long CACHE_LIFE = 60 * 60 * 1000; // how long the cached SQLite life should be (in millis).
 }

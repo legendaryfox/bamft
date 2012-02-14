@@ -1,6 +1,17 @@
 package com.ksj.bamft.activity;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -22,7 +33,9 @@ import com.google.android.maps.OverlayItem;
 import com.ksj.bamft.R;
 import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.database.DatabaseHandler;
+import com.ksj.bamft.hubway.StationsXMLHandler;
 import com.ksj.bamft.maps.MapOverlays;
+import com.ksj.bamft.model.HubwayStation;
 import com.ksj.bamft.model.Landmark;
 import com.ksj.bamft.model.Schedule;
 import com.ksj.bamft.model.Truck;
@@ -105,7 +118,7 @@ public class ScheduleProfileActivity extends MapActivity {
         mapController.setCenter(truckLocation);
         mapController.setZoom(17);
         
-        // Google Maps button -- temporary, only here for testing intents to !
+        // Google Maps button -- temporary, only here for testing intents to Maps!
         
         Time now = new Time();
     	now.setToNow();
@@ -123,6 +136,46 @@ public class ScheduleProfileActivity extends MapActivity {
 		        intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
 		        
 		        startActivity(intent);
+			}
+		});
+        
+        // Hubway button
+        
+        Button hubwayButton = (Button) findViewById(R.id.truckProfileHubwayButton);
+        hubwayButton.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View arg0) {
+				StationsXMLHandler stationsHandler = new StationsXMLHandler();
+				
+				SAXParserFactory factory =  SAXParserFactory.newInstance();
+				
+				try {
+					SAXParser saxParser = factory.newSAXParser();
+					XMLReader reader = saxParser.getXMLReader();
+					URL url = new URL(Constants.HUBWAY_XML);
+					
+					reader.setContentHandler(stationsHandler);
+					reader.parse(new InputSource(url.openStream()));
+					
+				} catch (ParserConfigurationException e) {
+					e.printStackTrace();
+					
+				} catch (SAXException e) {
+					e.printStackTrace();
+					
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				List<HubwayStation> stations = stationsHandler.getStations();
+				
+				if (stations != null) {
+					for (HubwayStation station : stations) {
+						Log.d("StationName", station.getName());
+						Log.d("StationLat", Double.toString(station.getLatitude()));
+						Log.d("StationLon", Double.toString(station.getLongitude()));
+					}
+				}
 			}
 		});
         

@@ -49,13 +49,21 @@
          android:layout_below="@+id/truckDescriptionText"
          android:text="Google Maps" />
      
+	<Button
+	    android:id="@+id/truckProfileHubwayButton"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/truckDescriptionText"
+	    android:layout_toRightOf="@id/truckProfileMapsButton"
+	    android:text="Hubway" />
+     
  	<com.google.android.maps.MapView
  	    android:id="@+id/truckProfileMap"
 		android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:apiKey="@string/maps_key"
-        android:layout_below="@id/truckProfileMapsButton" />    
+        android:layout_below="@+id/truckProfileMapsButton" />    
 
 	<LinearLayout
 	    android:orientation="horizontal"
