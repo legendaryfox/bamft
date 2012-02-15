@@ -44,6 +44,7 @@ public class Constants {
 	public static final int LOCATION_REFRESH_DISTANCE = 5;
 	public static final double BPL_LATITUDE = 42.349673;
 	public static final double BPL_LONGITUDE = -71.078612;
+	public static final int NUM_HUBWAY_STATIONS_TO_SHOW = 3;
 	
 	// Messages (toasts, etc.)
 	

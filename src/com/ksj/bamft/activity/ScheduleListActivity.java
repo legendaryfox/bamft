@@ -24,6 +24,7 @@ import com.ksj.bamft.R;
 import com.ksj.bamft.adapter.ScheduleRowAdapter;
 import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.database.DatabaseHandler;
+import com.ksj.bamft.maps.MapHelpers;
 import com.ksj.bamft.maps.SimpleLocationListener;
 import com.ksj.bamft.model.Landmark;
 import com.ksj.bamft.model.Schedule;
@@ -44,8 +45,8 @@ public class ScheduleListActivity extends ListActivity {
         String timeOfDay = "Afternoon"; //set this as default for safety
         String dayOfWeek = "Thursday"; //set this as a default for safety
         Bundle timeBundle = this.getIntent().getExtras();
-        timeOfDay = timeBundle.getString("timeOfDay");
-        dayOfWeek = timeBundle.getString("dayOfWeek");
+        timeOfDay = timeBundle.getString(Constants.TIME_OF_DAY);
+        dayOfWeek = timeBundle.getString(Constants.DAY_OF_WEEK);
         
         //First, we get the food truck data from the API
         final DatabaseHandler db = new DatabaseHandler(this); 
@@ -213,38 +214,9 @@ public class ScheduleListActivity extends ListActivity {
     	// If we don't have coordinates for this landmark, assume it's farthest away
     	
     	else
-    		return 1e7;
+    		return Double.MAX_VALUE;
 
-    	return calculateDistance(userLatDegrees, landmarkLatDegrees,
+    	return MapHelpers.calculateDistance(userLatDegrees, landmarkLatDegrees,
     			userLonDegrees, landmarkLonDegrees);
-    }
-    
-    /**
-     * Use voodoo math to calculate distance between user and landmark coordinates.
-     * Translated from http://www.johndcook.com/python_longitude_latitude.html
-     * 
-     * @param phi1
-     * @param phi2
-     * @param theta1
-     * @param theta2
-     * @return
-     */
-    
-    private double calculateDistance(double lat1, double lat2,
-    		double lon1, double lon2) {
-    	
-    	double degreesToRadians = Math.PI / 180.0;
-    	
-    	double phi1 = (90 - lat1) * degreesToRadians;
-    	double phi2 = (90 - lat2) * degreesToRadians;
-
-    	double theta1 = lon1 * degreesToRadians;
-    	double theta2 = lon2 * degreesToRadians;
-    	
-    	double cos = (Math.sin(phi1) * Math.sin(phi2) *
-    			Math.cos(theta1 - theta2) + 
-    			Math.cos(phi1) * Math.cos(phi2));
-    	
-    	return Math.acos(cos);
     }
 }

@@ -1,6 +1,6 @@
 package com.ksj.bamft.hubway;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.xml.sax.Attributes;
@@ -48,9 +48,14 @@ public class StationsXMLHandler extends DefaultHandler {
 	 */
 	@Override
 	public void startDocument() {
-		stations = new ArrayList<HubwayStation>();
+		stations = new LinkedList<HubwayStation>();
 	}
 	
+	/**
+	 * Called when a new starting tag is encountered.
+	 * Initialize station to a new HubwayStation
+	 * when <station> is encountered.
+	 */
 	@Override
 	public void startElement(String uri, String localName,
 			String qname, Attributes attributes) {
@@ -66,6 +71,19 @@ public class StationsXMLHandler extends DefaultHandler {
 	 */
 	@Override
 	public void characters (char[] chars, int start, int length) {
+		
+		// SAX parsers break up text when special characters like
+		// "&" are encountered, so use a StringBuilder to build
+		// all the pieces into one string
+		
+		/*StringBuilder strBuilder = new StringBuilder(100);
+		
+		for (int i = start; i < start + length; i++) {
+			strBuilder.append(chars[i]);
+		}
+		
+		elementValue = strBuilder.toString();*/
+		
 		elementValue = new String(chars, start, length);
 		elementValue.trim();
 	}

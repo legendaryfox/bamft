@@ -9,6 +9,7 @@ public class HubwayStation {
 	private boolean locked;
 	private int numBikes;
 	private int numEmptyDocks;
+	private double distance;
 	
 	public String getName() {
 		return name;
@@ -65,4 +66,22 @@ public class HubwayStation {
 	public void setNumEmptyDocks(int numEmptyDocks) {
 		this.numEmptyDocks = numEmptyDocks;
 	}
+	
+	public double getDistance() {
+		return distance;
+	}
+	
+	public void setDistance(double distance) {
+		this.distance = distance;
+	}
+
+	/*public int compareTo(HubwayStation anotherStation) {
+		if (distance < anotherStation.getDistance())
+			return -1;
+		
+		else if (distance > anotherStation.getDistance())
+			return 1;
+		
+		return 0;
+	}*/
 }

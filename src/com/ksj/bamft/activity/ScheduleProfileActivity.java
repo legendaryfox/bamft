@@ -1,6 +1,5 @@
 package com.ksj.bamft.activity;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -34,6 +33,7 @@ import com.ksj.bamft.R;
 import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.database.DatabaseHandler;
 import com.ksj.bamft.hubway.StationsXMLHandler;
+import com.ksj.bamft.maps.MapHelpers;
 import com.ksj.bamft.maps.MapOverlays;
 import com.ksj.bamft.model.HubwayStation;
 import com.ksj.bamft.model.Landmark;
@@ -141,43 +141,9 @@ public class ScheduleProfileActivity extends MapActivity {
         
         // Hubway button
         
-        Button hubwayButton = (Button) findViewById(R.id.truckProfileHubwayButton);
-        hubwayButton.setOnClickListener(new View.OnClickListener() {
-			
-			public void onClick(View arg0) {
-				StationsXMLHandler stationsHandler = new StationsXMLHandler();
-				
-				SAXParserFactory factory =  SAXParserFactory.newInstance();
-				
-				try {
-					SAXParser saxParser = factory.newSAXParser();
-					XMLReader reader = saxParser.getXMLReader();
-					URL url = new URL(Constants.HUBWAY_XML);
-					
-					reader.setContentHandler(stationsHandler);
-					reader.parse(new InputSource(url.openStream()));
-					
-				} catch (ParserConfigurationException e) {
-					e.printStackTrace();
-					
-				} catch (SAXException e) {
-					e.printStackTrace();
-					
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				
-				List<HubwayStation> stations = stationsHandler.getStations();
-				
-				if (stations != null) {
-					for (HubwayStation station : stations) {
-						Log.d("StationName", station.getName());
-						Log.d("StationLat", Double.toString(station.getLatitude()));
-						Log.d("StationLon", Double.toString(station.getLongitude()));
-					}
-				}
-			}
-		});
+        createHubwayButton(
+        		Double.parseDouble(landmark.getYcoord()),
+        		Double.parseDouble(landmark.getXcoord()));
         
         // Schedule button
         
@@ -201,24 +167,24 @@ public class ScheduleProfileActivity extends MapActivity {
 		});
 		
 		// Menu button
-				Button menuButton = (Button) findViewById(R.id.truckProfileMenuButton);
-				menuButton.setOnClickListener(new View.OnClickListener() {
-					
-					public void onClick(View v) {
-						//Create intent
-						Intent loadTruckMenuIntent = new Intent(ScheduleProfileActivity.this, TruckMenuListActivity.class);
-						
-						// Create extras bundle
-						Bundle extras = new Bundle();
-						extras.putInt(Constants.TRUCK_ID, truck.getId()); // we'll pass the truck ID and let TruckMenuListActivity handle it.
-						loadTruckMenuIntent.putExtras(extras);
-						
-						// Start the activity
-						ScheduleProfileActivity.this.startActivity(loadTruckMenuIntent);
-						
-					}
-					
-				});
+		Button menuButton = (Button) findViewById(R.id.truckProfileMenuButton);
+		menuButton.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View v) {
+				//Create intent
+				Intent loadTruckMenuIntent = new Intent(ScheduleProfileActivity.this, TruckMenuListActivity.class);
+				
+				// Create extras bundle
+				Bundle extras = new Bundle();
+				extras.putInt(Constants.TRUCK_ID, truck.getId()); // we'll pass the truck ID and let TruckMenuListActivity handle it.
+				loadTruckMenuIntent.putExtras(extras);
+				
+				// Start the activity
+				ScheduleProfileActivity.this.startActivity(loadTruckMenuIntent);
+				
+			}
+			
+		});
 		
 		// Twitter button
 		
@@ -262,4 +228,105 @@ public class ScheduleProfileActivity extends MapActivity {
 		});
         
 	 }
+	
+	/**
+	 * Set up Hubway button functionality. 
+	 */
+	private void createHubwayButton(final double truckLat, final double truckLon) {
+
+        Button hubwayButton = (Button) findViewById(R.id.truckProfileHubwayButton);
+        hubwayButton.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View arg0) {
+				
+				List<HubwayStation> stations = getHubwayStations();
+				
+				HubwayStation nearestStation = getNearestHubwayStation(stations,
+						truckLat, truckLon);
+				
+				Log.d("NearestHubway", nearestStation.getName());
+				Log.d("NearestHubwayLat", Double.toString(nearestStation.getLatitude()));
+				Log.d("NearestHubwayLon", Double.toString(nearestStation.getLongitude()));
+				
+				if (stations != null) {
+					for (HubwayStation station : stations) {
+						Log.d("StationName", station.getName());
+						Log.d("StationLat", Double.toString(station.getLatitude()));
+						Log.d("StationLon", Double.toString(station.getLongitude()));
+					}
+				}
+			}
+		});
+	}
+	
+	/**
+	 * Returns the complete list of HubwayStation objects created
+	 * from the Hubway XML data.
+	 * 
+	 * @return
+	 */
+	private List<HubwayStation> getHubwayStations() {
+		StationsXMLHandler stationsHandler = new StationsXMLHandler();
+		
+		SAXParserFactory factory =  SAXParserFactory.newInstance();
+		
+		try {
+			SAXParser saxParser = factory.newSAXParser();
+			XMLReader reader = saxParser.getXMLReader();
+			URL url = new URL(Constants.HUBWAY_XML);
+			
+			reader.setContentHandler(stationsHandler);
+			reader.parse(new InputSource(url.openStream()));
+			
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+			
+		} catch (SAXException e) {
+			e.printStackTrace();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return stationsHandler.getStations();
+	}
+	
+	/**
+	 * Given a point, return the closest currently operating
+	 * Hubway station (i.e. installed && not locked).
+	 */
+	private HubwayStation getNearestHubwayStation(List<HubwayStation> stations,
+			double sourceLat, double sourceLon) {
+		
+		HubwayStation nearestStation = null;
+		
+		double smallestDistanceSeen = Double.MAX_VALUE;
+		
+		for (HubwayStation station : stations) {
+
+			// In release mode, uncomment this. For testing,
+			// we need to comment out the locked() check 
+			// since all stations are currently closed in winter
+			//if (!station.isInstalled() || station.isLocked())
+				//continue;
+			
+			// Get rid of this in release mode. Some stations that 
+			// haven't been installed yet have locations of (0.0, 0.0),
+			// but all stations are currently listed as uninstalled (winter)
+			if (station.getLongitude() == 0.0)
+				continue;
+			
+			double distance = MapHelpers.calculateDistance(
+					sourceLat, station.getLatitude(),
+					sourceLon, station.getLongitude());
+			
+			if (distance < smallestDistanceSeen) {
+				nearestStation = station;
+				smallestDistanceSeen = distance;
+			}
+		}
+		
+		return nearestStation;
+	}
 }
+
