@@ -46,7 +46,6 @@ public class Constants {
 	public static final int LOCATION_REFRESH_DISTANCE = 5;
 	public static final double BPL_LATITUDE = 42.349673;
 	public static final double BPL_LONGITUDE = -71.078612;
-	public static final int NUM_HUBWAY_STATIONS_TO_SHOW = 3;
 	
 	// Messages (toasts, etc.)
 	
@@ -60,7 +59,7 @@ public class Constants {
 	public static final String YELP_TOKEN_SECRET = "gCID4b-mQqNf7MxdYgcPMGywWDU";
 	
 	// Miscellaneous
-	public static final int MAX_NUM_TRUCKS = 50; // used when creating data structures to determine how much space to allocate
+	
 	public static final String BAMFT_PREFS_NAME = "BamftPrefsFile";
 	public static final String PREFS_CACHE_UPDATED = "cacheUpdated"; // preference for last update of cache. type is Long.
 	public static final long CACHE_LIFE = 60 * 60 * 1000; // how long the cached SQLite life should be (in millis).

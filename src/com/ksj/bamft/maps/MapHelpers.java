@@ -3,6 +3,11 @@ package com.ksj.bamft.maps;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
+import java.util.Iterator;
+import java.util.List;
+
+import com.ksj.bamft.constants.GoogleMapsConstants;
+import com.ksj.bamft.model.Location;
 
 public class MapHelpers {
 	
@@ -44,5 +49,66 @@ public class MapHelpers {
 		BigDecimal roundedBigDecimal = bigDecimal.setScale(decimalPlaces, RoundingMode.HALF_UP);
 
 		return NumberFormat.getInstance().format(roundedBigDecimal.doubleValue());
+	}
+	
+	/** 
+	 * Return a Google Maps URL that links to the requested directions.
+	 * 
+	 * @param source
+	 * @param destinations
+	 * @param routeType
+	 * @return
+	 */
+	public static String getDirections(Location source, List<Location> destinationList,
+			String routeType) {
+		
+		if (source == null || destinationList == null || destinationList.size() < 1)
+			return "";
+		
+		String url = 
+				GoogleMapsConstants.URL + "?" +
+				GoogleMapsConstants.SOURCE_ADDR + getCommaSeparatedLatLon(source) + "&" +
+				GoogleMapsConstants.DEST_ADDR + getDestinationsString(destinationList) + "&" +
+				GoogleMapsConstants.ROUTE_TYPE + routeType;
+		;
+		
+		return url;
+	}
+	
+	/**
+	 * Given a location object, return the string "latitude,longitude". 
+	 * 
+	 * @param location
+	 * @return
+	 */
+	private static String getCommaSeparatedLatLon(Location location) {
+		if (location == null)
+			return "";
+		
+		return Double.toString(location.getLatitude()) +
+				GoogleMapsConstants.LAT_LON_DIVIDER + 
+				Double.toString(location.getLongitude());
+	}
+	
+	/**
+	 * Return a Google-Maps-friendly string of destinations.
+	 * i.e. dest1Lat,dest1Lon+to:dest2Lat,dest2Lon+to:etc.
+	 * 
+	 * @param destinationList
+	 * @return
+	 */
+	private static String getDestinationsString(List<Location> destinationList) {
+		StringBuilder destinations = new StringBuilder();
+		
+		Iterator<Location> iterator = destinationList.iterator();
+		
+		while (iterator.hasNext()) {
+			destinations.append(getCommaSeparatedLatLon(iterator.next()));
+			
+			if (iterator.hasNext())
+				destinations.append(GoogleMapsConstants.DEST_DIVIDER);
+		}
+		
+		return destinations.toString();
 	}
 }

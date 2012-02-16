@@ -2,7 +2,7 @@ package com.ksj.bamft.activity;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -32,12 +32,14 @@ import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 import com.ksj.bamft.R;
 import com.ksj.bamft.constants.Constants;
+import com.ksj.bamft.constants.GoogleMapsConstants;
 import com.ksj.bamft.database.DatabaseHandler;
 import com.ksj.bamft.hubway.StationsXMLHandler;
 import com.ksj.bamft.maps.MapHelpers;
 import com.ksj.bamft.maps.MapOverlays;
 import com.ksj.bamft.model.HubwayStation;
 import com.ksj.bamft.model.Landmark;
+import com.ksj.bamft.model.Location;
 import com.ksj.bamft.model.Schedule;
 import com.ksj.bamft.model.Truck;
 
@@ -143,6 +145,14 @@ public class ScheduleProfileActivity extends MapActivity {
         // Hubway button
         
         createHubwayButton(
+        		userLatitude,
+        		userLongitude,
+        		Double.parseDouble(landmark.getYcoord()),
+        		Double.parseDouble(landmark.getXcoord()));
+        
+        // Walking directions button
+        
+        createWalkingDirectionsButton(
         		userLatitude,
         		userLongitude,
         		Double.parseDouble(landmark.getYcoord()),
@@ -341,6 +351,34 @@ public class ScheduleProfileActivity extends MapActivity {
 		}
 		
 		return nearestStation;
+	}
+	
+	/**
+	 * Set up walking directions button functionality. 
+	 */
+	private void createWalkingDirectionsButton(final double userLat, final double userLon,
+			final double truckLat, final double truckLon) {
+
+        Button hubwayButton = (Button) findViewById(R.id.truckProfileWalkingButton);
+        hubwayButton.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View arg0) {
+				Location userLocation = new Location(userLat, userLon);
+				Location truckLocation = new Location(truckLat, truckLon);
+				
+				List<Location> truckLocationList = new LinkedList<Location>();
+				truckLocationList.add(truckLocation);
+				
+				String directions = MapHelpers.getDirections(userLocation, truckLocationList,
+						GoogleMapsConstants.WALKING_ROUTE);
+				
+				Intent intent = new Intent(
+						android.content.Intent.ACTION_VIEW, Uri.parse(directions));
+		        
+		        intent.setClassName(GoogleMapsConstants.PACKAGE, GoogleMapsConstants.CLASS);
+		        startActivity(intent);
+			}
+		});
 	}
 }
 

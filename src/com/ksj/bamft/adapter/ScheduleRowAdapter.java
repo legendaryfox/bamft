@@ -63,6 +63,9 @@ public class ScheduleRowAdapter extends ArrayAdapter<Schedule> {
 			
 			if (truckDistanceText != null) {
 				double distance = scheduleToDistanceMap.get(schedule);
+
+				// TODO: if distance is NaN or Double.MAX_VALUE,
+				// show "N/A" for distance
 				
 				truckDistanceText.setText(
 						MapHelpers.roundDistanceToDecimalPlace(1, distance) + " " +

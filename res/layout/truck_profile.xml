@@ -56,6 +56,14 @@
 	    android:layout_below="@+id/truckDescriptionText"
 	    android:layout_toRightOf="@id/truckProfileMapsButton"
 	    android:text="Hubway" />
+	
+	<Button
+	    android:id="@+id/truckProfileWalkingButton"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/truckDescriptionText"
+	    android:layout_toRightOf="@id/truckProfileHubwayButton"
+	    android:text="Walking" />
      
  	<com.google.android.maps.MapView
  	    android:id="@+id/truckProfileMap"

@@ -190,9 +190,6 @@ public class ScheduleListActivity extends ListActivity {
     	 return new Comparator<Schedule>() {
 			 public int compare(Schedule a, Schedule b) {
 				 
-				 //double distanceA = getDistanceFromUser(a, db, userLatitude, userLongitude);
-				 //double distanceB = getDistanceFromUser(b, db, userLatitude, userLongitude);
-				 
 				 double distanceA = scheduleToDistanceMap.get(a);
 				 double distanceB = scheduleToDistanceMap.get(b);
 				 
