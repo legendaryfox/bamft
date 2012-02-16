@@ -39,7 +39,7 @@ import com.ksj.bamft.maps.MapHelpers;
 import com.ksj.bamft.maps.MapOverlays;
 import com.ksj.bamft.model.HubwayStation;
 import com.ksj.bamft.model.Landmark;
-import com.ksj.bamft.model.Location;
+import com.ksj.bamft.model.SimpleLocation;
 import com.ksj.bamft.model.Schedule;
 import com.ksj.bamft.model.Truck;
 
@@ -363,10 +363,10 @@ public class ScheduleProfileActivity extends MapActivity {
         hubwayButton.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View arg0) {
-				Location userLocation = new Location(userLat, userLon);
-				Location truckLocation = new Location(truckLat, truckLon);
+				SimpleLocation userLocation = new SimpleLocation(userLat, userLon);
+				SimpleLocation truckLocation = new SimpleLocation(truckLat, truckLon);
 				
-				List<Location> truckLocationList = new LinkedList<Location>();
+				List<SimpleLocation> truckLocationList = new LinkedList<SimpleLocation>();
 				truckLocationList.add(truckLocation);
 				
 				String directions = MapHelpers.getDirections(userLocation, truckLocationList,

@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.ksj.bamft.constants.GoogleMapsConstants;
-import com.ksj.bamft.model.Location;
+import com.ksj.bamft.model.SimpleLocation;
 
 public class MapHelpers {
 	
@@ -59,7 +59,7 @@ public class MapHelpers {
 	 * @param routeType
 	 * @return
 	 */
-	public static String getDirections(Location source, List<Location> destinationList,
+	public static String getDirections(SimpleLocation source, List<SimpleLocation> destinationList,
 			String routeType) {
 		
 		if (source == null || destinationList == null || destinationList.size() < 1)
@@ -70,7 +70,6 @@ public class MapHelpers {
 				GoogleMapsConstants.SOURCE_ADDR + getCommaSeparatedLatLon(source) + "&" +
 				GoogleMapsConstants.DEST_ADDR + getDestinationsString(destinationList) + "&" +
 				GoogleMapsConstants.ROUTE_TYPE + routeType;
-		;
 		
 		return url;
 	}
@@ -81,7 +80,7 @@ public class MapHelpers {
 	 * @param location
 	 * @return
 	 */
-	private static String getCommaSeparatedLatLon(Location location) {
+	private static String getCommaSeparatedLatLon(SimpleLocation location) {
 		if (location == null)
 			return "";
 		
@@ -97,10 +96,10 @@ public class MapHelpers {
 	 * @param destinationList
 	 * @return
 	 */
-	private static String getDestinationsString(List<Location> destinationList) {
+	private static String getDestinationsString(List<SimpleLocation> destinationList) {
 		StringBuilder destinations = new StringBuilder();
 		
-		Iterator<Location> iterator = destinationList.iterator();
+		Iterator<SimpleLocation> iterator = destinationList.iterator();
 		
 		while (iterator.hasNext()) {
 			destinations.append(getCommaSeparatedLatLon(iterator.next()));

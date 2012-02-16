@@ -36,9 +36,6 @@ import com.ksj.bamft.model.Schedule;
 import com.ksj.bamft.model.Truck;
 import com.ksj.bamft.yelp.Yelp;
 
-
-
-
 public class BamftActivity extends Activity {
 
 	@Override
@@ -81,10 +78,6 @@ public class BamftActivity extends Activity {
 
 
 
-
-
-
-
 		SharedPreferences settings = getSharedPreferences(Constants.BAMFT_PREFS_NAME, 0);
 
 
@@ -116,8 +109,8 @@ public class BamftActivity extends Activity {
 	public void menuClickFunction(final View v) {
 
 		Time now = new Time();
-		//now.setToNow();
-		now.set(0, 0, 20, 7, 2, 2012);
+		now.setToNow();
+		//now.set(0, 0, 20, 7, 2, 2012);
 
 		final String dayOfWeek = getDayOfWeek(now);
 		final String timeOfDay = getMealOfDay(now);
