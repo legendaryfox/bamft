@@ -2,6 +2,7 @@ package com.ksj.bamft.activity;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.ListActivity;
@@ -13,7 +14,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -57,12 +57,18 @@ public class ScheduleListActivity extends ListActivity {
         
         final List<Schedule> scheduleList = db.getSchedulesByDayAndTime(dayOfWeek, timeOfDay);
         
-        Collections.sort(scheduleList, getDistanceComparator(db, userLatitude, userLongitude));
+        final HashMap<Schedule, Double> scheduleToDistanceMap =
+        		buildSchedulesToDistancesMap(db, scheduleList, userLatitude, userLongitude);
+        
+        Collections.sort(
+        		scheduleList, 
+        		getDistanceComparator(db, scheduleToDistanceMap, userLatitude, userLongitude));
         
         
         //this part is for displaying it in the ListView
         //note that we still use R.layout.truck_row
-        ScheduleRowAdapter adapter = new ScheduleRowAdapter(this.getBaseContext(), R.layout.truck_row, scheduleList);
+        ScheduleRowAdapter adapter = new ScheduleRowAdapter(this, R.layout.truck_row,
+        		scheduleList, scheduleToDistanceMap);
         setListAdapter(adapter);
         
         // Here is where we do the actual display.
@@ -83,8 +89,6 @@ public class ScheduleListActivity extends ListActivity {
         		String location_string = landmark.getName() + " at (" + landmark.getXcoord() + ", " + landmark.getYcoord() + ")";
         		Toast.makeText(getApplicationContext(), location_string, Toast.LENGTH_SHORT).show();
         		
-        		// Load the activity
-        		
         		// Create the intent
         		Intent loadScheduleProfileIntent = new Intent(ScheduleListActivity.this, ScheduleProfileActivity.class);
         		
@@ -97,8 +101,6 @@ public class ScheduleListActivity extends ListActivity {
         	
         		// Start the activity
         		ScheduleListActivity.this.startActivity(loadScheduleProfileIntent);
-        		
-        		
         	}
         });
     }
@@ -150,6 +152,27 @@ public class ScheduleListActivity extends ListActivity {
     }
     
     /**
+     * Create a HashMap of Schedules mapped to the distance between
+     * the user and the landmark.
+     * 
+     * @param schedules
+     * @return
+     */
+    private HashMap<Schedule, Double> buildSchedulesToDistancesMap(DatabaseHandler db,
+    		List<Schedule> schedules, double userLat, double userLon) {
+    	
+    	HashMap<Schedule, Double> schedulesToDistancesMap =
+    			new HashMap<Schedule, Double>(schedules.size());
+    	
+    	for (Schedule schedule : schedules) {
+    		double distance = getDistanceFromUser(schedule, db, userLat, userLon);
+    		schedulesToDistancesMap.put(schedule, distance);
+    	}
+    	
+    	return schedulesToDistancesMap;
+    }
+    
+    /**
      * Return a Comparator to compare two Schedule objects. A Schedule is less than another
      * if its landmark is closer to the user than another Schedule, greater than another 
      * Schedule if it is farther, or equal if they are equidistant from the user.
@@ -161,13 +184,17 @@ public class ScheduleListActivity extends ListActivity {
      */
     
     private Comparator<Schedule> getDistanceComparator(final DatabaseHandler db,
+    		final HashMap<Schedule, Double> scheduleToDistanceMap,
     		final double userLatitude, final double userLongitude) {
     	
     	 return new Comparator<Schedule>() {
 			 public int compare(Schedule a, Schedule b) {
 				 
-				 double distanceA = getDistanceFromUser(a, db, userLatitude, userLongitude);
-				 double distanceB = getDistanceFromUser(b, db, userLatitude, userLongitude);
+				 //double distanceA = getDistanceFromUser(a, db, userLatitude, userLongitude);
+				 //double distanceB = getDistanceFromUser(b, db, userLatitude, userLongitude);
+				 
+				 double distanceA = scheduleToDistanceMap.get(a);
+				 double distanceB = scheduleToDistanceMap.get(b);
 				 
 				 if (distanceA < distanceB)
 					 return -1;

@@ -1,9 +1,15 @@
 package com.ksj.bamft.maps;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.NumberFormat;
+
 public class MapHelpers {
 	
 	/**
      * Use voodoo math to calculate distance between two sets of coordinates.
+     * Return distance in miles.
+     * 
      * Translated from http://www.johndcook.com/python_longitude_latitude.html
      * 
      * @param phi1
@@ -17,8 +23,8 @@ public class MapHelpers {
     	
     	double degreesToRadians = Math.PI / 180.0;
     	
-    	double phi1 = (90 - lat1) * degreesToRadians;
-    	double phi2 = (90 - lat2) * degreesToRadians;
+    	double phi1 = (90.0 - lat1) * degreesToRadians;
+    	double phi2 = (90.0 - lat2) * degreesToRadians;
 
     	double theta1 = lon1 * degreesToRadians;
     	double theta2 = lon2 * degreesToRadians;
@@ -27,6 +33,16 @@ public class MapHelpers {
     			Math.cos(theta1 - theta2) + 
     			Math.cos(phi1) * Math.cos(phi2));
     	
-    	return Math.acos(cos);
+    	return Math.acos(cos) * 3960;
     }
+	
+	/** 
+	 * Round distance to a given number of decimal places.
+	 */
+	public static String roundDistanceToDecimalPlace(int decimalPlaces, double distance) {
+		BigDecimal bigDecimal = new BigDecimal(distance);
+		BigDecimal roundedBigDecimal = bigDecimal.setScale(decimalPlaces, RoundingMode.HALF_UP);
+
+		return NumberFormat.getInstance().format(roundedBigDecimal.doubleValue());
+	}
 }

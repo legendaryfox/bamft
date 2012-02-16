@@ -2,6 +2,7 @@ package com.ksj.bamft.activity;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -142,6 +143,8 @@ public class ScheduleProfileActivity extends MapActivity {
         // Hubway button
         
         createHubwayButton(
+        		userLatitude,
+        		userLongitude,
         		Double.parseDouble(landmark.getYcoord()),
         		Double.parseDouble(landmark.getXcoord()));
         
@@ -232,7 +235,8 @@ public class ScheduleProfileActivity extends MapActivity {
 	/**
 	 * Set up Hubway button functionality. 
 	 */
-	private void createHubwayButton(final double truckLat, final double truckLon) {
+	private void createHubwayButton(final double userLat, final double userLon,
+			final double truckLat, final double truckLon) {
 
         Button hubwayButton = (Button) findViewById(R.id.truckProfileHubwayButton);
         hubwayButton.setOnClickListener(new View.OnClickListener() {
@@ -241,12 +245,22 @@ public class ScheduleProfileActivity extends MapActivity {
 				
 				List<HubwayStation> stations = getHubwayStations();
 				
-				HubwayStation nearestStation = getNearestHubwayStation(stations,
+				HubwayStation nearestStationToUser = getNearestHubwayStation(stations,
+						userLat, userLon);
+				
+				HubwayStation nearestStationToTruck = getNearestHubwayStation(stations,
 						truckLat, truckLon);
 				
-				Log.d("NearestHubway", nearestStation.getName());
-				Log.d("NearestHubwayLat", Double.toString(nearestStation.getLatitude()));
-				Log.d("NearestHubwayLon", Double.toString(nearestStation.getLongitude()));
+				// open intent to google maps with directions from
+				// user -> nearestStationToUser -> nearestStationToTruck -> truck
+				
+				Log.d("NearestUserHubway", nearestStationToUser.getName());
+				Log.d("NearestUserHubwayLat", Double.toString(nearestStationToUser.getLatitude()));
+				Log.d("NearesetUserHubwayLon", Double.toString(nearestStationToUser.getLongitude()));
+				
+				Log.d("NearestTruckHubway", nearestStationToTruck.getName());
+				Log.d("NearestTruckHubwayLat", Double.toString(nearestStationToTruck.getLatitude()));
+				Log.d("NearestTruckHubwayLon", Double.toString(nearestStationToTruck.getLongitude()));
 				
 				if (stations != null) {
 					for (HubwayStation station : stations) {
