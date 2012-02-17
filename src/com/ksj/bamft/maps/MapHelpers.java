@@ -11,6 +11,16 @@ import com.ksj.bamft.model.SimpleLocation;
 
 public class MapHelpers {
 	
+	/** 
+	 * Convert a value in degrees to a value in microdegrees.
+	 * 
+	 * @param degree
+	 * @return
+	 */
+	public static int degreesToMicrodegrees(double degree) {
+		return (int) (degree * 1e6);
+	}
+	
 	/**
      * Use voodoo math to calculate distance between two sets of coordinates.
      * Return distance in miles.

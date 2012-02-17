@@ -15,12 +15,15 @@ import com.google.android.maps.OverlayItem;
 import com.ksj.bamft.R;
 import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.database.DatabaseHandler;
+import com.ksj.bamft.hubway.HubwayHelpers;
+import com.ksj.bamft.maps.MapHelpers;
 import com.ksj.bamft.maps.MapOverlays;
+import com.ksj.bamft.model.HubwayStation;
 import com.ksj.bamft.model.Landmark;
 import com.ksj.bamft.model.Schedule;
 import com.ksj.bamft.model.Truck;
 
-public class OpenTrucksMapActivity extends MapActivity {
+public class BamftMapActivity extends MapActivity {
 
 	@Override
 	protected boolean isRouteDisplayed() {
@@ -35,8 +38,49 @@ public class OpenTrucksMapActivity extends MapActivity {
         
         String dayOfWeek = extras.getString(Constants.DAY_OF_WEEK);
         String timeOfDay = extras.getString(Constants.TIME_OF_DAY);
+        String mapToCreate = extras.getString(Constants.MAP_TYPE);
         
-        createOpenTrucksMapView(dayOfWeek, timeOfDay);
+        if (mapToCreate.equals(Constants.MAP_TYPE_TRUCKS))
+        	createOpenTrucksMapView(dayOfWeek, timeOfDay);
+        
+        else if (mapToCreate.equals(Constants.MAP_TYPE_HUBWAY))
+        	createHubwayStationsMapView();
+	}
+	
+	
+	/** 
+	 * Not fully functional yet :(
+	 */
+	private void createHubwayStationsMapView() {
+		setContentView(R.layout.open_trucks_map);
+		
+		List<HubwayStation> stations = HubwayHelpers.getAvailableStations();
+		
+		MapView mapView = (MapView) findViewById(R.id.openTrucksMap);
+        mapView.setBuiltInZoomControls(true);
+        
+        List<Overlay> overlayToDisplay = mapView.getOverlays();
+        
+        Drawable overlayMarker =
+        		this.getResources().getDrawable(R.drawable.androidmarker);
+        
+        overlayMarker.setBounds(0, 0, overlayMarker.getIntrinsicWidth(), overlayMarker.getIntrinsicHeight());
+        
+        MapOverlays overlay = new MapOverlays(overlayMarker, this);
+        
+        for (HubwayStation station : stations) {
+        	if (station.isInstalled()) {
+        		int lat = MapHelpers.degreesToMicrodegrees(station.getLatitude());
+        		int lon = MapHelpers.degreesToMicrodegrees(station.getLongitude());
+        		
+        		GeoPoint point = new GeoPoint(lat, lon);
+        		OverlayItem overlayItem = new OverlayItem(point, station.getName(), "");
+        		overlay.addOverlay(overlayItem);
+        	}
+        }
+        
+        overlay.populateNow();
+        overlayToDisplay.add(overlay);
 	}
 	
 	/**

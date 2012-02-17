@@ -34,7 +34,6 @@ import com.ksj.bamft.model.FoodItem;
 import com.ksj.bamft.model.Landmark;
 import com.ksj.bamft.model.Schedule;
 import com.ksj.bamft.model.Truck;
-import com.ksj.bamft.yelp.Yelp;
 
 public class BamftActivity extends Activity {
 
@@ -110,7 +109,7 @@ public class BamftActivity extends Activity {
 
 		Time now = new Time();
 		now.setToNow();
-		//now.set(0, 0, 20, 7, 2, 2012);
+		//now.set(0, 0, 20, 15, 2, 2012);
 
 		final String dayOfWeek = getDayOfWeek(now);
 		final String timeOfDay = getMealOfDay(now);
@@ -147,8 +146,9 @@ public class BamftActivity extends Activity {
 			//Load Evening trucks
 			Toast.makeText(BamftActivity.this,  "All open trucks", Toast.LENGTH_SHORT).show();
 
-			Intent openTrucksMapIntent = new Intent(this, OpenTrucksMapActivity.class);
+			Intent openTrucksMapIntent = new Intent(this, BamftMapActivity.class);
 			openTrucksMapIntent.putExtras(timeBundle);
+			openTrucksMapIntent.putExtra(Constants.MAP_TYPE, Constants.MAP_TYPE_TRUCKS);
 			startActivity(openTrucksMapIntent);
 
 			break;

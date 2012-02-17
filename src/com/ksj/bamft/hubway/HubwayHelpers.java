@@ -1,4 +1,4 @@
-package com.ksj.bamft.maps;
+package com.ksj.bamft.hubway;
 
 import java.io.IOException;
 import java.net.URL;
@@ -13,7 +13,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 import com.ksj.bamft.constants.Constants;
-import com.ksj.bamft.hubway.StationsXMLHandler;
+import com.ksj.bamft.maps.MapHelpers;
 import com.ksj.bamft.model.HubwayStation;
 
 public class HubwayHelpers {

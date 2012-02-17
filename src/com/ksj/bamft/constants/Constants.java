@@ -36,6 +36,7 @@ public class Constants {
 	public static final String TWITTER_HANDLE = "twitter_handle";
 	public static final String TRUCK_ID = "truck_id";
 	public static final String YELP_HANDLE = "yelp_handle";
+	public static final String MAP_TYPE = "mapType";
 	
 	// User location & maps
 	
@@ -46,6 +47,8 @@ public class Constants {
 	public static final int LOCATION_REFRESH_DISTANCE = 5;
 	public static final double BPL_LATITUDE = 42.349673;
 	public static final double BPL_LONGITUDE = -71.078612;
+	public static final String MAP_TYPE_HUBWAY = "hubway";
+	public static final String MAP_TYPE_TRUCKS = "trucks";
 	
 	// Messages (toasts, etc.)
 	

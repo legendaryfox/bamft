@@ -24,7 +24,7 @@ import com.ksj.bamft.R;
 import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.constants.GoogleMapsConstants;
 import com.ksj.bamft.database.DatabaseHandler;
-import com.ksj.bamft.maps.HubwayHelpers;
+import com.ksj.bamft.hubway.HubwayHelpers;
 import com.ksj.bamft.maps.MapHelpers;
 import com.ksj.bamft.maps.MapOverlays;
 import com.ksj.bamft.model.HubwayStation;
@@ -97,10 +97,10 @@ public class ScheduleProfileActivity extends MapActivity {
         		this.getResources().getDrawable(R.drawable.androidmarker);
         MapOverlays overlay = new MapOverlays(overlayMarker, this);
         
-        int truckLongitude = (int) (Double.parseDouble(landmark.getXcoord()) * 1E6);
-        int truckLatitude = (int) (Double.parseDouble(landmark.getYcoord()) * 1E6);
+        int truckLat = MapHelpers.degreesToMicrodegrees(Double.parseDouble(landmark.getYcoord()));
+        int truckLon = MapHelpers.degreesToMicrodegrees(Double.parseDouble(landmark.getXcoord()));
         
-        GeoPoint truckLocation = new GeoPoint(truckLatitude, truckLongitude);
+        GeoPoint truckLocation = new GeoPoint(truckLat, truckLon);
         OverlayItem overlayItem = new OverlayItem(truckLocation, "Hola, Mundo!", "I'm in Mexico City!");
         
         overlay.addOverlay(overlayItem);
@@ -230,6 +230,18 @@ public class ScheduleProfileActivity extends MapActivity {
 			}
 		});
         
+        
+        // TODO: move this to its appropriate location 
+        Button hubwayStationsButtom = (Button) findViewById(R.id.hubwayStationsButton);
+        hubwayStationsButtom.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View v) {
+				Intent hubwayStationsMapIntent = new Intent(
+						ScheduleProfileActivity.this, BamftMapActivity.class);
+				hubwayStationsMapIntent.putExtra(Constants.MAP_TYPE, Constants.MAP_TYPE_HUBWAY);
+				startActivity(hubwayStationsMapIntent);
+			}
+		});
 	 }
 	
 	/**

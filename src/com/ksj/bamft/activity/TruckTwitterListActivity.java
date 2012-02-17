@@ -21,19 +21,12 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ksj.bamft.R;
 import com.ksj.bamft.adapter.TweetItemAdapter;
-import com.ksj.bamft.adapter.YelpReviewItemAdapter;
 import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.model.Tweet;
-import com.ksj.bamft.model.YelpReview;
 
 public class TruckTwitterListActivity extends ListActivity {
 

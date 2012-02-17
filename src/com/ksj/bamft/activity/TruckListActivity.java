@@ -3,7 +3,6 @@ package com.ksj.bamft.activity;
 import java.util.List;
 
 import com.ksj.bamft.R;
-import com.ksj.bamft.R.layout;
 import com.ksj.bamft.adapter.TruckRowAdapter;
 import com.ksj.bamft.database.DatabaseHandler;
 import com.ksj.bamft.model.Truck;
@@ -15,7 +14,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class TruckListActivity extends ListActivity {
     /** Called when the activity is first created. */
