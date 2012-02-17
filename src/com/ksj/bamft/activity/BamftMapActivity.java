@@ -2,8 +2,11 @@ package com.ksj.bamft.activity;
 
 import java.util.List;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
@@ -40,47 +43,96 @@ public class BamftMapActivity extends MapActivity {
         String timeOfDay = extras.getString(Constants.TIME_OF_DAY);
         String mapToCreate = extras.getString(Constants.MAP_TYPE);
         
-        if (mapToCreate.equals(Constants.MAP_TYPE_TRUCKS))
+        if (mapToCreate.equals(Constants.MAP_TYPE_TRUCKS)) {
         	createOpenTrucksMapView(dayOfWeek, timeOfDay);
+        	setOpenTrucksButtonFunctionality(dayOfWeek, timeOfDay);
+        	setHubwayButtonFunctionality(dayOfWeek, timeOfDay);
+        }
         
-        else if (mapToCreate.equals(Constants.MAP_TYPE_HUBWAY))
+        else if (mapToCreate.equals(Constants.MAP_TYPE_HUBWAY)) {
         	createHubwayStationsMapView();
+        	setOpenTrucksButtonFunctionality(dayOfWeek, timeOfDay);
+        	setHubwayButtonFunctionality(dayOfWeek, timeOfDay);
+        }
+	}
+	
+	/**
+	 * Create functionality for the trucks button.
+	 */
+	private void setOpenTrucksButtonFunctionality(final String dayOfWeek, final String timeOfDay) {
+		Button trucksButton = (Button) findViewById(R.id.openTrucksButton);
+        trucksButton.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View v) {
+				Intent truckMapIntent = new Intent(
+						BamftMapActivity.this, BamftMapActivity.class);
+				truckMapIntent.putExtra(Constants.DAY_OF_WEEK, dayOfWeek);
+				truckMapIntent.putExtra(Constants.TIME_OF_DAY, timeOfDay);
+				truckMapIntent.putExtra(Constants.MAP_TYPE, Constants.MAP_TYPE_TRUCKS);
+				startActivity(truckMapIntent);
+			}
+		});
+	}
+	
+	/**
+	 * Create functionality for the Hubway stations button.
+	 */
+	private void setHubwayButtonFunctionality(final String dayOfWeek, final String timeOfDay) {
+		Button hubwayStationsButton = (Button) findViewById(R.id.hubwayStationsButton);
+        hubwayStationsButton.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View v) {
+				Intent hubwayStationsMapIntent = new Intent(
+						BamftMapActivity.this, BamftMapActivity.class);
+				hubwayStationsMapIntent.putExtra(Constants.DAY_OF_WEEK, dayOfWeek);
+				hubwayStationsMapIntent.putExtra(Constants.TIME_OF_DAY, timeOfDay);
+				hubwayStationsMapIntent.putExtra(Constants.MAP_TYPE, Constants.MAP_TYPE_HUBWAY);
+				startActivity(hubwayStationsMapIntent);
+			}
+		});
 	}
 	
 	
 	/** 
-	 * Not fully functional yet :(
+	 * Create the MapView to display all the Hubway stations.
 	 */
+	//TODO: clean this messy method up!
 	private void createHubwayStationsMapView() {
-		setContentView(R.layout.open_trucks_map);
+		setContentView(R.layout.map_activity);
 		
 		List<HubwayStation> stations = HubwayHelpers.getAvailableStations();
 		
-		MapView mapView = (MapView) findViewById(R.id.openTrucksMap);
+		MapView mapView = (MapView) findViewById(R.id.mapView);
         mapView.setBuiltInZoomControls(true);
         
         List<Overlay> overlayToDisplay = mapView.getOverlays();
         
-        Drawable overlayMarker =
-        		this.getResources().getDrawable(R.drawable.androidmarker);
+        Drawable overlayMarker = this.getResources().getDrawable(R.drawable.androidmarker);
         
-        overlayMarker.setBounds(0, 0, overlayMarker.getIntrinsicWidth(), overlayMarker.getIntrinsicHeight());
+        overlayMarker.setBounds(0, 0,
+        		overlayMarker.getIntrinsicWidth(), overlayMarker.getIntrinsicHeight());
         
         MapOverlays overlay = new MapOverlays(overlayMarker, this);
         
         for (HubwayStation station : stations) {
-        	if (station.isInstalled()) {
-        		int lat = MapHelpers.degreesToMicrodegrees(station.getLatitude());
-        		int lon = MapHelpers.degreesToMicrodegrees(station.getLongitude());
+        	//TODO: uncomment in release mode
+        	//if (station.isInstalled()) {
+        		GeoPoint point = MapHelpers.getGeoPoint(
+        				station.getLatitude(), station.getLongitude());
         		
-        		GeoPoint point = new GeoPoint(lat, lon);
         		OverlayItem overlayItem = new OverlayItem(point, station.getName(), "");
         		overlay.addOverlay(overlayItem);
-        	}
+        	//}
         }
         
         overlay.populateNow();
         overlayToDisplay.add(overlay);
+        
+        GeoPoint centerOfBoston = MapHelpers.getGeoPoint(
+        		Constants.BPL_LATITUDE, Constants.BPL_LONGITUDE);
+        
+        MapController mapController = mapView.getController();
+        mapController.setCenter(centerOfBoston);
 	}
 	
 	/**
@@ -91,9 +143,9 @@ public class BamftMapActivity extends MapActivity {
 	 * @param timeOfDay
 	 */
 	private void createOpenTrucksMapView(String dayOfWeek, String timeOfDay) {
-		setContentView(R.layout.open_trucks_map);
+		setContentView(R.layout.map_activity);
         
-        MapView mapView = (MapView) findViewById(R.id.openTrucksMap);
+        MapView mapView = (MapView) findViewById(R.id.mapView);
         mapView.setBuiltInZoomControls(true);
         
         List<Overlay> overlays = mapView.getOverlays();
@@ -126,7 +178,8 @@ public class BamftMapActivity extends MapActivity {
         // Define marker to use on overlay map
         
         Drawable overlayMarker = this.getResources().getDrawable(R.drawable.androidmarker);
-        overlayMarker.setBounds(0, 0, overlayMarker.getIntrinsicWidth(), overlayMarker.getIntrinsicHeight());
+        overlayMarker.setBounds(0, 0, 
+        		overlayMarker.getIntrinsicWidth(), overlayMarker.getIntrinsicHeight());
         
         // Initialize bounds for the map. These will be used to determine
         // how far out we should zoom in order to fit all the markers.
@@ -194,10 +247,8 @@ public class BamftMapActivity extends MapActivity {
     	if (xCoord == null || xCoord.length() < 1 || yCoord == null || yCoord.length() < 1)
     		return null;
     	
-    	int latitude = (int) (Double.parseDouble(yCoord) * 1e6);
-    	int longitude = (int) (Double.parseDouble(xCoord) * 1e6);
-    	
-    	GeoPoint truckLocation = new GeoPoint(latitude, longitude);
+    	GeoPoint truckLocation = MapHelpers.getGeoPoint(
+    			Double.parseDouble(yCoord), Double.parseDouble(xCoord));
     	
     	return new OverlayItem(truckLocation, truckName, "herro");
 	}
@@ -218,9 +269,8 @@ public class BamftMapActivity extends MapActivity {
         MapController mapController = mapView.getController();
         mapController.zoomToSpan(rightBound - leftBound, upperBound - lowerBound);
         
-        GeoPoint centerOfBoston = new GeoPoint(
-        		(int) (Constants.BPL_LATITUDE * 1e6),
-        		(int) (Constants.BPL_LONGITUDE * 1e6));
+        GeoPoint centerOfBoston = MapHelpers.getGeoPoint(
+        		Constants.BPL_LATITUDE, Constants.BPL_LONGITUDE);
         
         mapController.setCenter(centerOfBoston);
 	}

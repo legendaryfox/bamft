@@ -229,19 +229,6 @@ public class ScheduleProfileActivity extends MapActivity {
 				
 			}
 		});
-        
-        
-        // TODO: move this to its appropriate location 
-        Button hubwayStationsButtom = (Button) findViewById(R.id.hubwayStationsButton);
-        hubwayStationsButtom.setOnClickListener(new View.OnClickListener() {
-			
-			public void onClick(View v) {
-				Intent hubwayStationsMapIntent = new Intent(
-						ScheduleProfileActivity.this, BamftMapActivity.class);
-				hubwayStationsMapIntent.putExtra(Constants.MAP_TYPE, Constants.MAP_TYPE_HUBWAY);
-				startActivity(hubwayStationsMapIntent);
-			}
-		});
 	 }
 	
 	/**

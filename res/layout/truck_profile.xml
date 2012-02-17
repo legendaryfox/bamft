@@ -17,7 +17,7 @@
 		android:layout_width="wrap_content"   
         android:layout_height="wrap_content"
         android:padding="2dp"
-        android:layout_below="@+id/truckNameText"
+        android:layout_below="@id/truckNameText"
         android:text="Prudential Center"
         android:textSize="17sp" />
      
@@ -46,7 +46,7 @@
          android:id="@+id/truckProfileMapsButton"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:layout_below="@+id/truckDescriptionText"
+         android:layout_below="@id/truckDescriptionText"
          android:text="Google Maps" />
      
 	<Button
@@ -61,7 +61,7 @@
 	    android:id="@+id/truckProfileWalkingButton"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_below="@+id/truckDescriptionText"
+	    android:layout_below="@id/truckDescriptionText"
 	    android:layout_toRightOf="@id/truckProfileHubwayButton"
 	    android:text="Walking" />
 	
@@ -69,7 +69,7 @@
 	    android:id="@+id/hubwayStationsButton"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_below="@+id/truckDescriptionText"
+	    android:layout_below="@id/truckDescriptionText"
 	    android:layout_toRightOf="@id/truckProfileWalkingButton"
 	    android:text="Hubway Stations" />
      
@@ -79,7 +79,7 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:apiKey="@string/maps_key"
-        android:layout_below="@+id/truckProfileMapsButton" />    
+        android:layout_below="@id/truckProfileMapsButton" />    
 
 	<LinearLayout
 	    android:orientation="horizontal"

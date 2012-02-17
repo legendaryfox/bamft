@@ -6,6 +6,7 @@ import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.List;
 
+import com.google.android.maps.GeoPoint;
 import com.ksj.bamft.constants.GoogleMapsConstants;
 import com.ksj.bamft.model.SimpleLocation;
 
@@ -19,6 +20,18 @@ public class MapHelpers {
 	 */
 	public static int degreesToMicrodegrees(double degree) {
 		return (int) (degree * 1e6);
+	}
+	
+	
+	/**
+	 * Given a latitude and longitude, return a GeoPoint object. 
+	 * 
+	 * @param lat
+	 * @param lon
+	 * @return
+	 */
+	public static GeoPoint getGeoPoint(double lat, double lon) {
+		return new GeoPoint(degreesToMicrodegrees(lat), degreesToMicrodegrees(lon));
 	}
 	
 	/**
