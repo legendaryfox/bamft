@@ -10,6 +10,8 @@ public class Constants {
 	public static final String FOOD_ITEMS_DUMP_URL = "http://bamftserver.heroku.com/menu_items/full_dump";
 	public static final String FACTLETS_DUMP_URL = "http://bamftserver.heroku.com/factlets/full_dump";
 	public static final String HUBWAY_XML = "http://www.thehubway.com/data/stations/bikeStations.xml";
+	public static final String MBTA_CSV = "http://developer.mbta.com/RT_Archive/RealTimeHeavyRailKeys.csv";
+	
 	
 	// Time
 	

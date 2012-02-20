@@ -29,9 +29,11 @@ import android.widget.Toast;
 import com.ksj.bamft.R;
 import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.database.DatabaseHandler;
+import com.ksj.bamft.mbta.MbtaHelpers;
 import com.ksj.bamft.model.Factlet;
 import com.ksj.bamft.model.FoodItem;
 import com.ksj.bamft.model.Landmark;
+import com.ksj.bamft.model.MbtaStation;
 import com.ksj.bamft.model.Schedule;
 import com.ksj.bamft.model.Truck;
 
@@ -44,12 +46,19 @@ public class BamftActivity extends Activity {
 		//Yelp.testExecute();
 
 		// Prepares the internal SQLite database, if need be (dictated by CACHE_LIFE).
-		prepareData();
+		//prepareData();
 		BackgroundPrepareData task = new BackgroundPrepareData();
 		task.execute();
 
 		
         //BEGIN TEST DATA
+		// TEST - MBTA Stuff
+		List<MbtaStation> mbtaStationList = MbtaHelpers.getAllMbtaStations(this.getBaseContext());
+		for (MbtaStation m : mbtaStationList) {
+			Log.d("MBTA Station", m.toString());
+		}
+		
+		// TEST - Database Stuff
         final DatabaseHandler db = new DatabaseHandler(this);
         List<Landmark> landmarkList = db.getAllLandmarks();
         List<Truck> truckList = db.getAllTrucks();

@@ -27,8 +27,10 @@ import com.ksj.bamft.database.DatabaseHandler;
 import com.ksj.bamft.hubway.HubwayHelpers;
 import com.ksj.bamft.maps.MapHelpers;
 import com.ksj.bamft.maps.MapOverlays;
+import com.ksj.bamft.mbta.MbtaHelpers;
 import com.ksj.bamft.model.HubwayStation;
 import com.ksj.bamft.model.Landmark;
+import com.ksj.bamft.model.MbtaStation;
 import com.ksj.bamft.model.Schedule;
 import com.ksj.bamft.model.SimpleLocation;
 import com.ksj.bamft.model.Truck;
@@ -54,7 +56,7 @@ public class ScheduleProfileActivity extends MapActivity {
         //Open database connect
         final DatabaseHandler db = new DatabaseHandler(this);
         
-
+        
         
         //Grab the relevant data
         final Truck truck = db.getTruck(schedule.getTruckId());
@@ -118,6 +120,13 @@ public class ScheduleProfileActivity extends MapActivity {
         
         final String dayOfWeek = BamftActivity.getDayOfWeek(now);
         final String timeOfDay = BamftActivity.getMealOfDay(now);
+        
+        // MBTA Stats
+        List<MbtaStation> mbtaStationList = MbtaHelpers.getAllMbtaStations(getBaseContext());
+        MbtaStation nearestUserMbtaStation = MbtaHelpers.getNearestMbtaStation(mbtaStationList, userLatitude, userLongitude);
+        MbtaStation nearestTruckMbtaStation = MbtaHelpers.getNearestMbtaStation(mbtaStationList, Double.parseDouble(landmark.getXcoord()), Double.parseDouble(landmark.getYcoord()));
+        Log.d("Nearest MBTA", "The nearest MBTA is " + nearestUserMbtaStation.getStopName() + " to " + nearestTruckMbtaStation.getStopName());
+        
         
         Button mapsButton = (Button) findViewById(R.id.truckProfileMapsButton);
         mapsButton.setOnClickListener(new View.OnClickListener() {

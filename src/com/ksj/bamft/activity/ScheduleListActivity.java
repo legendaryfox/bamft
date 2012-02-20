@@ -38,8 +38,27 @@ public class ScheduleListActivity extends ListActivity {
         
         Location userLocation = getUserLocation();
         
-        final double userLatitude = userLocation.getLatitude();
-        final double userLongitude = userLocation.getLongitude();
+        double testLatitude;
+        double testLongitude;
+        
+        try {
+        	testLatitude = userLocation.getLatitude();
+        } catch(NullPointerException e) {
+        	testLatitude = 42.37;
+        	e.printStackTrace();
+        }
+        
+        try {
+        	testLongitude = userLocation.getLongitude();
+        } catch(NullPointerException e) {
+        	testLongitude = -71.03;
+        	e.printStackTrace();
+        }
+        
+        final double userLatitude = testLatitude;
+        final double userLongitude = testLongitude;
+        
+        
         
         //dynamically load time of day based on previous Activity.
         String timeOfDay = "Afternoon"; //set this as default for safety
