@@ -133,19 +133,13 @@ public class ScheduleListActivity extends ListActivity {
      */
     private Location getUserLocation() {
     	
-    	// Create a location listener and manager to get the user's location
-
-        LocationListener locationListener = new SimpleLocationListener();
+    	LocationListener locationListener = new SimpleLocationListener();
     	
     	LocationManager locationManager = 
     			(LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
     	
-    	// Get enabled location provider with the best accuracy
-    	
-    	Criteria criteria = new Criteria();
-    	criteria.setAccuracy(Criteria.ACCURACY_FINE);
-    	
-    	String bestLocationProvider = locationManager.getBestProvider(criteria, true);
+    	String bestLocationProvider = MapHelpers.getLocationProvider(this, locationManager,
+    			Criteria.ACCURACY_FINE);
     	
     	// If user has location provider enabled, get user location
         
@@ -165,11 +159,11 @@ public class ScheduleListActivity extends ListActivity {
             Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             ScheduleListActivity.this.startActivity(myIntent);
     	}
-        
-        Location userLocation = locationManager.getLastKnownLocation(bestLocationProvider);
-        locationManager.removeUpdates(locationListener);
-        
-        return userLocation;
+    	
+    	Location userLocation = MapHelpers.getUserLocation(locationManager, bestLocationProvider);
+    	locationManager.removeUpdates(locationListener);
+    	
+    	return userLocation;
     }
     
     /**

@@ -6,11 +6,51 @@ import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.List;
 
+import android.content.Context;
+import android.content.Intent;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.location.LocationProvider;
+import android.provider.Settings;
+import android.widget.Toast;
+
 import com.google.android.maps.GeoPoint;
+import com.ksj.bamft.activity.ScheduleListActivity;
+import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.constants.GoogleMapsConstants;
 import com.ksj.bamft.model.SimpleLocation;
 
 public class MapHelpers {
+	
+	/** 
+	 * Return a location provider with the given accuracy.
+	 */
+	
+	public static String getLocationProvider(Context context, LocationManager locationManager,
+			int accuracy) {
+    	
+    	Criteria criteria = new Criteria();
+    	criteria.setAccuracy(accuracy);
+    	
+    	return locationManager.getBestProvider(criteria, true);
+	}
+	
+	/**
+	 * Return user location, given a LocationManager.
+	 */
+	public static Location getUserLocation(LocationManager locationManager,
+			String locationProvider) {
+		
+		Location userLocation;
+    	
+    	do {
+    		userLocation = locationManager.getLastKnownLocation(locationProvider);
+    	} while (userLocation == null);
+        
+        return userLocation;
+	}
 	
 	/** 
 	 * Convert a value in degrees to a value in microdegrees.

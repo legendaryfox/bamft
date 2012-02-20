@@ -99,8 +99,6 @@ public final class R {
         public static final int app_name=0x7f050001;
         public static final int hello=0x7f050000;
         /**  GOOGLE MAPS KEYS 
- <string name="maps_key">0M7ZmQp2y_Eccf7uWqlRxTQYWnM3mpXYv-go0Bw</string> !
- SUSANA'S KEY 
          */
         public static final int maps_key=0x7f050007;
         public static final int menu=0x7f050003;
