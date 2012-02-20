@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.ksj.bamft.R;
 import com.ksj.bamft.csv.CSVReader;
@@ -76,9 +77,10 @@ public class MbtaHelpers {
 			if(distance < smallestDistanceSeen) {
 				nearestMbtaStation = mbtaStation;
 				smallestDistanceSeen = distance;
+				Log.d("DISTANCE", "New shortest distance: " + mbtaStation.getStopName() + "(" + mbtaStation.getPlatformKey() +  " at " + distance + " away.");
 			}
 		}
-		
+		Log.d("DISTANCE", "------ END -----");
 		return nearestMbtaStation;
 	}
 	

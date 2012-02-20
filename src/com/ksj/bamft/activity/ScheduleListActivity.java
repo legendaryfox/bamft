@@ -43,8 +43,10 @@ public class ScheduleListActivity extends ListActivity {
         
         try {
         	testLatitude = userLocation.getLatitude();
+        	Toast.makeText(getBaseContext(), "Debugging: Location locked.", Toast.LENGTH_SHORT).show();
         } catch(NullPointerException e) {
         	testLatitude = 42.37;
+        	Toast.makeText(getBaseContext(), "Debugging: Couldn't Get a lock on your location, using default...", Toast.LENGTH_SHORT).show();
         	e.printStackTrace();
         }
         

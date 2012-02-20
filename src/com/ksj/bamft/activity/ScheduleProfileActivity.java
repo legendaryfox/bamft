@@ -124,7 +124,7 @@ public class ScheduleProfileActivity extends MapActivity {
         // MBTA Stats
         List<MbtaStation> mbtaStationList = MbtaHelpers.getAllMbtaStations(getBaseContext());
         MbtaStation nearestUserMbtaStation = MbtaHelpers.getNearestMbtaStation(mbtaStationList, userLatitude, userLongitude);
-        MbtaStation nearestTruckMbtaStation = MbtaHelpers.getNearestMbtaStation(mbtaStationList, Double.parseDouble(landmark.getXcoord()), Double.parseDouble(landmark.getYcoord()));
+        MbtaStation nearestTruckMbtaStation = MbtaHelpers.getNearestMbtaStation(mbtaStationList, Double.parseDouble(landmark.getYcoord()), Double.parseDouble(landmark.getXcoord()));
         Log.d("Nearest MBTA", "The nearest MBTA is " + nearestUserMbtaStation.getStopName() + " to " + nearestTruckMbtaStation.getStopName());
         
         
