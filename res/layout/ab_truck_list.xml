@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:foo="http://schemas.android.com/apk/res/com.ksj.bamft"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/lightgrey"
+    android:orientation="vertical" >
+
+    <!-- Action Bar -->
+
+    <com.markupartist.android.widget.ActionBar
+        android:id="@+id/actionbar"
+        style="@style/ActionBar" />
+    <!-- End Action Bar -->
+    <!-- Action Bar Drop Shadow -->
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="3dip"
+        android:background="@drawable/actionbar_shadow" >
+    </View>
+    <!-- End Action Bar Drop Shadow -->
+
+
+    <!-- Secondary Bar -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:background="@color/white" >
+
+        <com.ksj.bamft.actionbarhelpers.TextViewPlus
+            android:id="@+id/trivia"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            foo:customFont="fonts/miso-light.ttf"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/trivia"
+            android:textColor="@color/darkgrey"
+            android:textSize="14sp" >
+        </com.ksj.bamft.actionbarhelpers.TextViewPlus>
+    </LinearLayout>
+    <!-- Secondary Bar Drop Shadow -->
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="3dip"
+        android:background="@drawable/tab_shadow" >
+    </View>
+    <!-- End Secondary Bar Drop Shadow -->
+    <!-- End Secondary Bar -->
+
+
+    <!-- Start List item box -->
+
+    <ListView
+        android:id="@+android:id/list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+    </ListView>
+
+    <!-- End List View -->
+
+</LinearLayout>

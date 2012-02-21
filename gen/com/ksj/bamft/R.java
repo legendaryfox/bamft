@@ -170,26 +170,27 @@ containing a value of this type.
     }
     public static final class layout {
         public static final int ab_home=0x7f030000;
-        public static final int ab_truck_row=0x7f030001;
-        public static final int actionbar=0x7f030002;
-        public static final int actionbar_item=0x7f030003;
-        public static final int food_item_row=0x7f030004;
-        public static final int list_item=0x7f030005;
-        public static final int main=0x7f030006;
-        public static final int map_activity=0x7f030007;
-        public static final int menu_list_item=0x7f030008;
-        public static final int old_main=0x7f030009;
-        public static final int test_list_view=0x7f03000a;
-        public static final int truck_food_menu=0x7f03000b;
-        public static final int truck_list=0x7f03000c;
-        public static final int truck_profile=0x7f03000d;
-        public static final int truck_row=0x7f03000e;
-        public static final int truck_schedule=0x7f03000f;
-        public static final int truck_schedule_row=0x7f030010;
-        public static final int truck_twitter=0x7f030011;
-        public static final int tweet_item=0x7f030012;
-        public static final int yelp_review_item=0x7f030013;
-        public static final int yelp_review_list=0x7f030014;
+        public static final int ab_truck_list=0x7f030001;
+        public static final int ab_truck_row=0x7f030002;
+        public static final int actionbar=0x7f030003;
+        public static final int actionbar_item=0x7f030004;
+        public static final int food_item_row=0x7f030005;
+        public static final int list_item=0x7f030006;
+        public static final int main=0x7f030007;
+        public static final int map_activity=0x7f030008;
+        public static final int menu_list_item=0x7f030009;
+        public static final int old_main=0x7f03000a;
+        public static final int test_list_view=0x7f03000b;
+        public static final int truck_food_menu=0x7f03000c;
+        public static final int truck_list=0x7f03000d;
+        public static final int truck_profile=0x7f03000e;
+        public static final int truck_row=0x7f03000f;
+        public static final int truck_schedule=0x7f030010;
+        public static final int truck_schedule_row=0x7f030011;
+        public static final int truck_twitter=0x7f030012;
+        public static final int tweet_item=0x7f030013;
+        public static final int yelp_review_item=0x7f030014;
+        public static final int yelp_review_list=0x7f030015;
     }
     public static final class raw {
         public static final int mbtastations=0x7f040000;
