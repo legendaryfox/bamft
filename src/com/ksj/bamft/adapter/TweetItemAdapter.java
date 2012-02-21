@@ -3,6 +3,7 @@ package com.ksj.bamft.adapter;
 import java.util.List;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,15 +33,18 @@ public class TweetItemAdapter extends ArrayAdapter<Tweet> {
 		
 		if (rowView == null) {
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			rowView = inflater.inflate(R.layout.tweet_item, parent, false);		
+			rowView = inflater.inflate(R.layout.ab_tweet_item, parent, false);		
 		}
 		
 		Tweet tweet = tweetList.get(position);
+		
 		
 		if (tweet != null) {
 			
 			TextView tweetDateTextView = (TextView) rowView.findViewById(R.id.tweetDate);
 			TextView tweetContentTextView = (TextView) rowView.findViewById(R.id.tweetContent);
+			
+			Log.d("TWEET", "Tweet was: " + tweet.getContent());
 	
 			if (tweetDateTextView != null) {
 				tweetDateTextView.setText(tweet.getDate());

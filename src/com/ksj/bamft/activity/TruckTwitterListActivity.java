@@ -22,17 +22,20 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.ksj.bamft.R;
 import com.ksj.bamft.adapter.TweetItemAdapter;
 import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.model.Tweet;
+import com.markupartist.android.widget.ActionBar;
+import com.markupartist.android.widget.ActionBar.IntentAction;
 
 public class TruckTwitterListActivity extends ListActivity {
 
 	private final static String NO_TWITTER_HANDLE = "This truck does not have a Twitter handle.";
 	private final static String NO_TWEETS = "No tweets to display.";
-	
+
 	private final String DIALOG_TWITTER_TITLE = "Twitter";
 	private final String DIALOG_ACCESSING_TWITTER = "Accessing Tweets...";
 
@@ -54,14 +57,40 @@ public class TruckTwitterListActivity extends ListActivity {
 		twitterHandle = (String) extras.get(Constants.TWITTER_HANDLE);
 
 		handler = new Handler();
+		setContentView(R.layout.ab_twitter_list);
+
+
 		twitterRunnable.setListView(getListView());
+
+		TextView twitterHandleTextView = (TextView) findViewById(R.id.twitterHandle);
+		if(twitterHandleTextView != null) {
+			twitterHandleTextView.setText(twitterHandle);
+		}
 
 
 		if (tweetItems != null) {
-			TweetItemAdapter adapter = new TweetItemAdapter(this, R.layout.tweet_item, tweetItems);
+			//setContentView(R.layout.ab_twitter_list);
+
+			TweetItemAdapter adapter = new TweetItemAdapter(this, R.layout.ab_tweet_item, tweetItems);
 			ListView lv = getListView();
 			lv.setAdapter(adapter);
+
+
+
+
+			/*
+			// Action Bar Left Icon
+			final ActionBar actionBar = (ActionBar) findViewById(R.id.actionbar);
+			actionBar.setHomeAction(new IntentAction(this, BamftActivity.createIntent(this), R.drawable.icon));
+			actionBar.setTitle("BAMFT!");
+			 */
+			/*
+			TextView twitterHandleTextView = (TextView) getListView().findViewById(R.id.twitterHandle);
+			twitterHandleTextView.setText(twitterHandle);
+			 */
+
 		}
+
 
 		// Check if the thread is already running
 		downloadTwitterThread = (Thread) getLastNonConfigurationInstance();
@@ -71,17 +100,19 @@ public class TruckTwitterListActivity extends ListActivity {
 
 		downloadTwitterItems();
 
+
+
 	}
-	
+
 	public void downloadTwitterItems() {
 		// Begin the long process, start the dialog box
 		dialog = ProgressDialog.show(this, DIALOG_TWITTER_TITLE, DIALOG_ACCESSING_TWITTER);
-		
+
 		downloadTwitterThread = new DownloadTwitterThread(twitterRunnable);
 		downloadTwitterThread.start();
 
 	}
-	
+
 	static private class DownloadTwitterThread extends Thread {
 
 		private final TwitterRunnable myTwitterRunnable;
@@ -101,7 +132,7 @@ public class TruckTwitterListActivity extends ListActivity {
 
 		}
 	}
-	
+
 	private class TwitterRunnable implements Runnable {
 
 		private ListView listView;
@@ -111,9 +142,25 @@ public class TruckTwitterListActivity extends ListActivity {
 		}
 
 		public void run() {
-			TweetItemAdapter adapter = new TweetItemAdapter(TruckTwitterListActivity.this.getBaseContext(), R.layout.tweet_item, tweetItems);
+			//setContentView(R.layout.ab_twitter_list);
+
+			TweetItemAdapter adapter = new TweetItemAdapter(TruckTwitterListActivity.this.getBaseContext(), R.layout.ab_tweet_item, tweetItems);
 			listView.setAdapter(adapter);
-			
+
+
+
+
+			/*
+			// Action Bar Left Icon
+			final ActionBar actionBar = (ActionBar) findViewById(R.id.actionbar);
+			actionBar.setHomeAction(new IntentAction(this, BamftActivity.createIntent(this), R.drawable.icon));
+			actionBar.setTitle("BAMFT!");
+			 */
+			/*
+			TextView twitterHandleTextView = (TextView) getListView().findViewById(R.id.twitterHandle);
+			twitterHandleTextView.setText(twitterHandle);
+			 */
+
 			// Finished loading, dismiss the dialog
 			dialog.dismiss();
 		}

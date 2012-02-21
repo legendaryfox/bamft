@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:foo="http://schemas.android.com/apk/res/com.ksj.bamft"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/lightgrey"
+    android:orientation="vertical" >
+
+    <!-- Action Bar -->
+
+    <com.markupartist.android.widget.ActionBar
+        android:id="@+id/actionbar"
+        style="@style/ActionBar" />
+    <!-- End Action Bar -->
+
+
+    <!-- Action Bar Drop Shadow -->
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="3dip"
+        android:background="@drawable/actionbar_shadow" >
+    </View>
+
+    <!-- Secondary Bar -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:background="@color/white" >
+
+        <com.ksj.bamft.actionbarhelpers.TextViewPlus
+            android:id="@+id/tabsgohere"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            foo:customFont="fonts/miso-light.ttf"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="Tabs Go Here"
+            android:textColor="@color/darkgrey"
+            android:textSize="14sp" >
+        </com.ksj.bamft.actionbarhelpers.TextViewPlus>
+    </LinearLayout>
+
+    <!-- Secondary Bar Drop Shadow -->
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="3dip"
+        android:background="@drawable/tab_shadow" >
+    </View>
+
+    <!-- Start List item box -->
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/box_list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="100dip"
+            android:layout_height="100dip"
+            android:src="@drawable/ic_refresh" />
+
+        <com.ksj.bamft.actionbarhelpers.TextViewPlus
+            android:id="@+id/truckNameText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/box_list"
+            android:layout_toRightOf="@+id/box_list_image"
+            foo:customFont="fonts/miso-light.ttf"
+            android:text="Lincoln Street Coffee On The Go"
+            android:textColor="#FF148bd8"
+            android:textSize="26sp" >
+        </com.ksj.bamft.actionbarhelpers.TextViewPlus>
+
+        <com.ksj.bamft.actionbarhelpers.TextViewPlus
+            android:id="@+id/landmarkDistanceText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/box_list_image"
+            android:layout_alignLeft="@+id/box_list_title"
+            foo:customFont="fonts/miso-normal.ttf"
+            android:text="1.2 mi"
+            android:textColor="#FF232323" >
+        </com.ksj.bamft.actionbarhelpers.TextViewPlus>
+
+        <com.ksj.bamft.actionbarhelpers.TextViewPlus
+            android:id="@+id/btn_openclosed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/txt_distance"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/txt_distance"
+            android:layout_marginRight="10dip"
+            foo:customFont="fonts/miso-normal.ttf"
+            android:text="Open" >
+        </com.ksj.bamft.actionbarhelpers.TextViewPlus>
+    </RelativeLayout>
+
+    <!-- Directions & Contact -->
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dip"
+        android:layout_marginTop="10dip"
+        android:background="@color/lightgrey" >
+
+        <ImageButton
+            android:id="@+id/btn_subway"
+            android:layout_width="32dip"
+            android:layout_height="32dip"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="5dip"
+            android:background="@drawable/button"
+            android:src="@drawable/ic_refresh" />
+
+        <ImageButton
+            android:id="@+id/btn_walk"
+            android:layout_width="32dip"
+            android:layout_height="32dip"
+            android:layout_alignBaseline="@+id/txt_distance"
+            android:layout_alignBottom="@+id/txt_distance"
+            android:layout_marginRight="5dip"
+            android:layout_toRightOf="@+id/btn_subway"
+            android:background="@drawable/button"
+            android:src="@drawable/ic_refresh" />
+
+        <ImageButton
+            android:id="@+id/btn_bike"
+            android:layout_width="32dip"
+            android:layout_height="32dip"
+            android:layout_marginRight="5dip"
+            android:layout_toRightOf="@+id/btn_walk"
+            android:background="@drawable/button"
+            android:src="@drawable/ic_refresh" />
+
+        <Button
+            android:id="@+id/btn_phone"
+            android:layout_width="fill_parent"
+            android:layout_height="32dip"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dip"
+            android:layout_toRightOf="@+id/btn_bike"
+            android:background="@drawable/button"
+            android:text="(617) 785-0183" />
+    </RelativeLayout>
+
+    <!-- Description -->
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white" >
+
+        <com.ksj.bamft.actionbarhelpers.TextViewPlus
+            android:id="@+id/detail_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            foo:customFont="fonts/miso-light.ttf"
+            android:padding="10dip"
+            android:text="Description Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id est non lacus euismod scelerisque nec a erat. Curabitur eros felis, pretium vitae rhoncus placerat, convallis eget nisl."
+            android:textColor="#FF333333" >
+        </com.ksj.bamft.actionbarhelpers.TextViewPlus>
+    </RelativeLayout>
+
+    <!-- Map Container -->
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/lightgrey" >
+
+        <!-- Map Address -->
+
+        <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/box_mapaddress"
+            android:layout_width="fill_parent"
+            android:layout_height="50dip"
+            android:layout_marginBottom="0dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_marginTop="10dip"
+            android:background="@color/white" >
+
+            <ImageView
+                android:id="@+id/box_list_image"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:layout_marginRight="10dip"
+                android:src="@drawable/ic_refresh" />
+
+            <com.ksj.bamft.actionbarhelpers.TextViewPlus
+                android:id="@+id/box_list_cuisine"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/box_list_image"
+                foo:customFont="fonts/miso-light.ttf"
+                android:text="line2"
+                android:textColor="#FF232323" >
+            </com.ksj.bamft.actionbarhelpers.TextViewPlus>
+        </RelativeLayout>
+
+        <!-- Map -->
+
+        <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/box_map"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/box_mapaddress"
+            android:layout_marginBottom="0dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_marginTop="0dip"
+            android:background="@color/lightgrey" >
+
+            <TextView
+                android:id="@+id/box_list_cuisine"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/box_list_image"
+                android:text="Map Goes Here" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>

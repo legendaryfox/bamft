@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:foo="http://schemas.android.com/apk/res/com.ksj.bamft"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/lightgrey"
+    android:orientation="vertical" >
+    
+    
+    
+    
+
+    <!-- Page Title -->
+
+    <TextView
+        android:id="@+id/twitterHandle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="0dip"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:paddingTop="10dip"
+        android:text="twitterhandle"
+        android:textColor="#FF148bd8"
+        android:textSize="26sp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height=".5dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="0dp"
+        android:background="@color/linegrey" >
+    </View>
+
+    <!-- Start Content box  -->
+
+    <ListView
+        android:id="@+android:id/list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+    </ListView>
+
+</LinearLayout>
