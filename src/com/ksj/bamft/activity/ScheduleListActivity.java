@@ -88,7 +88,11 @@ public class ScheduleListActivity extends ListActivity {
         
         //this part is for displaying it in the ListView
         //note that we still use R.layout.truck_row
+        /*
         ScheduleRowAdapter adapter = new ScheduleRowAdapter(this, R.layout.truck_row,
+        		scheduleList, scheduleToDistanceMap);
+        */
+        ScheduleRowAdapter adapter = new ScheduleRowAdapter(this, R.layout.ab_truck_row,
         		scheduleList, scheduleToDistanceMap);
         setListAdapter(adapter);
         

@@ -17,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -25,6 +26,7 @@ import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
 
 import com.ksj.bamft.R;
 import com.ksj.bamft.constants.Constants;
@@ -36,6 +38,9 @@ import com.ksj.bamft.model.Landmark;
 import com.ksj.bamft.model.MbtaStation;
 import com.ksj.bamft.model.Schedule;
 import com.ksj.bamft.model.Truck;
+import com.markupartist.android.widget.ActionBar;
+import com.markupartist.android.widget.ActionBar.Action;
+import com.markupartist.android.widget.ActionBar.IntentAction;
 
 public class BamftActivity extends Activity {
 
@@ -50,47 +55,55 @@ public class BamftActivity extends Activity {
 		BackgroundPrepareData task = new BackgroundPrepareData();
 		task.execute();
 
-		
-        //BEGIN TEST DATA
+
+		//BEGIN TEST DATA
 		// TEST - MBTA Stuff
 		List<MbtaStation> mbtaStationList = MbtaHelpers.getAllMbtaStations(this.getBaseContext());
 		for (MbtaStation m : mbtaStationList) {
 			Log.d("MBTA Station", m.toString());
 		}
-		
-		// TEST - Database Stuff
-        final DatabaseHandler db = new DatabaseHandler(this);
-        List<Landmark> landmarkList = db.getAllLandmarks();
-        List<Truck> truckList = db.getAllTrucks();
-        List<Schedule> scheduleList = db.getAllSchedules();
-        List<FoodItem> foodItemList = db.getAllFoodItems();
-        List<Factlet> factletList = db.getAllFactlets();
 
-        for (Landmark l : landmarkList) {
-        	Log.d("Landmark", l.toString());
-        }
-        for (Truck t : truckList) {
-        	Log.d("Truck", t.toString());
-        }
-        for (Schedule s : scheduleList) {
-        	Log.d("Schedule", s.toString());
-        }
-        for (FoodItem f : foodItemList) {
-        	Log.d("FoodItem", f.toString());
-        }
-        for (Factlet a: factletList) {
-        	Log.d("Factlet", a.toString());
-        }
-        //END TEST DATA
+		// TEST - Database Stuff
+		final DatabaseHandler db = new DatabaseHandler(this);
+		List<Landmark> landmarkList = db.getAllLandmarks();
+		List<Truck> truckList = db.getAllTrucks();
+		List<Schedule> scheduleList = db.getAllSchedules();
+		List<FoodItem> foodItemList = db.getAllFoodItems();
+		List<Factlet> factletList = db.getAllFactlets();
+
+		for (Landmark l : landmarkList) {
+			Log.d("Landmark", l.toString());
+		}
+		for (Truck t : truckList) {
+			Log.d("Truck", t.toString());
+		}
+		for (Schedule s : scheduleList) {
+			Log.d("Schedule", s.toString());
+		}
+		for (FoodItem f : foodItemList) {
+			Log.d("FoodItem", f.toString());
+		}
+		for (Factlet a: factletList) {
+			Log.d("Factlet", a.toString());
+		}
+		//END TEST DATA
 
 
 
 
 		SharedPreferences settings = getSharedPreferences(Constants.BAMFT_PREFS_NAME, 0);
 
+		// BEGIN DISPLAY
+		// setContentView(R.layout.main);
 
-		setContentView(R.layout.main);
+		setContentView(R.layout.ab_home);
 
+		// Action Bar Left Icon
+		final ActionBar actionBar = (ActionBar) findViewById(R.id.actionbar);
+		actionBar.setHomeAction(new IntentAction(this, createIntent(this), R.drawable.icon));
+		actionBar.setTitle("BAMFT!");
+
+		// END DISPLAY
 
 		// Home page grid view
 		//GridView gridview = (GridView) findViewById(R.id.gridview);
@@ -112,6 +125,13 @@ public class BamftActivity extends Activity {
 		Toast.makeText(BamftActivity.this, testingToastText, Toast.LENGTH_LONG).show();
 
 
+	}
+
+	// Action Bar Home Icon leads to Home
+	public static Intent createIntent(Context context) {
+		Intent i = new Intent(context, BamftActivity.class);
+		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		return i;
 	}
 
 	public void menuClickFunction(final View v) {
@@ -186,7 +206,9 @@ public class BamftActivity extends Activity {
 
 	public static String getDayOfWeek(Time now) {
 
-
+		if (true) {
+			return "Monday";
+		}
 		return Constants.DAYS_OF_WEEK[now.weekDay]; 
 	}
 
@@ -197,6 +219,9 @@ public class BamftActivity extends Activity {
 	 */
 	public static String getMealOfDay(Time now) {
 
+		if (true) {
+			return "Afternoon";
+		}
 
 
 		Time morningStart = new Time(now);
@@ -413,7 +438,7 @@ public class BamftActivity extends Activity {
 					for (int i = 0; i < factletsArray.length(); i++) {
 						//Iterate through each entry and save to DB
 						JSONObject factletObject = factletsArray.getJSONObject(i).getJSONObject("factlet");
-						
+
 						// In case truckId is null, which is usually the case.
 						int truckId;
 						if (factletObject.isNull("truck_id")) {

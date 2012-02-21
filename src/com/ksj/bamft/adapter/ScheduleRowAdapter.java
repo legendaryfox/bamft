@@ -41,7 +41,7 @@ public class ScheduleRowAdapter extends ArrayAdapter<Schedule> {
 		View rowView = convertView;
 		if (rowView == null) {
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			rowView = inflater.inflate(R.layout.truck_row, parent, false);		
+			rowView = inflater.inflate(R.layout.ab_truck_row, parent, false);		
 		}
 		Schedule schedule = scheduleList.get(position);
 		if (schedule != null) {
