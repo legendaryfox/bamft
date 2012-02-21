@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class TruckRowAdapter extends ArrayAdapter<Truck> {
@@ -36,7 +37,7 @@ public class TruckRowAdapter extends ArrayAdapter<Truck> {
 		View rowView = convertView;
 		if (rowView == null) {
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			rowView = inflater.inflate(R.layout.truck_row, parent, false);		
+			rowView = inflater.inflate(R.layout.ab_truck_row, parent, false);		
 		}
 		Truck truck = truckList.get(position);
 		if (truck != null) {
@@ -55,6 +56,25 @@ public class TruckRowAdapter extends ArrayAdapter<Truck> {
 			if (truckCuisineText != null) {
 				truckCuisineText.setText(truck.getCuisine());
 			}	
+			
+			
+			//UNFOCUS THE IMAGE BUTTONS
+			ImageButton bikeButton = (ImageButton) rowView.findViewById(R.id.btn_bike);
+			ImageButton walkButton = (ImageButton) rowView.findViewById(R.id.btn_walk);
+			ImageButton subwayButton = (ImageButton) rowView.findViewById(R.id.btn_subway);
+			
+			bikeButton.setFocusable(false);
+			bikeButton.setFocusableInTouchMode(false);
+			
+			walkButton.setFocusable(false);
+			walkButton.setFocusableInTouchMode(false);
+			
+			subwayButton.setFocusable(false);
+			subwayButton.setFocusableInTouchMode(false);
+			
+			
+			
+			//END UNFOCUS
 		}
 		
 		return rowView;

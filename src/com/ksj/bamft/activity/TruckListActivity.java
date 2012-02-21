@@ -6,6 +6,8 @@ import com.ksj.bamft.R;
 import com.ksj.bamft.adapter.TruckRowAdapter;
 import com.ksj.bamft.database.DatabaseHandler;
 import com.ksj.bamft.model.Truck;
+import com.markupartist.android.widget.ActionBar;
+import com.markupartist.android.widget.ActionBar.IntentAction;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -36,8 +38,17 @@ public class TruckListActivity extends ListActivity {
         
         final List<Truck> truckList = db.getAllTrucks();
         
+        
+        // Display
+        setContentView(R.layout.ab_truck_list);
+		// Action Bar Left Icon
+		final ActionBar actionBar = (ActionBar) findViewById(R.id.actionbar);
+		actionBar.setHomeAction(new IntentAction(this, BamftActivity.createIntent(this), R.drawable.icon));
+		actionBar.setTitle("BAMFT!");
+        // End Display
+        
         //this part is for displaying it in the ListView
-        TruckRowAdapter adapter = new TruckRowAdapter(this.getBaseContext(), R.layout.truck_row, truckList);
+        TruckRowAdapter adapter = new TruckRowAdapter(this.getBaseContext(), R.layout.ab_truck_row, truckList);
         setListAdapter(adapter);
         
         // Here is where we do the actual display.
