@@ -14,6 +14,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -129,6 +130,7 @@ public class ScheduleListActivity extends ListActivity {
         	}
         });
     }
+    
     
     /**
      * Return the user's coordinates in a Location object.
