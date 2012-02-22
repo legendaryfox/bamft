@@ -3,6 +3,9 @@ package com.ksj.bamft.model;
 public class SimpleLocation {
 	private double latitude;
 	private double longitude;
+
+	public SimpleLocation() {
+	}
 	
 	public SimpleLocation(double latitude, double longitude) {
 		this.latitude = latitude;

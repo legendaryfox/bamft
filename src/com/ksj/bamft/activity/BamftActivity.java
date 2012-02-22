@@ -137,8 +137,8 @@ public class BamftActivity extends Activity {
 	public void menuClickFunction(final View v) {
 
 		Time now = new Time();
-		now.setToNow();
-		//now.set(0, 0, 20, 15, 2, 2012);
+		//now.setToNow();
+		now.set(0, 0, 20, 15, 2, 2012);
 
 		final String dayOfWeek = getDayOfWeek(now);
 		final String timeOfDay = getMealOfDay(now);

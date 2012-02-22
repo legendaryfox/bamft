@@ -94,8 +94,11 @@ public class StationsXMLHandler extends DefaultHandler {
 	 */
 	@Override
 	public void endElement (String uri, String localName, String qname) {
-		if (localName.equals(NAME))
-			station.setName(elementValue);
+		
+		if (localName.equals(NAME)) {
+			if (elementValue != null && elementValue.length() > 0)
+				station.setName(elementValue);
+		}
 		
 		else if (localName.equals(LATITUDE)) {
 			if (elementValue != null && elementValue.length() > 0)

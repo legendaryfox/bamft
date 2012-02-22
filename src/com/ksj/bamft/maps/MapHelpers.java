@@ -122,17 +122,18 @@ public class MapHelpers {
 	 * @param routeType
 	 * @return
 	 */
-	public static String getDirections(SimpleLocation source, List<SimpleLocation> destinationList,
-			String routeType) {
+	public static String getDirections(SimpleLocation source, SimpleLocation destination,
+			String routeType, String output) {
 		
-		if (source == null || destinationList == null || destinationList.size() < 1)
+		if (source == null || destination == null)
 			return "";
 		
 		String url = 
 				GoogleMapsConstants.URL + "?" +
 				GoogleMapsConstants.SOURCE_ADDR + getCommaSeparatedLatLon(source) + "&" +
-				GoogleMapsConstants.DEST_ADDR + getDestinationsString(destinationList) + "&" +
-				GoogleMapsConstants.ROUTE_TYPE + routeType;
+				GoogleMapsConstants.DEST_ADDR + getCommaSeparatedLatLon(destination) + "&" +
+				GoogleMapsConstants.ROUTE_TYPE + routeType + "&" + 
+				GoogleMapsConstants.OUTPUT + output;
 		
 		return url;
 	}

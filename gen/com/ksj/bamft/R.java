@@ -194,32 +194,33 @@ containing a value of this type.
         public static final int map_activity=0x7f03000b;
         public static final int menu_list_item=0x7f03000c;
         public static final int old_main=0x7f03000d;
-        public static final int test_list_view=0x7f03000e;
-        public static final int truck_food_menu=0x7f03000f;
-        public static final int truck_list=0x7f030010;
-        public static final int truck_profile=0x7f030011;
-        public static final int truck_row=0x7f030012;
-        public static final int truck_schedule=0x7f030013;
-        public static final int truck_schedule_row=0x7f030014;
-        public static final int truck_twitter=0x7f030015;
-        public static final int tweet_item=0x7f030016;
-        public static final int yelp_review_item=0x7f030017;
-        public static final int yelp_review_list=0x7f030018;
+        public static final int test=0x7f03000e;
+        public static final int test_list_view=0x7f03000f;
+        public static final int truck_food_menu=0x7f030010;
+        public static final int truck_list=0x7f030011;
+        public static final int truck_profile=0x7f030012;
+        public static final int truck_row=0x7f030013;
+        public static final int truck_schedule=0x7f030014;
+        public static final int truck_schedule_row=0x7f030015;
+        public static final int truck_twitter=0x7f030016;
+        public static final int tweet_item=0x7f030017;
+        public static final int yelp_review_item=0x7f030018;
+        public static final int yelp_review_list=0x7f030019;
     }
     public static final class raw {
         public static final int mbtastations=0x7f040000;
     }
     public static final class string {
         public static final int actionbar_activity_not_found=0x7f070002;
-        /**  JOSIAH'S KEY 
+        /**  SUSANA'S KEY 
+ <string name="maps_key">0Li57-t6yvUbeUsoBpSccbHJpCApOtnhrwWAgdQ</string>
+ JOSIAH'S KEY 
  ACTION BAR 
          */
         public static final int app_name=0x7f070001;
         public static final int hello=0x7f070000;
         public static final int listall=0x7f07000b;
         /**  GOOGLE MAPS KEYS 
- <string name="maps_key">0M7ZmQp2y_Eccf7uWqlRxTQYWnM3mpXYv-go0Bw</string> !
- SUSANA'S KEY 
          */
         public static final int maps_key=0x7f070008;
         public static final int mapview=0x7f07000c;

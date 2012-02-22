@@ -1,7 +1,17 @@
 package com.ksj.bamft.activity;
 
-import java.util.LinkedList;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -25,12 +35,14 @@ import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.constants.GoogleMapsConstants;
 import com.ksj.bamft.database.DatabaseHandler;
 import com.ksj.bamft.hubway.HubwayHelpers;
+import com.ksj.bamft.maps.KMLHandler;
 import com.ksj.bamft.maps.MapHelpers;
 import com.ksj.bamft.maps.MapOverlays;
 import com.ksj.bamft.mbta.MbtaHelpers;
 import com.ksj.bamft.model.HubwayStation;
 import com.ksj.bamft.model.Landmark;
 import com.ksj.bamft.model.MbtaStation;
+import com.ksj.bamft.model.NavigationStep;
 import com.ksj.bamft.model.Schedule;
 import com.ksj.bamft.model.SimpleLocation;
 import com.ksj.bamft.model.Truck;
@@ -259,24 +271,41 @@ public class ScheduleProfileActivity extends MapActivity {
 				HubwayStation nearestStationToTruck = HubwayHelpers.getNearestStation(stations,
 						truckLat, truckLon);
 				
-				// open intent to google maps with directions from
-				// user -> nearestStationToUser -> nearestStationToTruck -> truck
+				String directions = MapHelpers.getDirections(
+						new SimpleLocation(userLat, userLon),
+						new SimpleLocation(truckLat, truckLon),
+						GoogleMapsConstants.WALKING_ROUTE,
+						GoogleMapsConstants.KML);
 				
-				Log.d("NearestUserHubway", nearestStationToUser.getName());
-				Log.d("NearestUserHubwayLat", Double.toString(nearestStationToUser.getLatitude()));
-				Log.d("NearesetUserHubwayLon", Double.toString(nearestStationToUser.getLongitude()));
+				KMLHandler kmlHandler = null;
 				
-				Log.d("NearestTruckHubway", nearestStationToTruck.getName());
-				Log.d("NearestTruckHubwayLat", Double.toString(nearestStationToTruck.getLatitude()));
-				Log.d("NearestTruckHubwayLon", Double.toString(nearestStationToTruck.getLongitude()));
-				
-				if (stations != null) {
-					for (HubwayStation station : stations) {
-						Log.d("StationName", station.getName());
-						Log.d("StationLat", Double.toString(station.getLatitude()));
-						Log.d("StationLon", Double.toString(station.getLongitude()));
+					try {
+						URL mapQuery = new URL(directions);
+						SAXParserFactory factory = SAXParserFactory.newInstance();
+						SAXParser parser = factory.newSAXParser();
+						XMLReader reader = parser.getXMLReader();
+						kmlHandler = new KMLHandler();
+						reader.setContentHandler(kmlHandler);
+						reader.parse(new InputSource(mapQuery.openStream()));
 					}
-				}
+					
+					catch (MalformedURLException e) {
+						e.printStackTrace();
+					}
+					
+					catch (ParserConfigurationException e) {
+						e.printStackTrace();
+					}
+					
+					catch (SAXException e) {
+						e.printStackTrace();
+					}
+					
+					catch (IOException e) {
+						e.printStackTrace();
+					}
+					
+					List<NavigationStep> userToStationA = kmlHandler.getDirections();
 			}
 		});
 	}
@@ -294,11 +323,8 @@ public class ScheduleProfileActivity extends MapActivity {
 				SimpleLocation userLocation = new SimpleLocation(userLat, userLon);
 				SimpleLocation truckLocation = new SimpleLocation(truckLat, truckLon);
 				
-				List<SimpleLocation> truckLocationList = new LinkedList<SimpleLocation>();
-				truckLocationList.add(truckLocation);
-				
-				String directions = MapHelpers.getDirections(userLocation, truckLocationList,
-						GoogleMapsConstants.WALKING_ROUTE);
+				String directions = MapHelpers.getDirections(userLocation, truckLocation,
+						GoogleMapsConstants.WALKING_ROUTE, GoogleMapsConstants.HTML);
 				
 				Intent intent = new Intent(
 						android.content.Intent.ACTION_VIEW, Uri.parse(directions));
