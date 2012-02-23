@@ -22,6 +22,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.ksj.bamft.R;
+import com.ksj.bamft.actionbarhelpers.ActionBarTitleHelper;
 import com.ksj.bamft.adapter.ScheduleRowAdapter;
 import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.database.DatabaseHandler;
@@ -94,16 +95,19 @@ public class ScheduleListActivity extends ListActivity {
 
 		setContentView(R.layout.ab_truck_list);
 		// Action Bar Left Icon
+		ActionBarTitleHelper.setTitleBar(this);
+		/*
 		final ActionBar actionBar = (ActionBar) findViewById(R.id.actionbar);
 		actionBar.setHomeAction(new IntentAction(this, BamftActivity.createIntent(this), R.drawable.icon));
 		actionBar.setTitle("BAMFT!");
-
+		*/
 		ScheduleRowAdapter adapter = new ScheduleRowAdapter(this, R.layout.ab_truck_row,
 				scheduleList, scheduleToDistanceMap);
 		setListAdapter(adapter);
 
 		// Here is where we do the actual display.
 		ListView lv = getListView();
+		lv.setDivider(null);
 		lv.setTextFilterEnabled(true);
 
 		//ListView "toast" functionality - for each item being clicked

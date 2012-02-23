@@ -3,6 +3,7 @@ package com.ksj.bamft.activity;
 import java.util.List;
 
 import com.ksj.bamft.R;
+import com.ksj.bamft.actionbarhelpers.ActionBarTitleHelper;
 import com.ksj.bamft.adapter.TruckRowAdapter;
 import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.database.DatabaseHandler;
@@ -43,9 +44,13 @@ public class TruckListActivity extends ListActivity {
         // Display
         setContentView(R.layout.ab_truck_list);
 		// Action Bar Left Icon
+        ActionBarTitleHelper.setTitleBar(this);
+        /*
 		final ActionBar actionBar = (ActionBar) findViewById(R.id.actionbar);
 		actionBar.setHomeAction(new IntentAction(this, BamftActivity.createIntent(this), R.drawable.icon));
 		actionBar.setTitle("BAMFT!");
+		*/
+        
         // End Display
         
         //this part is for displaying it in the ListView

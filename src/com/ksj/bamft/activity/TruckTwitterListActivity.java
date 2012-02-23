@@ -25,6 +25,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ksj.bamft.R;
+import com.ksj.bamft.actionbarhelpers.ActionBarTitleHelper;
 import com.ksj.bamft.actionbarhelpers.ProfileTabsHelper;
 import com.ksj.bamft.adapter.TweetItemAdapter;
 import com.ksj.bamft.constants.Constants;
@@ -63,8 +64,9 @@ public class TruckTwitterListActivity extends ListActivity {
 		setContentView(R.layout.ab_twitter_list);
 
 		
-		
-		ProfileTabsHelper.SetupProfileTabs(this, truck, "twitter", extras.getString(Constants.REFERRER));
+		//extras.getString(Constants.REFERRER)
+		ActionBarTitleHelper.setTitleBar(this);
+		ProfileTabsHelper.setupProfileTabs(this, truck, "twitter");
 
 		twitterRunnable.setListView(getListView());
 
@@ -80,6 +82,7 @@ public class TruckTwitterListActivity extends ListActivity {
 			TweetItemAdapter adapter = new TweetItemAdapter(this, R.layout.ab_tweet_item, tweetItems);
 			ListView lv = getListView();
 			lv.setAdapter(adapter);
+			lv.setDivider(null);
 
 
 
@@ -152,6 +155,7 @@ public class TruckTwitterListActivity extends ListActivity {
 
 			TweetItemAdapter adapter = new TweetItemAdapter(TruckTwitterListActivity.this.getBaseContext(), R.layout.ab_tweet_item, tweetItems);
 			listView.setAdapter(adapter);
+			listView.setDivider(null);
 
 
 

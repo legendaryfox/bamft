@@ -19,6 +19,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 import com.ksj.bamft.R;
+import com.ksj.bamft.actionbarhelpers.ProfileTabsHelper;
 import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.database.DatabaseHandler;
 import com.ksj.bamft.maps.MapOverlays;
@@ -104,6 +105,9 @@ public class TruckProfileActivity extends MapActivity {
         landmarkDistanceTextView.setText(distance_string);
         truckDescriptionTextView.setText(truck.getDescription());
         
+        ProfileTabsHelper.referrer = "truck";
+        ProfileTabsHelper.setupProfileTabs(this, truck, "profile");
+        
         /*
         //set scrolling for description
         truckDescriptionTextView.setMovementMethod(new ScrollingMovementMethod());
@@ -153,6 +157,7 @@ public class TruckProfileActivity extends MapActivity {
 			}
 		});
         */
+        /*
         // Schedule button
         
         Button scheduleButton = (Button) findViewById(R.id.truckProfileScheduleButton);
@@ -236,7 +241,7 @@ public class TruckProfileActivity extends MapActivity {
 			}
 		});
 		
-		
+		*/
 		
 		
 		

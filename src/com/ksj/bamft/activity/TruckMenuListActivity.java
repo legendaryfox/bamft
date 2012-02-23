@@ -3,6 +3,8 @@ package com.ksj.bamft.activity;
 import java.util.List;
 
 import com.ksj.bamft.R;
+import com.ksj.bamft.actionbarhelpers.ActionBarTitleHelper;
+import com.ksj.bamft.actionbarhelpers.ProfileTabsHelper;
 import com.ksj.bamft.adapter.FoodItemAdapter;
 import com.ksj.bamft.adapter.TruckScheduleRowAdapter;
 import com.ksj.bamft.adapter.TweetItemAdapter;
@@ -39,9 +41,12 @@ public class TruckMenuListActivity extends ListActivity {
 		setListAdapter(adapter);
 		
 		
-
+		
 		ListView lv = getListView();
 		lv.setTextFilterEnabled(true);
+		
+		ActionBarTitleHelper.setTitleBar(this);
+		ProfileTabsHelper.setupProfileTabs(this, truck, "menu");
 		
 		
 		

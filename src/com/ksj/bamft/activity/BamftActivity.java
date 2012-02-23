@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 
 import com.ksj.bamft.R;
+import com.ksj.bamft.actionbarhelpers.ActionBarTitleHelper;
 import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.database.DatabaseHandler;
 import com.ksj.bamft.mbta.MbtaHelpers;
@@ -64,7 +65,7 @@ public class BamftActivity extends Activity {
 		}
 
 		// TEST - Database Stuff
-		/*final DatabaseHandler db = new DatabaseHandler(this);
+		final DatabaseHandler db = new DatabaseHandler(this);
 		List<Landmark> landmarkList = db.getAllLandmarks();
 		List<Truck> truckList = db.getAllTrucks();
 		List<Schedule> scheduleList = db.getAllSchedules();
@@ -85,7 +86,7 @@ public class BamftActivity extends Activity {
 		}
 		for (Factlet a: factletList) {
 			Log.d("Factlet", a.toString());
-		}*/
+		}
 		//END TEST DATA
 
 
@@ -99,10 +100,11 @@ public class BamftActivity extends Activity {
 		setContentView(R.layout.ab_home);
 
 		// Action Bar Left Icon
-		final ActionBar actionBar = (ActionBar) findViewById(R.id.actionbar);
+/*		final ActionBar actionBar = (ActionBar) findViewById(R.id.actionbar);
 		actionBar.setHomeAction(new IntentAction(this, createIntent(this), R.drawable.icon));
 		actionBar.setTitle("BAMFT!");
-
+*/
+		ActionBarTitleHelper.setTitleBar(this);
 		// END DISPLAY
 
 		// Home page grid view
@@ -126,19 +128,19 @@ public class BamftActivity extends Activity {
 
 
 	}
-
+/*
 	// Action Bar Home Icon leads to Home
 	public static Intent createIntent(Context context) {
 		Intent i = new Intent(context, BamftActivity.class);
 		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		return i;
 	}
-
+*/
 	public void menuClickFunction(final View v) {
 
 		Time now = new Time();
-		//now.setToNow();
-		now.set(0, 0, 20, 15, 2, 2012);
+		now.setToNow();
+		//now.set(0, 0, 20, 15, 2, 2012);
 
 		final String dayOfWeek = getDayOfWeek(now);
 		final String timeOfDay = getMealOfDay(now);
@@ -205,10 +207,11 @@ public class BamftActivity extends Activity {
 
 
 	public static String getDayOfWeek(Time now) {
-
+/*
 		if (true) {
 			return "Monday";
 		}
+		*/
 		return Constants.DAYS_OF_WEEK[now.weekDay]; 
 	}
 
@@ -218,12 +221,12 @@ public class BamftActivity extends Activity {
 	 * @return "Morning", "Afternoon", "Evening"
 	 */
 	public static String getMealOfDay(Time now) {
-
-		if (true) {
+/*
+		if (false) {
 			return "Afternoon";
 		}
 
-
+*/
 		Time morningStart = new Time(now);
 		morningStart.set(0, 0, Constants.MORNING_START_HOUR, now.monthDay, now.month, now.year);
 
