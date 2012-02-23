@@ -25,8 +25,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ksj.bamft.R;
+import com.ksj.bamft.actionbarhelpers.ProfileTabsHelper;
 import com.ksj.bamft.adapter.TweetItemAdapter;
 import com.ksj.bamft.constants.Constants;
+import com.ksj.bamft.model.Truck;
 import com.ksj.bamft.model.Tweet;
 import com.markupartist.android.widget.ActionBar;
 import com.markupartist.android.widget.ActionBar.IntentAction;
@@ -55,10 +57,14 @@ public class TruckTwitterListActivity extends ListActivity {
 
 		Bundle extras = this.getIntent().getExtras();
 		twitterHandle = (String) extras.get(Constants.TWITTER_HANDLE);
+		Truck truck = (Truck) extras.get(Constants.TRUCK);
 
 		handler = new Handler();
 		setContentView(R.layout.ab_twitter_list);
 
+		
+		
+		ProfileTabsHelper.SetupProfileTabs(this, truck, "twitter", extras.getString(Constants.REFERRER));
 
 		twitterRunnable.setListView(getListView());
 

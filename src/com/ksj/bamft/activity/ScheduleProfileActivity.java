@@ -35,6 +35,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 import com.ksj.bamft.R;
+import com.ksj.bamft.actionbarhelpers.ProfileTabsHelper;
 import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.constants.GoogleMapsConstants;
 import com.ksj.bamft.database.DatabaseHandler;
@@ -183,6 +184,10 @@ public class ScheduleProfileActivity extends MapActivity {
         		Double.parseDouble(landmark.getYcoord()),
         		Double.parseDouble(landmark.getXcoord()));
         
+        ProfileTabsHelper.SetupProfileTabs(this, truck, "profile", receivedExtras.getString(Constants.REFERRER));
+        
+        /*
+        // BEGIN "TAB" BUTTONS
         // Schedule button
         
         Button scheduleButton = (Button) findViewById(R.id.truckProfileScheduleButton);
@@ -264,6 +269,10 @@ public class ScheduleProfileActivity extends MapActivity {
 				
 			}
 		});
+        
+        
+        // END "TAB" BUTTONS
+        */
 	 }
 	
 	/**

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ksj.bamft.R;
 import com.ksj.bamft.adapter.TruckRowAdapter;
+import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.database.DatabaseHandler;
 import com.ksj.bamft.model.Truck;
 import com.markupartist.android.widget.ActionBar;
@@ -79,7 +80,9 @@ public class TruckListActivity extends ListActivity {
         		// create the schedule bundle
         		Bundle truckIdBundle = new Bundle();
         		truckIdBundle.putInt("truckId", truck.getId());
+        		truckIdBundle.putString(Constants.REFERRER, "truck");
         		loadTruckProfileIntent.putExtras(truckIdBundle);
+        		
         	
         		// Start the activity
         		TruckListActivity.this.startActivity(loadTruckProfileIntent);

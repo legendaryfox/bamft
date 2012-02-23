@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/lightgrey"
+    android:orientation="vertical" 
+    xmlns:foo="http://schemas.android.com/apk/res/com.ksj.bamft">
+
+    <!-- Action Bar -->
+    <com.markupartist.android.widget.ActionBar
+        android:id="@+id/actionbar"
+        style="@style/ActionBar" />
+    <!-- End Action Bar -->
+    
+    
+    <!-- Action Bar Drop Shadow -->
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="3dip"
+        android:background="@drawable/actionbar_shadow" >
+    </View>
+        
+        <!-- Secondary Bar -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:background="@color/white">
+        
+        <Button
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:background="@drawable/tabs"
+        android:textSize="11sp"
+        android:text="SCHEDULE"
+        android:onClick="clickSchedule"/>
+        
+        <Button
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:background="@drawable/tabs" 
+        android:textSize="11sp"
+        android:text="MENU"
+        android:onClick="clickMenu"/>
+        
+        <Button
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:background="@drawable/tab_hover"
+        android:textSize="11sp"
+        android:text="TWITTER"
+        android:onClick="clickTwitter"/>
+        
+        <Button
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:background="@drawable/tabs" 
+        android:textSize="11sp"
+        android:text="REVIEWS"
+        android:onClick="clickYelp"/>
+    </LinearLayout>
+    
+    
+    <!-- Secondary Bar Drop Shadow -->
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="3dip"
+        android:background="@drawable/tab_shadow" >
+    </View>
+
+
+    
+    
+    <!-- Page Title -->
+    <com.actionbar.TextViewPlus
+            android:id="@+id/twitterhandle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dip"
+            android:paddingRight="10dip"
+            android:paddingBottom="0dip"
+            android:paddingLeft="10dip"
+            android:text="twitterhandle"
+            android:textColor="#FF148bd8"
+            android:textSize="25sp"
+       		foo:customFont="fonts/FF_DIN_Light.otf">
+    </com.actionbar.TextViewPlus>
+            
+    
+   		<View
+		    android:layout_marginTop="10dp"
+		    android:layout_marginLeft="10dp"
+		    android:layout_marginRight="10dp"
+		    android:layout_marginBottom="0dp"
+	        android:layout_width="fill_parent"
+	        android:layout_height=".5dip"
+	        android:background="@color/linegrey">
+	    </View>
+	    
+    
+   	
+    <!-- Start Content box -->
+    <RelativeLayout
+        android:id="@+id/box_list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+	    
+        <com.actionbar.TextViewPlus
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/twitterhandle"
+	        android:paddingTop="10dip"
+            android:paddingRight="20dip"
+            android:paddingBottom="0dip"
+            android:paddingLeft="20dip"
+	        android:text="tweettweettweettweettweettweettweettweettweettweettweettweettweettweettweet"
+	        android:textColor="#FF232323" 
+	        android:id="@+id/tweet"
+	        android:textSize="18sp"
+			foo:customFont="fonts/FF_DIN_Light.otf">
+		</com.actionbar.TextViewPlus>
+        
+        <TextView
+            android:id="@+id/tweetdate"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tweet"
+            android:paddingTop="0dip"
+            android:paddingRight="20dip"
+            android:paddingBottom="3dip"
+            android:paddingLeft="20dip"
+            android:text="7 hours ago"
+            android:textSize="13sp"/> 
+    </RelativeLayout>
+    
+   		<View
+		    android:layout_marginTop="8dp"
+	        android:layout_width="fill_parent"
+	        android:layout_marginLeft="10dip"
+	        android:layout_marginRight="10dip"
+	        android:layout_height=".5dip"
+	        android:layout_below="@+id/tweetdate"
+	        android:background="@color/linegrey">
+	    </View>
+</LinearLayout>

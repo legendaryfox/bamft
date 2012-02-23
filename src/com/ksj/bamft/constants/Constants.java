@@ -42,6 +42,8 @@ public class Constants {
 	public static final String HUBWAY_ROUTE_USER_TO_STATION = "hubwayUserToStationRoute";
 	public static final String HUBWAY_ROUTE_STATION_TO_STATION = "hubwayStationToStationRoute";
 	public static final String HUBWAY_ROUTE_STATION_TO_TRUCK = "hubwayStationToTruckRoute";
+	public static final String REFERRER = "referrer";
+	
 	
 	// User location & maps
 	

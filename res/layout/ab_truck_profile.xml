@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:background="@drawable/tab_hover"
+            android:background="@drawable/tabs"
             android:text="PROFILE"
             android:textSize="11sp" />
 
@@ -83,6 +83,10 @@
         android:background="@drawable/tab_shadow" >
     </View>
 
+    
+    
+    
+    
     <!-- Start List item box -->
 
     <RelativeLayout

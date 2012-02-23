@@ -128,6 +128,7 @@ public class ScheduleListActivity extends ListActivity {
 				extras.putSerializable(Constants.SCHEDULE, scheduleList.get(position));
 				extras.putDouble(Constants.USER_LATITUDE, userLatitude);
 				extras.putDouble(Constants.USER_LONGITUDE, userLongitude);
+				extras.putString(Constants.REFERRER, "schedule");
 				loadScheduleProfileIntent.putExtras(extras);
 
 				// Start the activity
