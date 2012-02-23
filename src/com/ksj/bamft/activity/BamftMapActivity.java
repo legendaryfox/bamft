@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -64,10 +65,30 @@ public class BamftMapActivity extends MapActivity {
         else if (mapToCreate.equals(Constants.MAP_TYPE_HUBWAY_ROUTE)) {
         	
         	@SuppressWarnings("unchecked")
-			List<NavigationStep> hubwayRoute =	(List<NavigationStep>) 
+			List<NavigationStep> userToStation = (List<NavigationStep>) 
         			extras.getSerializable(Constants.HUBWAY_ROUTE_USER_TO_STATION);
         	
-        	List<RouteOverlay> routeOverlays = MapHelpers.getRouteOverlay(hubwayRoute);
+        	@SuppressWarnings("unchecked")
+			List<NavigationStep> stationToStation = (List<NavigationStep>)
+        			extras.getSerializable(Constants.HUBWAY_ROUTE_STATION_TO_STATION);
+        	
+        	@SuppressWarnings("unchecked")
+			List<NavigationStep> stationToTruck = (List<NavigationStep>)
+        			extras.getSerializable(Constants.HUBWAY_ROUTE_STATION_TO_TRUCK);
+        	
+        	List<RouteOverlay> userToStationOverlays = 
+        			MapHelpers.getRouteOverlay(userToStation, Color.BLUE);
+        	
+        	List<RouteOverlay> stationToStationOverlays = 
+        			MapHelpers.getRouteOverlay(stationToStation, Color.GREEN);
+        	
+        	List<RouteOverlay> stationToTruckOverlays = 
+        			MapHelpers.getRouteOverlay(stationToTruck, Color.BLUE);
+        	
+        	List<RouteOverlay> routeOverlays = new LinkedList<RouteOverlay>();
+        	routeOverlays.addAll(userToStationOverlays);
+        	routeOverlays.addAll(stationToStationOverlays);
+        	routeOverlays.addAll(stationToTruckOverlays);
         	
         	createMapViewWithRoute(routeOverlays);
         }

@@ -1,11 +1,22 @@
 package com.ksj.bamft.maps;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -15,7 +26,6 @@ import android.location.LocationManager;
 import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.Overlay;
 import com.ksj.bamft.constants.GoogleMapsConstants;
 import com.ksj.bamft.model.NavigationStep;
 import com.ksj.bamft.model.SimpleLocation;
@@ -120,7 +130,7 @@ public class MapHelpers {
 	 * @param routeType
 	 * @return
 	 */
-	public static String getDirections(SimpleLocation source, SimpleLocation destination,
+	public static String getMapsQuery(SimpleLocation source, SimpleLocation destination,
 			String routeType, String output) {
 		
 		if (source == null || destination == null)
@@ -138,6 +148,37 @@ public class MapHelpers {
 		return url;
 	}
 	
+	public static List<NavigationStep> getDirections(SAXParserFactory factory, String mapsQuery) {
+		
+		KMLHandler kmlHandler = new KMLHandler();
+		
+		try {
+			URL mapsQueryURL = new URL(mapsQuery);
+			SAXParser parser = factory.newSAXParser();
+			XMLReader reader = parser.getXMLReader();
+			reader.setContentHandler(kmlHandler);
+			reader.parse(new InputSource(mapsQueryURL.openStream()));
+		}
+		
+		catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		
+		catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+		
+		catch (SAXException e) {
+			e.printStackTrace();
+		}
+		
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return kmlHandler.getDirections();
+	}
+	
 	/**
 	 * Given a set of directions in the form of List<NavigationStep>, return a 
 	 * List<RouteOverlay> that will draw the route on a MapActivity. 
@@ -145,7 +186,7 @@ public class MapHelpers {
 	 * @param directions
 	 * @return
 	 */
-	public static List<RouteOverlay> getRouteOverlay(List<NavigationStep> directions) {
+	public static List<RouteOverlay> getRouteOverlay(List<NavigationStep> directions, int color) {
 		List<RouteOverlay> routeOverlays = new LinkedList<RouteOverlay>();
 		
 		for (int i = 1; i < directions.size(); i++) {
@@ -162,7 +203,7 @@ public class MapHelpers {
 			GeoPoint pointB = MapHelpers.getGeoPoint(
 					locationB.getLatitude(), locationB.getLongitude());
 			
-			RouteOverlay routeOverlay = new RouteOverlay(pointA, pointB, Color.BLUE);
+			RouteOverlay routeOverlay = new RouteOverlay(pointA, pointB, color);
 			
 			routeOverlays.add(routeOverlay);
 		}

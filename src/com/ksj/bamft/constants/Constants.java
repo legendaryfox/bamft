@@ -40,6 +40,8 @@ public class Constants {
 	public static final String YELP_HANDLE = "yelp_handle";
 	public static final String MAP_TYPE = "mapType";
 	public static final String HUBWAY_ROUTE_USER_TO_STATION = "hubwayUserToStationRoute";
+	public static final String HUBWAY_ROUTE_STATION_TO_STATION = "hubwayStationToStationRoute";
+	public static final String HUBWAY_ROUTE_STATION_TO_TRUCK = "hubwayStationToTruckRoute";
 	
 	// User location & maps
 	

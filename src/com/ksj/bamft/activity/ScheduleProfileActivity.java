@@ -275,52 +275,54 @@ public class ScheduleProfileActivity extends MapActivity {
 				HubwayStation nearestStationToTruck = HubwayHelpers.getNearestStation(stations,
 						truckLat, truckLon);
 				
-				String directions = MapHelpers.getDirections(
+				SimpleLocation nearestStationToUserLoc = new SimpleLocation(
+						nearestStationToUser.getLatitude(), nearestStationToUser.getLongitude());
+				
+				SimpleLocation nearestStationToTruckLoc = new SimpleLocation(
+						nearestStationToTruck.getLatitude(), nearestStationToTruck.getLongitude());
+				
+				SAXParserFactory factory = SAXParserFactory.newInstance();
+				
+				// Create Google Maps queries
+				
+				String userToStationQuery = MapHelpers.getMapsQuery(
 						new SimpleLocation(userLat, userLon),
-						new SimpleLocation(truckLat, truckLon),
+						nearestStationToUserLoc,
 						GoogleMapsConstants.WALKING_ROUTE,
 						GoogleMapsConstants.KML);
 				
-				KMLHandler kmlHandler = new KMLHandler();
+				String stationToStationQuery = MapHelpers.getMapsQuery(
+						nearestStationToUserLoc,
+						nearestStationToTruckLoc, 
+						GoogleMapsConstants.BIKING_ROUTE,
+						GoogleMapsConstants.KML);
 				
-				try {
-					URL mapQuery = new URL(directions);
-					SAXParserFactory factory = SAXParserFactory.newInstance();
-					SAXParser parser = factory.newSAXParser();
-					XMLReader reader = parser.getXMLReader();
-					reader.setContentHandler(kmlHandler);
-					reader.parse(new InputSource(mapQuery.openStream()));
-				}
+				String stationToTruckQuery = MapHelpers.getMapsQuery(
+						nearestStationToTruckLoc,
+						new SimpleLocation(truckLat, truckLon), 
+						GoogleMapsConstants.WALKING_ROUTE, 
+						GoogleMapsConstants.KML);
 				
-				catch (MalformedURLException e) {
-					e.printStackTrace();
-				}
+				List<NavigationStep> userToStation =
+						MapHelpers.getDirections(factory, userToStationQuery);
 				
-				catch (ParserConfigurationException e) {
-					e.printStackTrace();
-				}
+				List<NavigationStep> stationToStation =
+						MapHelpers.getDirections(factory, stationToStationQuery);
 				
-				catch (SAXException e) {
-					e.printStackTrace();
-				}
-				
-				catch (IOException e) {
-					e.printStackTrace();
-				}
-				
-				List<NavigationStep> userToStationA = kmlHandler.getDirections();
+				List<NavigationStep> stationToTruck =
+						MapHelpers.getDirections(factory, stationToTruckQuery);
 				
 		        // Remove the last step, which is a summary of the route
 		        // and doesn't contain any coordinates to be drawn
 				
-				NavigationStep routeSummary = 
-						(NavigationStep) ((LinkedList)userToStationA).removeLast();
+				NavigationStep routeSummaryA = 
+						(NavigationStep) ((LinkedList<NavigationStep>)userToStation).removeLast();
 				
-				for (NavigationStep step : userToStationA) {
-					Log.d("NavigationStep", step.getDirections());
-					Log.d("NavigationStep", step.getLocation().getLatitude() + ", " + 
-							step.getLocation().getLongitude());
-				}
+				NavigationStep routeSummaryB =
+						(NavigationStep) ((LinkedList<NavigationStep>)stationToStation).removeLast();
+				
+				NavigationStep routeSummaryC =
+						(NavigationStep) ((LinkedList<NavigationStep>)stationToTruck).removeLast();
 				
 				// Start map activity
 				
@@ -328,8 +330,15 @@ public class ScheduleProfileActivity extends MapActivity {
 						BamftMapActivity.class);
 				
 				intent.putExtra(Constants.MAP_TYPE, Constants.MAP_TYPE_HUBWAY_ROUTE);
+				
 				intent.putExtra(Constants.HUBWAY_ROUTE_USER_TO_STATION, 
-						(Serializable) userToStationA);
+						(Serializable) userToStation);
+				
+				intent.putExtra(Constants.HUBWAY_ROUTE_STATION_TO_STATION, 
+						(Serializable) stationToStation);
+				
+				intent.putExtra(Constants.HUBWAY_ROUTE_STATION_TO_TRUCK,
+						(Serializable) stationToTruck);
 				
 				startActivity(intent);
 			}
@@ -349,7 +358,7 @@ public class ScheduleProfileActivity extends MapActivity {
 				SimpleLocation userLocation = new SimpleLocation(userLat, userLon);
 				SimpleLocation truckLocation = new SimpleLocation(truckLat, truckLon);
 				
-				String directions = MapHelpers.getDirections(userLocation, truckLocation,
+				String directions = MapHelpers.getMapsQuery(userLocation, truckLocation,
 						GoogleMapsConstants.WALKING_ROUTE, GoogleMapsConstants.HTML);
 				
 				Intent intent = new Intent(

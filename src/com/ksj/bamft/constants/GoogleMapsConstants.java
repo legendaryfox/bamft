@@ -1,6 +1,14 @@
+/**
+ *  GoogleMapsConstants.java
+ * 
+ *  These constants are used for building Google Maps
+ *  map activities and for constructing queries to Maps.
+ */
+
 package com.ksj.bamft.constants;
 
 public class GoogleMapsConstants {
+	
 	public static final String URL = "http://maps.google.com/maps";
 	public static final String PACKAGE = "com.google.android.apps.maps";
 	public static final String CLASS = "com.google.android.maps.MapsActivity";
