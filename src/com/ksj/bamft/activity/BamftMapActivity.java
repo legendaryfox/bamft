@@ -140,6 +140,15 @@ public class BamftMapActivity extends MapActivity {
 		
 		List<HubwayStation> stations = HubwayHelpers.getAvailableStations();
 		
+		if (stations == null || stations.size() < 1) {
+			Toast.makeText(
+					getBaseContext(),
+					Constants.HUBWAY_UNAVAILABLE,
+					Toast.LENGTH_LONG).show();
+			
+			return;
+		}
+		
 		MapView mapView = (MapView) findViewById(R.id.mapView);
         mapView.setBuiltInZoomControls(true);
         

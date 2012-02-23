@@ -130,16 +130,16 @@ public class MapHelpers {
 	 * @param routeType
 	 * @return
 	 */
-	public static String getMapsQuery(SimpleLocation source, SimpleLocation destination,
+	public static String getMapsQuery(SimpleLocation source, List<SimpleLocation> destinations,
 			String routeType, String output) {
 		
-		if (source == null || destination == null)
+		if (source == null || destinations == null || destinations.size() < 1)
 			return "";
 		
 		String url = 
 				GoogleMapsConstants.URL + "?" +
 				GoogleMapsConstants.SOURCE_ADDR + getCommaSeparatedLatLon(source) + "&" +
-				GoogleMapsConstants.DEST_ADDR + getCommaSeparatedLatLon(destination) + "&" +
+				GoogleMapsConstants.DEST_ADDR + getDestinationsString(destinations) + "&" +
 				GoogleMapsConstants.ROUTE_TYPE + routeType + "&" + 
 				GoogleMapsConstants.OUTPUT + output;
 		

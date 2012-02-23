@@ -1,39 +1,21 @@
 package com.ksj.bamft.activity;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.Time;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
-import com.google.android.maps.OverlayItem;
 import com.ksj.bamft.R;
 import com.ksj.bamft.actionbarhelpers.ActionBarTitleHelper;
 import com.ksj.bamft.actionbarhelpers.ProfileTabsHelper;
@@ -41,15 +23,11 @@ import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.constants.GoogleMapsConstants;
 import com.ksj.bamft.database.DatabaseHandler;
 import com.ksj.bamft.hubway.HubwayHelpers;
-import com.ksj.bamft.maps.KMLHandler;
 import com.ksj.bamft.maps.MapHelpers;
-import com.ksj.bamft.maps.MapOverlays;
-import com.ksj.bamft.maps.RouteOverlay;
 import com.ksj.bamft.mbta.MbtaHelpers;
 import com.ksj.bamft.model.HubwayStation;
 import com.ksj.bamft.model.Landmark;
 import com.ksj.bamft.model.MbtaStation;
-import com.ksj.bamft.model.NavigationStep;
 import com.ksj.bamft.model.Schedule;
 import com.ksj.bamft.model.SimpleLocation;
 import com.ksj.bamft.model.Truck;
@@ -294,78 +272,36 @@ public class ScheduleProfileActivity extends MapActivity {
 				
 				List<HubwayStation> stations = HubwayHelpers.getAvailableStations();
 				
+				if (stations == null || stations.size() < 1) {
+					Toast.makeText(
+							getBaseContext(),
+							Constants.HUBWAY_UNAVAILABLE,
+							Toast.LENGTH_LONG).show();
+					
+					return;
+				}
+				
 				HubwayStation nearestStationToUser = HubwayHelpers.getNearestStation(stations,
 						userLat, userLon);
-				
-				HubwayStation nearestStationToTruck = HubwayHelpers.getNearestStation(stations,
-						truckLat, truckLon);
 				
 				SimpleLocation nearestStationToUserLoc = new SimpleLocation(
 						nearestStationToUser.getLatitude(), nearestStationToUser.getLongitude());
 				
-				SimpleLocation nearestStationToTruckLoc = new SimpleLocation(
-						nearestStationToTruck.getLatitude(), nearestStationToTruck.getLongitude());
+				List<SimpleLocation> destinations = new ArrayList<SimpleLocation>(2);
+				destinations.add(nearestStationToUserLoc);
+				destinations.add(new SimpleLocation(truckLat, truckLon));
 				
-				SAXParserFactory factory = SAXParserFactory.newInstance();
-				
-				// Create Google Maps queries
-				
-				String userToStationQuery = MapHelpers.getMapsQuery(
-						new SimpleLocation(userLat, userLon),
-						nearestStationToUserLoc,
-						GoogleMapsConstants.WALKING_ROUTE,
-						GoogleMapsConstants.KML);
-				
-				String stationToStationQuery = MapHelpers.getMapsQuery(
-						nearestStationToUserLoc,
-						nearestStationToTruckLoc, 
+				String mapsQuery = MapHelpers.getMapsQuery(
+						new SimpleLocation(userLat, userLon), 
+						destinations, 
 						GoogleMapsConstants.BIKING_ROUTE,
-						GoogleMapsConstants.KML);
+						GoogleMapsConstants.HTML);
 				
-				String stationToTruckQuery = MapHelpers.getMapsQuery(
-						nearestStationToTruckLoc,
-						new SimpleLocation(truckLat, truckLon), 
-						GoogleMapsConstants.WALKING_ROUTE, 
-						GoogleMapsConstants.KML);
-				
-				List<NavigationStep> userToStation =
-						MapHelpers.getDirections(factory, userToStationQuery);
-				
-				List<NavigationStep> stationToStation =
-						MapHelpers.getDirections(factory, stationToStationQuery);
-				
-				List<NavigationStep> stationToTruck =
-						MapHelpers.getDirections(factory, stationToTruckQuery);
-				
-		        // Remove the last step, which is a summary of the route
-		        // and doesn't contain any coordinates to be drawn
-				
-				NavigationStep routeSummaryA = 
-						(NavigationStep) ((LinkedList<NavigationStep>)userToStation).removeLast();
-				
-				NavigationStep routeSummaryB =
-						(NavigationStep) ((LinkedList<NavigationStep>)stationToStation).removeLast();
-				
-				NavigationStep routeSummaryC =
-						(NavigationStep) ((LinkedList<NavigationStep>)stationToTruck).removeLast();
-				
-				// Start map activity
-				
-				Intent intent = new Intent(ScheduleProfileActivity.this, 
-						BamftMapActivity.class);
-				
-				intent.putExtra(Constants.MAP_TYPE, Constants.MAP_TYPE_HUBWAY_ROUTE);
-				
-				intent.putExtra(Constants.HUBWAY_ROUTE_USER_TO_STATION, 
-						(Serializable) userToStation);
-				
-				intent.putExtra(Constants.HUBWAY_ROUTE_STATION_TO_STATION, 
-						(Serializable) stationToStation);
-				
-				intent.putExtra(Constants.HUBWAY_ROUTE_STATION_TO_TRUCK,
-						(Serializable) stationToTruck);
-				
-				startActivity(intent);
+				Intent intent = new Intent(
+						android.content.Intent.ACTION_VIEW, Uri.parse(mapsQuery));
+		        
+		        intent.setClassName(Constants.BROWSER_PACKAGE, Constants.BROWSER_CLASS);
+		        startActivity(intent);
 			}
 		});
 	}
@@ -383,11 +319,14 @@ public class ScheduleProfileActivity extends MapActivity {
 				SimpleLocation userLocation = new SimpleLocation(userLat, userLon);
 				SimpleLocation truckLocation = new SimpleLocation(truckLat, truckLon);
 				
-				String directions = MapHelpers.getMapsQuery(userLocation, truckLocation,
+				List<SimpleLocation> destination = new ArrayList<SimpleLocation>(1);
+				destination.add(truckLocation);
+				
+				String mapsQuery = MapHelpers.getMapsQuery(userLocation, destination,
 						GoogleMapsConstants.WALKING_ROUTE, GoogleMapsConstants.HTML);
 				
 				Intent intent = new Intent(
-						android.content.Intent.ACTION_VIEW, Uri.parse(directions));
+						android.content.Intent.ACTION_VIEW, Uri.parse(mapsQuery));
 		        
 		        intent.setClassName(GoogleMapsConstants.PACKAGE, GoogleMapsConstants.CLASS);
 		        startActivity(intent);

@@ -61,6 +61,9 @@ public class HubwayHelpers {
 		
 		HubwayStation nearestStation = null;
 		
+		if (stations == null)
+			return null;
+		
 		double smallestDistanceSeen = Double.MAX_VALUE;
 		
 		for (HubwayStation station : stations) {

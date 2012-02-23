@@ -61,6 +61,10 @@ public class Constants {
 	// Messages (toasts, etc.)
 	
 	public static final String ALL_TRUCKS_CLOSED = "All trucks are currently closed :(";
+	public static final String HUBWAY_UNAVAILABLE = 
+			"Alas! Either all Hubway stations are currently unavailable or " +
+			"we are having trouble retrieving Hubway data. We apologize " +
+			"profusely :(";
 	
 	// Yelp API Keys
 	
@@ -75,4 +79,6 @@ public class Constants {
 	public static final String PREFS_CACHE_UPDATED = "cacheUpdated"; // preference for last update of cache. type is Long.
 	public static final long CACHE_LIFE = 60 * 60 * 1000; // how long the cached SQLite life should be (in millis).
 	public static final int VISIBILITY_GONE = 8;
+	public static final String BROWSER_PACKAGE = "com.android.browser";
+	public static final String BROWSER_CLASS = "com.android.browser.BrowserActivity";
 }
