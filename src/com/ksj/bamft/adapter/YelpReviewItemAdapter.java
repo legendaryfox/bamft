@@ -40,7 +40,7 @@ public class YelpReviewItemAdapter extends ArrayAdapter<YelpReview> {
 		
 		if (rowView == null) {
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			rowView = inflater.inflate(R.layout.yelp_review_item, parent, false);		
+			rowView = inflater.inflate(R.layout.ab_yelp_review_item, parent, false);		
 		}
 		
 		YelpReview yelpReview = yelpReviewList.get(position);

@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.ksj.bamft.R;
+import com.ksj.bamft.actionbarhelpers.ActionBarTitleHelper;
+import com.ksj.bamft.actionbarhelpers.ProfileTabsHelper;
 import com.ksj.bamft.adapter.FoodItemAdapter;
 import com.ksj.bamft.adapter.TweetItemAdapter;
 import com.ksj.bamft.adapter.YelpReviewItemAdapter;
@@ -31,6 +35,8 @@ import com.ksj.bamft.yelp.Yelp;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -42,17 +48,20 @@ public class TruckYelpListActivity extends ListActivity {
 
 	private final String NO_YELP_HANDLE = "This truck does not have a Yelp handle.";
 	private final String NO_REVIEWS = "No reviews to display.";
-	
+
 	private final String DIALOG_YELP_TITLE = "Yelp";
 	private final String DIALOG_ACCESSING_YELP = "Accessing Yelp reviews...";
 
 	private static String yelpHandle;
 	private static ArrayList<YelpReview> yelpReviewItems;
-	
+
 	private static ProgressDialog dialog;
 	private static Handler handler;
 	private static Thread downloadYelpThread;
 	private YelpRunnable yelpRunnable = new YelpRunnable();
+
+
+	private static String yelpTotalRatingImageUrl;
 
 	/*
 	 * NOTE: There's a lot of weird voodoo here because of the way we need to pass adapters, but how they don't work within a static class.
@@ -66,15 +75,40 @@ public class TruckYelpListActivity extends ListActivity {
 
 		Bundle extras = this.getIntent().getExtras();
 		yelpHandle = (String) extras.get(Constants.YELP_HANDLE);
+		Truck truck = (Truck) extras.get(Constants.TRUCK);
+		
+		
+		setContentView(R.layout.ab_yelp_list);
+		ActionBarTitleHelper.setTitleBar(this);
+		ProfileTabsHelper.setupProfileTabs(this, truck, "reviews");
 
 		handler = new Handler();
 		yelpRunnable.setListView(getListView());
 
 		// Check to see if we already have the information
 		if (yelpReviewItems != null) {
-			YelpReviewItemAdapter adapter = new YelpReviewItemAdapter(TruckYelpListActivity.this.getBaseContext(), R.layout.yelp_review_item, yelpReviewItems);
+			YelpReviewItemAdapter adapter = new YelpReviewItemAdapter(TruckYelpListActivity.this.getBaseContext(), R.layout.ab_yelp_review_item, yelpReviewItems);
 			ListView lv = getListView();
 			lv.setAdapter(adapter);
+
+			ImageView yelpTotalRatingImageView = (ImageView) lv.findViewById(R.id.yelpTotalRatingImage);
+			if (yelpTotalRatingImageView != null) {
+				Bitmap yelpTotalRatingImageBitmap;
+				try {
+					yelpTotalRatingImageBitmap = BitmapFactory.decodeStream((InputStream)new URL(yelpTotalRatingImageUrl).getContent());
+					yelpTotalRatingImageView.setImageBitmap(yelpTotalRatingImageBitmap);
+					Log.d("YELP", "ex IMAGE SUCCESS! " + yelpTotalRatingImageUrl);
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					Log.d("YELP", "ex IMAGE fail malformed! " + yelpTotalRatingImageUrl);
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					Log.d("YELP", "ex IMAGE failed io! " + yelpTotalRatingImageUrl);
+					e.printStackTrace();
+				}
+
+			}
 		}
 
 		// Check if the thread is already running
@@ -84,13 +118,32 @@ public class TruckYelpListActivity extends ListActivity {
 		}
 
 		downloadYelpItems();
+		
+		ImageView yelpTotalRatingImageView = (ImageView) getListView().findViewById(R.id.yelpTotalRatingImage);
+		if (yelpTotalRatingImageView != null) {
+			Bitmap yelpTotalRatingImageBitmap;
+			try {
+				yelpTotalRatingImageBitmap = BitmapFactory.decodeStream((InputStream)new URL(yelpTotalRatingImageUrl).getContent());
+				yelpTotalRatingImageView.setImageBitmap(yelpTotalRatingImageBitmap);
+				Log.d("YELP", "ssss IMAGE SUCCESS! " + yelpTotalRatingImageUrl);
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				Log.d("YELP", "ssss IMAGE fail malformed! " + yelpTotalRatingImageUrl);
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				Log.d("YELP", "sss IMAGE failed io! " + yelpTotalRatingImageUrl);
+				e.printStackTrace();
+			}
+
+		}
 
 	}
 
 	public void downloadYelpItems() {
 		// Begin the long process, start the dialog box
 		dialog = ProgressDialog.show(this, DIALOG_YELP_TITLE, DIALOG_ACCESSING_YELP);
-		
+
 		downloadYelpThread = new DownloadYelpThread(yelpRunnable);
 		downloadYelpThread.start();
 
@@ -130,7 +183,30 @@ public class TruckYelpListActivity extends ListActivity {
 		public void run() {
 			YelpReviewItemAdapter adapter = new YelpReviewItemAdapter(TruckYelpListActivity.this.getBaseContext(), R.layout.yelp_review_item, yelpReviewItems);
 			listView.setAdapter(adapter);
-			
+			listView.setDivider(null);
+
+
+			ImageView yelpTotalRatingImageView = (ImageView) listView.findViewById(R.id.yelpTotalRatingImage);
+			if (yelpTotalRatingImageView != null) {
+				Bitmap yelpTotalRatingImageBitmap;
+				try {
+					yelpTotalRatingImageBitmap = BitmapFactory.decodeStream((InputStream)new URL(yelpTotalRatingImageUrl).getContent());
+					yelpTotalRatingImageView.setImageBitmap(yelpTotalRatingImageBitmap);
+					Log.d("YELP", "IMAGE SUCCESS! " + yelpTotalRatingImageUrl);
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					Log.d("YELP", "IMAGE fail malformed! " + yelpTotalRatingImageUrl);
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					Log.d("YELP", "IMAGE failed io! " + yelpTotalRatingImageUrl);
+					e.printStackTrace();
+				}
+
+			} else {
+				Log.d("YELP", "WHY IS IT NULL??");
+			}
+
 			// Finished loading, dismiss the dialog
 			dialog.dismiss();
 		}
@@ -163,6 +239,13 @@ public class TruckYelpListActivity extends ListActivity {
 
 				list.add(yelpReview);
 			}
+
+			yelpTotalRatingImageUrl = yelpFeedObject.getString("rating_img_url_large");
+			Log.d("YELP", "URL WAS " + yelpTotalRatingImageUrl);
+			
+			
+
+
 
 
 		} catch (Exception e) {

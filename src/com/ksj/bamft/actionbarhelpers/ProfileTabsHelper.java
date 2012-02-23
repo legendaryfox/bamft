@@ -245,19 +245,19 @@ public class ProfileTabsHelper {
 
 
 		//Highlight the appropriate tab?
-		if ("profile" == highlightTab) {
+		if ("profile" == highlightTab && profileButton != null) {
 			//Button highlightButton = (Button) ((Activity) context).findViewById(R.id.truckProfileProfileButton);
 			profileButton.setBackgroundResource(R.drawable.tab_hover);
-		} else if ("schedule" == highlightTab) {
+		} else if ("schedule" == highlightTab && scheduleButton != null) {
 			//Button highlightButton = (Button) ((Activity) context).findViewById(R.id.truckProfileScheduleButton);
 			scheduleButton.setBackgroundResource(R.drawable.tab_hover);
-		} else if ("menu" == highlightTab) {
+		} else if ("menu" == highlightTab && menuButton != null) {
 			//Button highlightButton = (Button) ((Activity) context).findViewById(R.id.truckProfileMenuButton);
 			menuButton.setBackgroundResource(R.drawable.tab_hover);
-		} else if ("twitter" == highlightTab) {
+		} else if ("twitter" == highlightTab && twitterButton != null) {
 			//Button highlightButton = (Button) ((Activity) context).findViewById(R.id.truckProfileTwitterButton);
 			twitterButton.setBackgroundResource(R.drawable.tab_hover);
-		} else if ("reviews" == highlightTab) {
+		} else if ("reviews" == highlightTab && yelpButton != null) {
 			//Button highlightButton = (Button) ((Activity) context).findViewById(R.id.truckProfileYelpButton);
 			yelpButton.setBackgroundResource(R.drawable.tab_hover);
 		} else {

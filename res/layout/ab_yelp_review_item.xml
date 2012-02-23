@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:foo="http://schemas.android.com/apk/res/com.ksj.bamft"
+    android:id="@+id/box_list"
+    android:layout_width="fill_parent"
+    android:background="@color/lightgrey"
+    android:paddingTop="5dp"
+    android:layout_height="wrap_content" >
+
+    <ImageView
+        android:id="@+id/yelpUserImage"
+        android:layout_width="100dip"
+        android:layout_height="100dip"
+        android:src="@drawable/blank_user_medium" />
+
+    <com.ksj.bamft.actionbarhelpers.TextViewPlus
+        android:id="@+id/yelpUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/box_list"
+        android:layout_marginBottom="5dip"
+        android:layout_toRightOf="@+id/yelpUserImage"
+        foo:customFont="fonts/miso-light.ttf"
+        android:text="Reviewer Name"
+        android:textColor="#FF232323"
+        android:textSize="20sp" >
+    </com.ksj.bamft.actionbarhelpers.TextViewPlus>
+    
+    <ImageView android:id="@+id/yelpRatingImage"
+		    android:contentDescription="Yelp Rating"
+	        android:layout_width="84dp"
+	        android:layout_height="17dp"
+	        android:scaleType="fitCenter"
+	        android:layout_margin="5dp"
+	        android:layout_toRightOf="@+id/yelpUserName"
+	       	android:src="@drawable/fullstars" />
+
+    <com.ksj.bamft.actionbarhelpers.TextViewPlus
+        android:id="@+id/yelpReviewExcerpt"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/yelpUserName"
+        android:layout_below="@+id/yelpUserName"
+        android:layout_marginRight="10dip"
+        foo:customFont="fonts/FF_DIN_Light.otf"
+        android:text="My girlfriend and I came here for a lunch one day. Tasty stuff at this joint..."
+        android:textColor="#FF232323"
+        android:textSize="18sp" >
+    </com.ksj.bamft.actionbarhelpers.TextViewPlus>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height=".5dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/yelpReviewExcerpt"
+        android:background="@color/linegrey" >
+    </View>
+
+</RelativeLayout>

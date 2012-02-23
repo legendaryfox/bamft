@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:foo="http://schemas.android.com/apk/res/com.ksj.bamft"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/lightgrey"
+    android:orientation="vertical" >
+
+    <!-- Action Bar -->
+
+    <com.markupartist.android.widget.ActionBar
+        android:id="@+id/actionbar"
+        style="@style/ActionBar" />
+    <!-- End Action Bar -->
+
+
+    <!-- Action Bar Drop Shadow -->
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="3dip"
+        android:background="@drawable/actionbar_shadow" >
+    </View>
+
+    <!-- Secondary Bar -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:background="@color/white" >
+
+        <Button
+            android:id="@+id/truckProfileProfileButton"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/tabs"
+            android:text="PROFILE"
+            android:textSize="11sp" />
+
+        <Button
+            android:id="@+id/truckProfileScheduleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/tabs"
+            android:text="SCHEDULE"
+            android:textSize="11sp" />
+
+        <Button
+            android:id="@+id/truckProfileMenuButton"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/tabs"
+            android:text="MENU"
+            android:textSize="11sp" />
+
+        <Button
+            android:id="@+id/truckProfileTwitterButton"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/tabs"
+            android:text="TWITTER"
+            android:textSize="11sp" />
+
+        <Button
+            android:id="@+id/truckProfileYelpButton"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/tabs"
+            android:text="REVIEWS"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <!-- Secondary Bar Drop Shadow -->
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="3dip"
+        android:background="@drawable/tab_shadow" >
+    </View>
+
+    <!-- Page Title -->
+
+    <RelativeLayout
+        android:id="@+id/yelpTitleBar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/yelplogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginTop="10dip"
+            android:src="@drawable/yelplogo" />
+
+        <ImageView
+            android:id="@+id/yelpTotalRatingImage"
+            android:layout_width="166dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@+id/yelplogo"
+            android:contentDescription="Yelp Rating"
+            android:scaleType="fitCenter"
+            android:src="@drawable/fullstars" />
+        
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height=".5dip"
+        android:layout_margin="10dp"
+        android:background="@color/linegrey" >
+    </View>
+
+    <!-- Start Content box -->
+
+    <ListView
+        android:id="@+android:id/list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+    </ListView>
+
+</LinearLayout>

@@ -36,6 +36,9 @@ public class TruckMenuListActivity extends ListActivity {
 		Truck truck = db.getTruck(truck_id);
 		final List<FoodItem> foodItemList = db.getFoodItemsByTruck(truck);
 		
+		setContentView(R.layout.ab_food_list);
+		ActionBarTitleHelper.setTitleBar(this);
+		ProfileTabsHelper.setupProfileTabs(this, truck, "menu");
 		
 		FoodItemAdapter adapter = new FoodItemAdapter(this, R.layout.food_item_row, foodItemList);
 		setListAdapter(adapter);
@@ -44,6 +47,7 @@ public class TruckMenuListActivity extends ListActivity {
 		
 		ListView lv = getListView();
 		lv.setTextFilterEnabled(true);
+		lv.setDivider(null);
 		
 		ActionBarTitleHelper.setTitleBar(this);
 		ProfileTabsHelper.setupProfileTabs(this, truck, "menu");
