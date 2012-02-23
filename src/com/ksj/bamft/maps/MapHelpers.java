@@ -4,22 +4,20 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.LocationProvider;
-import android.provider.Settings;
-import android.widget.Toast;
+import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
-import com.ksj.bamft.activity.ScheduleListActivity;
-import com.ksj.bamft.constants.Constants;
+import com.google.android.maps.Overlay;
 import com.ksj.bamft.constants.GoogleMapsConstants;
+import com.ksj.bamft.model.NavigationStep;
 import com.ksj.bamft.model.SimpleLocation;
 
 public class MapHelpers {
@@ -135,7 +133,41 @@ public class MapHelpers {
 				GoogleMapsConstants.ROUTE_TYPE + routeType + "&" + 
 				GoogleMapsConstants.OUTPUT + output;
 		
+		Log.d("MapQuery", url);
+		
 		return url;
+	}
+	
+	/**
+	 * Given a set of directions in the form of List<NavigationStep>, return a 
+	 * List<RouteOverlay> that will draw the route on a MapActivity. 
+	 * 
+	 * @param directions
+	 * @return
+	 */
+	public static List<RouteOverlay> getRouteOverlay(List<NavigationStep> directions) {
+		List<RouteOverlay> routeOverlays = new LinkedList<RouteOverlay>();
+		
+		for (int i = 1; i < directions.size(); i++) {
+			
+			// Get point A
+			
+			SimpleLocation locationA = directions.get(i - 1).getLocation();
+			GeoPoint pointA = MapHelpers.getGeoPoint(
+					locationA.getLatitude(), locationA.getLongitude());
+			
+			// Get point B
+			
+			SimpleLocation locationB = directions.get(i).getLocation();
+			GeoPoint pointB = MapHelpers.getGeoPoint(
+					locationB.getLatitude(), locationB.getLongitude());
+			
+			RouteOverlay routeOverlay = new RouteOverlay(pointA, pointB, Color.BLUE);
+			
+			routeOverlays.add(routeOverlay);
+		}
+		
+		return routeOverlays;
 	}
 	
 	/**

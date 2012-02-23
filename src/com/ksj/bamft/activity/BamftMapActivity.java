@@ -1,5 +1,6 @@
 package com.ksj.bamft.activity;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import android.content.Intent;
@@ -21,8 +22,10 @@ import com.ksj.bamft.database.DatabaseHandler;
 import com.ksj.bamft.hubway.HubwayHelpers;
 import com.ksj.bamft.maps.MapHelpers;
 import com.ksj.bamft.maps.MapOverlays;
+import com.ksj.bamft.maps.RouteOverlay;
 import com.ksj.bamft.model.HubwayStation;
 import com.ksj.bamft.model.Landmark;
+import com.ksj.bamft.model.NavigationStep;
 import com.ksj.bamft.model.Schedule;
 import com.ksj.bamft.model.Truck;
 
@@ -38,21 +41,35 @@ public class BamftMapActivity extends MapActivity {
 		super.onCreate(savedInstanceState);
 		
         Bundle extras = this.getIntent().getExtras();
-        
-        String dayOfWeek = extras.getString(Constants.DAY_OF_WEEK);
-        String timeOfDay = extras.getString(Constants.TIME_OF_DAY);
         String mapToCreate = extras.getString(Constants.MAP_TYPE);
-        
+
         if (mapToCreate.equals(Constants.MAP_TYPE_TRUCKS)) {
+        	String dayOfWeek = extras.getString(Constants.DAY_OF_WEEK);
+            String timeOfDay = extras.getString(Constants.TIME_OF_DAY);
+
         	createOpenTrucksMapView(dayOfWeek, timeOfDay);
         	setOpenTrucksButtonFunctionality(dayOfWeek, timeOfDay);
         	setHubwayButtonFunctionality(dayOfWeek, timeOfDay);
         }
         
         else if (mapToCreate.equals(Constants.MAP_TYPE_HUBWAY)) {
+        	String dayOfWeek = extras.getString(Constants.DAY_OF_WEEK);
+            String timeOfDay = extras.getString(Constants.TIME_OF_DAY);
+
         	createHubwayStationsMapView();
         	setOpenTrucksButtonFunctionality(dayOfWeek, timeOfDay);
         	setHubwayButtonFunctionality(dayOfWeek, timeOfDay);
+        }
+        
+        else if (mapToCreate.equals(Constants.MAP_TYPE_HUBWAY_ROUTE)) {
+        	
+        	@SuppressWarnings("unchecked")
+			List<NavigationStep> hubwayRoute =	(List<NavigationStep>) 
+        			extras.getSerializable(Constants.HUBWAY_ROUTE_USER_TO_STATION);
+        	
+        	List<RouteOverlay> routeOverlays = MapHelpers.getRouteOverlay(hubwayRoute);
+        	
+        	createMapViewWithRoute(routeOverlays);
         }
 	}
 	
@@ -150,6 +167,45 @@ public class BamftMapActivity extends MapActivity {
         
         List<Overlay> overlays = mapView.getOverlays();
         showOpenTruckOverlays(mapView, overlays, dayOfWeek, timeOfDay);
+	}
+	
+	/**
+	 * Create the MapView to display the given route.
+	 */
+	private void createMapViewWithRoute(List<RouteOverlay> routeOverlays) {
+		setContentView(R.layout.map_activity);
+		
+		MapView mapView = (MapView) findViewById(R.id.mapView);
+        mapView.setBuiltInZoomControls(true);
+        
+        List<Overlay> overlayToDisplay = mapView.getOverlays();
+        
+        for (Overlay routeOverlay : routeOverlays) {
+        	overlayToDisplay.add(routeOverlay);
+        }
+        
+        Button trucksButton = (Button) findViewById(R.id.openTrucksButton);
+        Button hubwayStationsButton = (Button) findViewById(R.id.hubwayStationsButton);
+        
+        trucksButton.setVisibility(Constants.VISIBILITY_GONE);
+        hubwayStationsButton.setVisibility(Constants.VISIBILITY_GONE);
+        
+        // Set map to center on source
+        
+        Overlay source = routeOverlays.get(0);
+        GeoPoint sourcePoint = ((RouteOverlay) source).getPointA();
+       
+        MapController mapController = mapView.getController();
+        mapController.setCenter(sourcePoint);
+        
+        //TODO: add overlay markers for source and dest
+        
+        /*Drawable overlayMarker = this.getResources().getDrawable(R.drawable.androidmarker);
+        
+        overlayMarker.setBounds(0, 0,
+        		overlayMarker.getIntrinsicWidth(), overlayMarker.getIntrinsicHeight());
+        
+        MapOverlays overlay = new MapOverlays(overlayMarker, this);*/
 	}
 
 	

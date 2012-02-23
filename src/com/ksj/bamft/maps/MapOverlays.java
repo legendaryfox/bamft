@@ -13,7 +13,7 @@ public class MapOverlays extends ItemizedOverlay<OverlayItem> {
 	
 	private Context context;
 	private ArrayList<OverlayItem> overlays = new ArrayList<OverlayItem>();
-
+	
 	public MapOverlays(Drawable defaultMarker, Context context) {
 		super(boundCenterBottom(defaultMarker));
 		this.context = context;

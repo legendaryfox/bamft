@@ -1,8 +1,10 @@
 package com.ksj.bamft.activity;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -14,6 +16,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -38,6 +41,7 @@ import com.ksj.bamft.hubway.HubwayHelpers;
 import com.ksj.bamft.maps.KMLHandler;
 import com.ksj.bamft.maps.MapHelpers;
 import com.ksj.bamft.maps.MapOverlays;
+import com.ksj.bamft.maps.RouteOverlay;
 import com.ksj.bamft.mbta.MbtaHelpers;
 import com.ksj.bamft.model.HubwayStation;
 import com.ksj.bamft.model.Landmark;
@@ -277,35 +281,57 @@ public class ScheduleProfileActivity extends MapActivity {
 						GoogleMapsConstants.WALKING_ROUTE,
 						GoogleMapsConstants.KML);
 				
-				KMLHandler kmlHandler = null;
+				KMLHandler kmlHandler = new KMLHandler();
 				
-					try {
-						URL mapQuery = new URL(directions);
-						SAXParserFactory factory = SAXParserFactory.newInstance();
-						SAXParser parser = factory.newSAXParser();
-						XMLReader reader = parser.getXMLReader();
-						kmlHandler = new KMLHandler();
-						reader.setContentHandler(kmlHandler);
-						reader.parse(new InputSource(mapQuery.openStream()));
-					}
-					
-					catch (MalformedURLException e) {
-						e.printStackTrace();
-					}
-					
-					catch (ParserConfigurationException e) {
-						e.printStackTrace();
-					}
-					
-					catch (SAXException e) {
-						e.printStackTrace();
-					}
-					
-					catch (IOException e) {
-						e.printStackTrace();
-					}
-					
-					List<NavigationStep> userToStationA = kmlHandler.getDirections();
+				try {
+					URL mapQuery = new URL(directions);
+					SAXParserFactory factory = SAXParserFactory.newInstance();
+					SAXParser parser = factory.newSAXParser();
+					XMLReader reader = parser.getXMLReader();
+					reader.setContentHandler(kmlHandler);
+					reader.parse(new InputSource(mapQuery.openStream()));
+				}
+				
+				catch (MalformedURLException e) {
+					e.printStackTrace();
+				}
+				
+				catch (ParserConfigurationException e) {
+					e.printStackTrace();
+				}
+				
+				catch (SAXException e) {
+					e.printStackTrace();
+				}
+				
+				catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				List<NavigationStep> userToStationA = kmlHandler.getDirections();
+				
+		        // Remove the last step, which is a summary of the route
+		        // and doesn't contain any coordinates to be drawn
+				
+				NavigationStep routeSummary = 
+						(NavigationStep) ((LinkedList)userToStationA).removeLast();
+				
+				for (NavigationStep step : userToStationA) {
+					Log.d("NavigationStep", step.getDirections());
+					Log.d("NavigationStep", step.getLocation().getLatitude() + ", " + 
+							step.getLocation().getLongitude());
+				}
+				
+				// Start map activity
+				
+				Intent intent = new Intent(ScheduleProfileActivity.this, 
+						BamftMapActivity.class);
+				
+				intent.putExtra(Constants.MAP_TYPE, Constants.MAP_TYPE_HUBWAY_ROUTE);
+				intent.putExtra(Constants.HUBWAY_ROUTE_USER_TO_STATION, 
+						(Serializable) userToStationA);
+				
+				startActivity(intent);
 			}
 		});
 	}

@@ -1,7 +1,10 @@
 package com.ksj.bamft.model;
 
-public class NavigationStep {
+import java.io.Serializable;
+
+public class NavigationStep implements Serializable {
 	
+	private static final long serialVersionUID = -2366762892958686145L;
 	private String address = "";
 	private String directions = "";
 	private String description = "";

@@ -13,14 +13,11 @@ public class KMLHandler extends DefaultHandler {
 	
 	// KML tags
 	
-	private static final String DOCUMENT = "Document";
 	private static final String PLACEMARK = "Placemark";
 	private static final String NAME = "name";
 	private static final String DESCRIPTION = "description";
 	private static final String ADDRESS = "address";
-	private static final String LATITUDE = "latitude";
-	private static final String LONGITUDE = "longitude";
-	private static final String GEOMETRY_COLLECTION = "GeometryCollection";
+	private static final String COORDINATES = "coordinates";
 	
 	// The list of directions to be created from the KML
 	
@@ -41,9 +38,7 @@ public class KMLHandler extends DefaultHandler {
 	
 	// Keep track of what element we're in
 	
-	private boolean inDocument;
 	private boolean inPlacemark;
-	private boolean inGeometryCollection;
 	
 	/**
 	 * Get the list of directions created by the parser.
@@ -71,22 +66,9 @@ public class KMLHandler extends DefaultHandler {
 		
 		if (localName.equalsIgnoreCase(PLACEMARK)) {
 			navigationStep = new NavigationStep();
+			location = new SimpleLocation();
 			
-			inDocument = false;
 			inPlacemark = true;
-			inGeometryCollection = false;
-		}
-		
-		else if (localName.equalsIgnoreCase(DOCUMENT)) {
-			inDocument = true;
-			inPlacemark = false;
-			inGeometryCollection = false;
-		}
-		
-		else if (localName.equalsIgnoreCase(GEOMETRY_COLLECTION)) {
-			inDocument = false;
-			inPlacemark = false;
-			inGeometryCollection = true;
 		}
 	}
 	
@@ -134,17 +116,24 @@ public class KMLHandler extends DefaultHandler {
 		else if (localName.equalsIgnoreCase(ADDRESS))
 			navigationStep.setAddress(elementValue);
 		
-		else if (localName.equalsIgnoreCase(LATITUDE)) {
-			location.setLatitude(Double.parseDouble(elementValue));
+		else if (localName.equalsIgnoreCase(COORDINATES)) {
+			String[] tokens = elementValue.split(",");
+			
+			if (tokens.length != 3)
+				return;
+			
+			String longitude = tokens[0];
+			String latitude = tokens[1];
+			
+			location.setLongitude(Double.parseDouble(longitude));
+			location.setLatitude(Double.parseDouble(latitude));
 		}
 		
-		else if (localName.equalsIgnoreCase(LONGITUDE)) {
-			location.setLongitude(Double.parseDouble(elementValue));
-		}
-		
-		else if (localName.equalsIgnoreCase(PLACEMARK) && !inGeometryCollection && !inDocument) {
+		else if (localName.equalsIgnoreCase(PLACEMARK)) {
 			navigationStep.setLocation(location);
 			directions.add(navigationStep);
+			
+			inPlacemark = false;
 		}
 	}
 }

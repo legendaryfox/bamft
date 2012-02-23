@@ -77,10 +77,10 @@ public class MbtaHelpers {
 			if(distance < smallestDistanceSeen) {
 				nearestMbtaStation = mbtaStation;
 				smallestDistanceSeen = distance;
-				Log.d("DISTANCE", "New shortest distance: " + mbtaStation.getStopName() + "(" + mbtaStation.getPlatformKey() +  " at " + distance + " away.");
+				//Log.d("DISTANCE", "New shortest distance: " + mbtaStation.getStopName() + "(" + mbtaStation.getPlatformKey() +  " at " + distance + " away.");
 			}
 		}
-		Log.d("DISTANCE", "------ END -----");
+		//Log.d("DISTANCE", "------ END -----");
 		return nearestMbtaStation;
 	}
 	

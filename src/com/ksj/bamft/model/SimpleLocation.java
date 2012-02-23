@@ -1,6 +1,10 @@
 package com.ksj.bamft.model;
 
-public class SimpleLocation {
+import java.io.Serializable;
+
+public class SimpleLocation implements Serializable {
+
+	private static final long serialVersionUID = -6995662621042014901L;
 	private double latitude;
 	private double longitude;
 

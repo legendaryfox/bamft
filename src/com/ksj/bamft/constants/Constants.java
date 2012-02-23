@@ -39,6 +39,7 @@ public class Constants {
 	public static final String TRUCK_ID = "truck_id";
 	public static final String YELP_HANDLE = "yelp_handle";
 	public static final String MAP_TYPE = "mapType";
+	public static final String HUBWAY_ROUTE_USER_TO_STATION = "hubwayUserToStationRoute";
 	
 	// User location & maps
 	
@@ -51,6 +52,7 @@ public class Constants {
 	public static final double BPL_LONGITUDE = -71.078612;
 	public static final String MAP_TYPE_HUBWAY = "hubway";
 	public static final String MAP_TYPE_TRUCKS = "trucks";
+	public static final String MAP_TYPE_HUBWAY_ROUTE = "hubwayRoute";
 	
 	// Messages (toasts, etc.)
 	
@@ -68,4 +70,5 @@ public class Constants {
 	public static final String BAMFT_PREFS_NAME = "BamftPrefsFile";
 	public static final String PREFS_CACHE_UPDATED = "cacheUpdated"; // preference for last update of cache. type is Long.
 	public static final long CACHE_LIFE = 60 * 60 * 1000; // how long the cached SQLite life should be (in millis).
+	public static final int VISIBILITY_GONE = 8;
 }

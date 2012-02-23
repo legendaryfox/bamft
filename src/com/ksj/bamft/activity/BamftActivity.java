@@ -60,11 +60,11 @@ public class BamftActivity extends Activity {
 		// TEST - MBTA Stuff
 		List<MbtaStation> mbtaStationList = MbtaHelpers.getAllMbtaStations(this.getBaseContext());
 		for (MbtaStation m : mbtaStationList) {
-			Log.d("MBTA Station", m.toString());
+			//Log.d("MBTA Station", m.toString());
 		}
 
 		// TEST - Database Stuff
-		final DatabaseHandler db = new DatabaseHandler(this);
+		/*final DatabaseHandler db = new DatabaseHandler(this);
 		List<Landmark> landmarkList = db.getAllLandmarks();
 		List<Truck> truckList = db.getAllTrucks();
 		List<Schedule> scheduleList = db.getAllSchedules();
@@ -85,7 +85,7 @@ public class BamftActivity extends Activity {
 		}
 		for (Factlet a: factletList) {
 			Log.d("Factlet", a.toString());
-		}
+		}*/
 		//END TEST DATA
 
 
