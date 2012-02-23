@@ -25,6 +25,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.android.maps.GeoPoint;
@@ -79,7 +80,7 @@ public class ScheduleProfileActivity extends MapActivity {
         Landmark landmark = db.getLandmark(schedule.getLandmarkId());
         
         // Finally, fill the layout
-        setContentView(R.layout.truck_profile);
+        setContentView(R.layout.ab_truck_profile);
         
         TextView truckNameTextView = (TextView)findViewById(R.id.truckNameText);
         TextView landmarkNameTextView = (TextView)findViewById(R.id.landmarkNameText);
@@ -101,6 +102,8 @@ public class ScheduleProfileActivity extends MapActivity {
         landmarkDistanceTextView.setText(distance_string);
         truckDescriptionTextView.setText(truck.getDescription());
         
+        
+        /*
         //set scrolling for description
         truckDescriptionTextView.setMovementMethod(new ScrollingMovementMethod());
         
@@ -128,8 +131,7 @@ public class ScheduleProfileActivity extends MapActivity {
         MapController mapController = mapView.getController();
         mapController.setCenter(truckLocation);
         mapController.setZoom(17);
-        
-        // Google Maps button -- temporary, only here for testing intents to Maps!
+        */
         
         Time now = new Time();
     	now.setToNow();
@@ -144,6 +146,12 @@ public class ScheduleProfileActivity extends MapActivity {
         Log.d("Nearest MBTA", "The nearest MBTA is " + nearestUserMbtaStation.getStopName() + " to " + nearestTruckMbtaStation.getStopName());
         
         
+        /*
+        // Google Maps button -- temporary, only here for testing intents to Maps!
+        
+        
+        
+        
         Button mapsButton = (Button) findViewById(R.id.truckProfileMapsButton);
         mapsButton.setOnClickListener(new View.OnClickListener() {
 			
@@ -156,6 +164,8 @@ public class ScheduleProfileActivity extends MapActivity {
 		        startActivity(intent);
 			}
 		});
+        */
+        
         
         // Hubway button
         
@@ -262,7 +272,7 @@ public class ScheduleProfileActivity extends MapActivity {
 	private void createHubwayButton(final double userLat, final double userLon,
 			final double truckLat, final double truckLon) {
 
-        Button hubwayButton = (Button) findViewById(R.id.truckProfileHubwayButton);
+        ImageButton hubwayButton = (ImageButton) findViewById(R.id.truckProfileHubwayButton);
         hubwayButton.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View arg0) {
@@ -351,7 +361,7 @@ public class ScheduleProfileActivity extends MapActivity {
 	private void createWalkingDirectionsButton(final double userLat, final double userLon,
 			final double truckLat, final double truckLon) {
 
-        Button hubwayButton = (Button) findViewById(R.id.truckProfileWalkingButton);
+        ImageButton hubwayButton = (ImageButton) findViewById(R.id.truckProfileWalkingButton);
         hubwayButton.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View arg0) {

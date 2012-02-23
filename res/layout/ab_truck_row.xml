@@ -1,98 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:foo="http://schemas.android.com/apk/res/com.ksj.bamft"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/lightgrey"
-    xmlns:foo="http://schemas.android.com/apk/res/com.ksj.bamft">
-    
-   
-<!-- Start List item box -->
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/box_list"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    xmlns:foo="http://schemas.android.com/apk/res/com.ksj.bamft">
+    android:orientation="vertical" >
 
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="100dip"
-        android:layout_height="100dip"
-        android:src="@drawable/square_icon" />
+    <!-- Start List item box -->
 
-    <com.ksj.bamft.actionbarhelpers.TextViewPlus
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/box_list"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/box_list"
-	    android:layout_toRightOf="@+id/icon"
-        android:text="Truck Name" 
-        android:textColor="#FF148bd8" 
-        android:textSize="30sp"
-        android:id="@+id/truckNameText"
-		foo:customFont="fonts/miso-light.ttf">
-	</com.ksj.bamft.actionbarhelpers.TextViewPlus>
-    
-    <com.ksj.bamft.actionbarhelpers.TextViewPlus
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/truckNameText"
-        android:layout_below="@+id/truckNameText"
-        android:text="Cuisine Type" 
-        android:textColor="#FF232323" 
-        android:id="@+id/truckCuisineText"
-		foo:customFont="fonts/miso-light.ttf">
-	</com.ksj.bamft.actionbarhelpers.TextViewPlus>
+        android:layout_height="wrap_content" >
 
-    <com.ksj.bamft.actionbarhelpers.TextViewPlus
-        android:id="@+id/landmarkDistanceText"
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="100dip"
+            android:layout_height="100dip"
+            android:layout_marginTop="10dip"
+            android:paddingBottom="10dip"
+            android:src="@drawable/truckpic" />
+
+        <com.ksj.bamft.actionbarhelpers.TextViewPlus
+            android:id="@+id/truckNameText"
+            android:layout_width="fill_parent"
+            android:layout_height="25dip"
+            android:layout_below="@+id/box_list"
+            android:layout_marginTop="10dip"
+            android:layout_toRightOf="@+id/icon"
+            foo:customFont="fonts/FF_DIN_Light.otf"
+            android:text="Lincoln Street Coffee On The Go"
+            android:textColor="#FF148bd8"
+            android:textSize="25sp" >
+        </com.ksj.bamft.actionbarhelpers.TextViewPlus>
+
+        <com.ksj.bamft.actionbarhelpers.TextViewPlus
+            android:id="@+id/truckCuisineText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/truckNameText"
+            android:layout_below="@+id/truckNameText"
+            android:layout_marginTop="4dip"
+            foo:customFont="fonts/FF_DIN_Light.otf"
+            android:text="Cuisine Type"
+            android:textColor="#FF232323"
+            android:textSize="16sp" >
+        </com.ksj.bamft.actionbarhelpers.TextViewPlus>
+
+        <com.ksj.bamft.actionbarhelpers.TextViewPlus
+            android:id="@+id/landmarkDistanceText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/icon"
+            android:layout_alignLeft="@+id/truckCuisineText"
+            android:layout_marginBottom="8dip"
+            foo:customFont="fonts/miso-normal.ttf"
+            android:text="1.2 mi"
+            android:textColor="#FF232323"
+            android:textSize="16sp" >
+        </com.ksj.bamft.actionbarhelpers.TextViewPlus>
+
+        <ImageButton
+            android:id="@+id/btn_subway"
+            android:layout_width="32dip"
+            android:layout_height="32dip"
+            android:layout_alignBottom="@+id/landmarkDistanceText"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="5dip"
+            android:layout_toLeftOf="@+id/btn_walk"
+            android:background="@drawable/button"
+            android:src="@drawable/ic_subway" />
+
+        <ImageButton
+            android:id="@+id/btn_walk"
+            android:layout_width="32dip"
+            android:layout_height="32dip"
+            android:layout_alignBottom="@+id/landmarkDistanceText"
+            android:layout_marginRight="5dip"
+            android:layout_toLeftOf="@+id/btn_bike"
+            android:background="@drawable/button"
+            android:src="@drawable/ic_walk" />
+
+        <ImageButton
+            android:id="@+id/btn_bike"
+            android:layout_width="32dip"
+            android:layout_height="32dip"
+            android:layout_alignBottom="@+id/landmarkDistanceText"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/button"
+            android:src="@drawable/ic_bike" />
+    </RelativeLayout>
+    <!-- End List item box -->
+    <!-- Bottom border between boxes -->
+
+    <View
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/icon"
-        android:layout_alignLeft="@+id/truckCuisineText"
-        android:textColor="#FF232323"
-        android:text="1.2 mi"
-        android:layout_marginBottom="8dip"
-        foo:customFont="fonts/miso-normal.ttf">
-    </com.ksj.bamft.actionbarhelpers.TextViewPlus>
-    
-    <ImageButton
-        android:id="@+id/btn_subway"
-        android:src="@drawable/ic_refresh"
-        android:layout_width="32dip"
-        android:layout_height="32dip"
-        android:layout_alignBottom="@+id/landmarkDistanceText"
-        android:layout_toLeftOf="@+id/btn_walk"
-        android:layout_marginLeft="10dip"
-        android:background="@drawable/button" 
-        android:layout_marginRight="5dip"/>
-    
-    <ImageButton
-        android:id="@+id/btn_walk"
-        android:src="@drawable/ic_refresh"
-        android:layout_width="32dip"
-        android:layout_height="32dip"
-        android:layout_alignBottom="@+id/landmarkDistanceText"
-        android:layout_toLeftOf="@+id/btn_bike"
-        android:background="@drawable/button"
-        android:layout_marginRight="5dip"/>
-  
-    <ImageButton
-        android:id="@+id/btn_bike"
-        android:src="@drawable/ic_refresh"
-        android:layout_width="32dip"
-        android:layout_height="32dip"
-        android:layout_alignBottom="@+id/landmarkDistanceText"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/button"
-        android:layout_marginRight="5dip"/>
-</RelativeLayout>
-<!-- End List item box -->
-		<!-- Bottom border between boxes -->
-		<View
-	        android:layout_width="fill_parent"
-	        android:layout_height=".5dip"
-	        android:background="@color/linegrey">
-	    </View>
- 
+        android:layout_height=".5dip"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/linegrey" >
+    </View>
+
 </LinearLayout>

@@ -29,50 +29,17 @@
         android:layout_height="40dip"
         android:background="@color/white" >
 
-        <Button
-            android:id="@+id/truckProfileProfileButton"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+        <com.ksj.bamft.actionbarhelpers.TextViewPlus
+            android:id="@+id/tabsgohere"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/tab_hover"
-            android:text="PROFILE"
-            android:textSize="11sp" />
-
-        <Button
-            android:id="@+id/truckProfileScheduleButton"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/tabs"
-            android:text="SCHEDULE"
-            android:textSize="11sp" />
-
-        <Button
-            android:id="@+id/truckProfileMenuButton"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/tabs"
-            android:text="MENU"
-            android:textSize="11sp" />
-
-        <Button
-            android:id="@+id/truckProfileTwitterButton"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/tabs"
-            android:text="TWITTER"
-            android:textSize="11sp" />
-
-        <Button
-            android:id="@+id/truckProfileYelpButton"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/tabs"
-            android:text="REVIEWS"
-            android:textSize="11sp" />
+            foo:customFont="fonts/miso-light.ttf"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="Tabs Go Here"
+            android:textColor="@color/darkgrey"
+            android:textSize="14sp" >
+        </com.ksj.bamft.actionbarhelpers.TextViewPlus>
     </LinearLayout>
 
     <!-- Secondary Bar Drop Shadow -->
@@ -95,45 +62,41 @@
             android:id="@+id/icon"
             android:layout_width="100dip"
             android:layout_height="100dip"
-            android:layout_marginTop="10dip"
-            android:src="@drawable/truckpic" />
+            android:src="@drawable/ic_refresh" />
 
         <com.ksj.bamft.actionbarhelpers.TextViewPlus
             android:id="@+id/truckNameText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/box_list"
-            android:layout_marginTop="10dip"
-            android:layout_toRightOf="@+id/icon"
-            foo:customFont="fonts/FF_DIN_Light.otf"
+            android:layout_toRightOf="@+id/box_list_image"
+            foo:customFont="fonts/miso-light.ttf"
             android:text="Lincoln Street Coffee On The Go"
             android:textColor="#FF148bd8"
-            android:textSize="25sp" >
+            android:textSize="26sp" >
         </com.ksj.bamft.actionbarhelpers.TextViewPlus>
 
         <com.ksj.bamft.actionbarhelpers.TextViewPlus
             android:id="@+id/landmarkDistanceText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/icon"
-            android:layout_alignLeft="@+id/truckNameText"
+            android:layout_alignBottom="@+id/box_list_image"
+            android:layout_alignLeft="@+id/box_list_title"
             foo:customFont="fonts/miso-normal.ttf"
             android:text="1.2 mi"
-            android:textColor="#FF232323"
-            android:textSize="16sp" >
+            android:textColor="#FF232323" >
         </com.ksj.bamft.actionbarhelpers.TextViewPlus>
 
         <com.ksj.bamft.actionbarhelpers.TextViewPlus
             android:id="@+id/btn_openclosed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/landmarkDistanceText"
+            android:layout_alignBottom="@+id/txt_distance"
             android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/landmarkDistanceText"
-            android:layout_marginRight="12dip"
+            android:layout_alignTop="@+id/txt_distance"
+            android:layout_marginRight="10dip"
             foo:customFont="fonts/miso-normal.ttf"
-            android:text="Open"
-            android:textSize="16sp" >
+            android:text="Open" >
         </com.ksj.bamft.actionbarhelpers.TextViewPlus>
     </RelativeLayout>
 
@@ -155,10 +118,10 @@
             android:layout_marginLeft="10dip"
             android:layout_marginRight="5dip"
             android:background="@drawable/button"
-            android:src="@drawable/ic_subway" />
+            android:src="@drawable/ic_refresh" />
 
         <ImageButton
-            android:id="@+id/truckProfileWalkingButton"
+            android:id="@+id/btn_walk"
             android:layout_width="32dip"
             android:layout_height="32dip"
             android:layout_alignBaseline="@+id/txt_distance"
@@ -166,24 +129,24 @@
             android:layout_marginRight="5dip"
             android:layout_toRightOf="@+id/btn_subway"
             android:background="@drawable/button"
-            android:src="@drawable/ic_walk" />
+            android:src="@drawable/ic_refresh" />
 
         <ImageButton
-            android:id="@+id/truckProfileHubwayButton"
+            android:id="@+id/btn_bike"
             android:layout_width="32dip"
             android:layout_height="32dip"
             android:layout_marginRight="5dip"
-            android:layout_toRightOf="@+id/truckProfileWalkingButton"
+            android:layout_toRightOf="@+id/btn_walk"
             android:background="@drawable/button"
-            android:src="@drawable/ic_bike" />
+            android:src="@drawable/ic_refresh" />
 
         <Button
             android:id="@+id/btn_phone"
             android:layout_width="fill_parent"
             android:layout_height="32dip"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dip"
-            android:layout_toRightOf="@+id/truckProfileHubwayButton"
+            android:layout_marginRight="5dip"
+            android:layout_toRightOf="@+id/btn_bike"
             android:background="@drawable/button"
             android:text="(617) 785-0183" />
     </RelativeLayout>
@@ -197,17 +160,13 @@
         android:background="@color/white" >
 
         <com.ksj.bamft.actionbarhelpers.TextViewPlus
-            android:id="@+id/truckDescriptionText"
+            android:id="@+id/detail_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            foo:customFont="fonts/FF_DIN_Light.otf"
-            android:paddingBottom="12dip"
-            android:paddingLeft="18dip"
-            android:paddingRight="18dip"
-            android:paddingTop="12dip"
+            foo:customFont="fonts/miso-light.ttf"
+            android:padding="10dip"
             android:text="Description Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id est non lacus euismod scelerisque nec a erat. Curabitur eros felis, pretium vitae rhoncus placerat, convallis eget nisl."
-            android:textColor="#FF333333"
-            android:textSize="16sp" >
+            android:textColor="#FF333333" >
         </com.ksj.bamft.actionbarhelpers.TextViewPlus>
     </RelativeLayout>
 
@@ -238,19 +197,40 @@
                 android:layout_width="50dip"
                 android:layout_height="50dip"
                 android:layout_marginRight="10dip"
-                android:src="@drawable/ic_address" />
+                android:src="@drawable/ic_refresh" />
 
             <com.ksj.bamft.actionbarhelpers.TextViewPlus
-                android:id="@+id/landmarkNameText"
+                android:id="@+id/box_list_cuisine"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/box_list_image"
-                foo:customFont="fonts/FF_DIN_Light.otf"
-                android:text="Address goes here"
-                android:textColor="#FF232323"
-                android:textSize="16sp" >
+                foo:customFont="fonts/miso-light.ttf"
+                android:text="line2"
+                android:textColor="#FF232323" >
             </com.ksj.bamft.actionbarhelpers.TextViewPlus>
+        </RelativeLayout>
+
+        <!-- Map -->
+
+        <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/box_map"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/box_mapaddress"
+            android:layout_marginBottom="0dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_marginTop="0dip"
+            android:background="@color/lightgrey" >
+
+            <TextView
+                android:id="@+id/box_list_cuisine"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/box_list_image"
+                android:text="Map Goes Here" />
         </RelativeLayout>
     </RelativeLayout>
 
