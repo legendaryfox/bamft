@@ -86,7 +86,6 @@ public class ScheduleProfileActivity extends MapActivity {
         landmarkNameTextView.setText(landmark.getName());
         landmarkDistanceTextView.setText(distanceString);
         truckDescriptionTextView.setText(truck.getDescription());
-<<<<<<< HEAD
         
         truckDescriptionTextView.setMovementMethod(new ScrollingMovementMethod());
         
@@ -121,9 +120,7 @@ public class ScheduleProfileActivity extends MapActivity {
         mapController.setZoom(17);
         */
         
-=======
-            
->>>>>>> 80b3040a68b38cefd138f849b25c8b0d6b52b84b
+
         Time now = new Time();
     	now.setToNow();
         
