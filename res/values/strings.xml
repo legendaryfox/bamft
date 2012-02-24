@@ -5,7 +5,6 @@
 
     <!-- TRUCK PROFILE PAGES -->
 
-<<<<<<< HEAD
 	<string name="schedule">Schedule</string>
 	<string name="menu">Menu</string>
 	<string name="twitter">Twitter</string>
@@ -21,7 +20,6 @@
 	<string name="app_name">BAMFT!</string>
     <string name="trivia">Did you know&#8230;?</string>
     
-=======
     <string name="schedule">Schedule</string>
     <string name="menu">Menu</string>
     <string name="twitter">Twitter</string>
@@ -37,8 +35,8 @@
 
     <!-- ACTION BAR -->
     <string name="app_name">BAMFT!</string>
-    <string name="trivia">Food Truck Trivia</string>
->>>>>>> f57293098b46d42e74edc3c9ceaf05352301f20f
+    <string name="trivia">Did you know...?</string>
+
     <string name="searchnearby">Search Nearby</string>
     <string name="listall">List All</string>
     <string name="mapview">Map View</string>
