@@ -95,7 +95,9 @@
         <activity
             android:name=".activity.ScheduleProfileActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:screenOrientation="portrait"
+    		android:configChanges="orientation|keyboardHidden|keyboard" >
             <intent-filter>
                 <action android:name="android.intent.action.SCHEDULEPROFILE" />
 
@@ -105,7 +107,9 @@
         <activity
             android:name=".activity.TruckProfileActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:screenOrientation="portrait"
+    		android:configChanges="orientation|keyboardHidden|keyboard" >
             <intent-filter>
                 <action android:name="android.intent.action.TRUCKPROFILE" />
 
@@ -118,6 +122,18 @@
             android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.OPENTRUCKSMAP" />
+
+                <category android:name="android.intent.category.ALTERNATIVE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.RandomTruckActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:screenOrientation="portrait"
+    		android:configChanges="orientation|keyboardHidden|keyboard">
+            <intent-filter>
+                <action android:name="android.intent.action.RANDOMTRUCK" />
 
                 <category android:name="android.intent.category.ALTERNATIVE" />
             </intent-filter>

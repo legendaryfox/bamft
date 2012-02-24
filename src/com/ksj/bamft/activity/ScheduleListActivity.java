@@ -102,6 +102,11 @@ public class ScheduleListActivity extends ListActivity {
 		// Get list of schedules for trucks, sorted by trucks' distances from user
 
 		final List<Schedule> scheduleList = db.getSchedulesByDayAndTime(dayOfWeek, timeOfDay);
+		
+        if (scheduleList == null || scheduleList.size() < 1) {
+        	Toast.makeText(this, Constants.ALL_TRUCKS_CLOSED, Toast.LENGTH_SHORT).show();
+        	return;
+        }
 
 		final HashMap<Schedule, Double> scheduleToDistanceMap =
 				buildSchedulesToDistancesMap(db, scheduleList, userLatitude, userLongitude);

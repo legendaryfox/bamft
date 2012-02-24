@@ -59,6 +59,15 @@ public class ScheduleProfileActivity extends MapActivity {
         final Truck truck = db.getTruck(schedule.getTruckId());
         Landmark landmark = db.getLandmark(schedule.getLandmarkId());
         
+        double truckLatitude = Double.parseDouble(landmark.getYcoord());
+        double truckLongitude = Double.parseDouble(landmark.getXcoord());
+        
+        double distance = MapHelpers.calculateDistance(userLatitude, truckLatitude, 
+        		userLongitude, truckLongitude);
+        
+        String roundedDistance = MapHelpers.roundDistanceToDecimalPlace(1, distance);
+        String distanceString = roundedDistance + " " + Constants.MILES;
+        
         // Finally, fill the layout
         setContentView(R.layout.ab_truck_profile);
         
@@ -72,47 +81,11 @@ public class ScheduleProfileActivity extends MapActivity {
         //float make_y = new Float(landmark.getYcoord());
         //float make_distance = make_x / make_y;
         
-        // temporarily set make_distance to 0 until we get correct data
-        // from API
-        float make_distance = 0;
-        String distance_string = String.format("%.2g", make_distance) + " mi";
-        
         truckNameTextView.setText(truck.getName());
         landmarkNameTextView.setText(landmark.getName());
-        landmarkDistanceTextView.setText(distance_string);
+        landmarkDistanceTextView.setText(distanceString);
         truckDescriptionTextView.setText(truck.getDescription());
-        
-        
-        /*
-        //set scrolling for description
-        truckDescriptionTextView.setMovementMethod(new ScrollingMovementMethod());
-        
-        
-        // Map view
-        
-        MapView mapView = (MapView) findViewById(R.id.truckProfileMap);
-        mapView.setBuiltInZoomControls(true);
-        
-        List<Overlay> overlayToDisplay = mapView.getOverlays();
-        Drawable overlayMarker =
-        		this.getResources().getDrawable(R.drawable.androidmarker);
-        MapOverlays overlay = new MapOverlays(overlayMarker, this);
-        
-        int truckLat = MapHelpers.degreesToMicrodegrees(Double.parseDouble(landmark.getYcoord()));
-        int truckLon = MapHelpers.degreesToMicrodegrees(Double.parseDouble(landmark.getXcoord()));
-        
-        GeoPoint truckLocation = new GeoPoint(truckLat, truckLon);
-        OverlayItem overlayItem = new OverlayItem(truckLocation, "Hola, Mundo!", "I'm in Mexico City!");
-        
-        overlay.addOverlay(overlayItem);
-        overlay.populateNow();
-        overlayToDisplay.add(overlay);
-        
-        MapController mapController = mapView.getController();
-        mapController.setCenter(truckLocation);
-        mapController.setZoom(17);
-        */
-        
+            
         Time now = new Time();
     	now.setToNow();
         
@@ -128,9 +101,6 @@ public class ScheduleProfileActivity extends MapActivity {
         
         /*
         // Google Maps button -- temporary, only here for testing intents to Maps!
-        
-        
-        
         
         Button mapsButton = (Button) findViewById(R.id.truckProfileMapsButton);
         mapsButton.setOnClickListener(new View.OnClickListener() {
