@@ -162,7 +162,6 @@ public class BamftMapActivity extends MapActivity {
 					
 				} catch (IOException e) {
 					e.printStackTrace();
-					continue;
 				}*/
         		
         		// Num bikes
@@ -185,7 +184,8 @@ public class BamftMapActivity extends MapActivity {
         			lockedInfo = Constants.HUBWAY_STATION_LOCKED;
         		
         		HubwayOverlayItem overlayItem = new HubwayOverlayItem(
-        				point, station.getName(), 
+        				point,
+        				station.getName(), 
         				numBikesStr,
         				numEmptyDocksStr, lockedInfo, "", "");
         		
@@ -253,39 +253,51 @@ public class BamftMapActivity extends MapActivity {
         // Initialize bounds for the map. These will be used to determine
         // how far out we should zoom in order to fit all the markers.
         
-        int upperBound = Integer.MIN_VALUE;
-        int lowerBound = Integer.MAX_VALUE;
-        int leftBound = Integer.MAX_VALUE;
-        int rightBound = Integer.MIN_VALUE;
-        
         // Create list of overlays while keeping track of boundaries
         
-        MapOverlays overlays = new MapOverlays(overlayMarker, this);
+        HubwayBalloonItemizedOverlay<OverlayItem> overlay = 
+        		new HubwayBalloonItemizedOverlay<OverlayItem>(overlayMarker, mapView);
+        
+        Geocoder geocoder = new Geocoder(this);
         
         for (Schedule schedule : schedules) {
-        	OverlayItem overlay = getOverlayItemFromSchedule(schedule, db);
+        	Landmark landmark = db.getLandmark(schedule.getLandmarkId());
         	
-        	if (overlay != null)
-        		overlays.addOverlay(overlay);
+        	Double latitude = Double.parseDouble(landmark.getYcoord());
+        	Double longitude = Double.parseDouble(landmark.getXcoord());
         	
-        	int latitude = overlay.getPoint().getLatitudeE6();
-        	int longitude = overlay.getPoint().getLongitudeE6();
+        	GeoPoint point = MapHelpers.getGeoPoint(latitude, longitude);
         	
-        	if (latitude < lowerBound)
-        		lowerBound = latitude;
+        	String addressString = "";
+    		
+    		try {
+    			Address address = null;
+				List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
+				
+				if (addressList != null && addressList.size() > 0)
+					address = addressList.get(0);
+				
+				if (address != null)
+					addressString = address.getAddressLine(0);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}        	
+    		
+        	Truck truck = db.getTruck(schedule.getTruckId());
         	
-        	if (latitude > upperBound)
-        		upperBound = latitude;	
-        	
-        	if (longitude < leftBound)
-        		leftBound = longitude;
-        	
-        	if (longitude > rightBound)
-        		rightBound = longitude;
+        	if (truck != null) {
+	    		HubwayOverlayItem overlayItem = new HubwayOverlayItem(
+	    				point, truck.getName(), truck.getCuisine(), addressString,  
+	    				truck.getWebsite(), "", "");
+	        	
+	        	if (overlay != null)
+	        		overlay.addOverlay(overlayItem);
+        	}
         }
         
-        overlays.populateNow();
-        overlaysList.add(overlays);
+        overlay.populateNow();
+        overlaysList.add(overlay);
         
         MapController mapController = mapView.getController();
         GeoPoint hynes = MapHelpers.getGeoPoint(

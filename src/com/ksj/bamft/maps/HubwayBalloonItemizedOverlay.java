@@ -49,8 +49,7 @@ public class HubwayBalloonItemizedOverlay<Item extends OverlayItem>
 
 	@Override
 	protected boolean onBalloonTap(int index, HubwayOverlayItem item) {
-		Toast.makeText(context, "onBalloonTap for overlay index " + index,
-				Toast.LENGTH_LONG).show();
+		super.hideBalloon();
 		return true;
 	}
 

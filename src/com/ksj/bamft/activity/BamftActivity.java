@@ -144,7 +144,7 @@ public class BamftActivity extends Activity {
 
 		Time now = new Time();
 		//now.setToNow();
-		now.set(0, 0, 20, 15, 2, 2012);
+		now.set(0, 0, 12, 24, 2, 2012);
 
 		final String dayOfWeek = getDayOfWeek(now);
 		final String timeOfDay = getMealOfDay(now);
