@@ -1,284 +1,302 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:foo="http://schemas.android.com/apk/res/com.ksj.bamft"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/lightgrey"
-    xmlns:foo="http://schemas.android.com/apk/res/com.ksj.bamft">
-    
+    android:orientation="vertical" >
+
     <!-- Action Bar -->
+
     <com.markupartist.android.widget.ActionBar
         android:id="@+id/actionbar"
-        style="@style/ActionBar"/>
-    
-    	<!-- Action Bar Drop Shadow -->
-	    <View
-	        android:layout_width="fill_parent"
-	        android:layout_height="3dip"
-	        android:background="@drawable/actionbar_shadow">
-	    </View>
-    
+        style="@style/ActionBar" />
+
+    <!-- Action Bar Drop Shadow -->
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="3dip"
+        android:background="@drawable/actionbar_shadow" >
+    </View>
+
     <!-- Secondary Bar -->
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="40dip"
-        android:background="@color/white">
-        
-        	<com.ksj.bamft.actionbarhelpers.TextViewPlus
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical|center_horizontal"
-                android:text="@string/trivia" 
-                android:textColor="@color/darkgrey" 
-                android:textSize="25sp"
-                android:id="@+id/trivia"
-				foo:customFont="fonts/miso-light.ttf">
-			</com.ksj.bamft.actionbarhelpers.TextViewPlus>
+        android:background="@color/white" >
+
+        <com.ksj.bamft.actionbarhelpers.TextViewPlus
+            android:id="@+id/trivia"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            foo:customFont="fonts/miso-light.ttf"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/trivia"
+            android:textColor="@color/darkgrey"
+            android:textSize="25sp" >
+        </com.ksj.bamft.actionbarhelpers.TextViewPlus>
     </LinearLayout>
-	    <!-- Secondary Bar Drop Shadow -->
-	    <View
-	        android:layout_width="fill_parent"
-	        android:layout_height="3dip"
-	        android:background="@drawable/tab_shadow">
-	    </View>
-    
-    
+    <!-- Secondary Bar Drop Shadow -->
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="3dip"
+        android:background="@drawable/tab_shadow" >
+    </View>
+
     <!-- Button Start -->
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="?android:attr/listPreferredItemHeight"
-        android:layout_marginTop="20dip"
-        android:layout_marginRight="20dip"
         android:layout_marginBottom="0dip"
         android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip"
+        android:layout_marginTop="20dip"
+        android:layout_weight="1"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:padding="1dip" 
-        android:layout_weight="1">
-        
-        <LinearLayout
-        android:id="@+id/menu_item_search_nearby"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@color/white"
-        android:gravity="center_vertical"      
-        android:layout_weight="1"
-        android:onClick="menuClickFunction">
-		
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@color/turquoise"
-            android:padding="12dip"
-            android:layout_marginRight="10dip"
-            >
-
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_marginLeft="6dip"
-            android:layout_marginRight="6dip"
-            android:src="@drawable/ic_searchnearby" />
-        </LinearLayout>
+        android:padding="1dip" >
 
         <LinearLayout
-            android:layout_width="0dip"
+            android:id="@+id/menu_item_search_nearby"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:orientation="vertical" >
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:onClick="menuClickFunction" >
 
-            <com.ksj.bamft.actionbarhelpers.TextViewPlus
-                android:layout_width="fill_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginRight="10dip"
+                android:background="@color/turquoise"
+                android:paddingBottom="12dip"
+                android:paddingLeft="6dip"
+                android:paddingRight="6dip"
+                android:paddingTop="12dip" >
+
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_marginLeft="6dip"
+                    android:layout_marginRight="6dip"
+                    android:src="@drawable/ic_searchnearby" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dip"
+                android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="@string/searchnearby" 
-                android:textColor="@color/darkgrey" 
-                android:textSize="40sp"
-                android:id="@+id/searchnearby"
-				foo:customFont="fonts/miso-light.ttf">
-			</com.ksj.bamft.actionbarhelpers.TextViewPlus>
-        </LinearLayout>
+                android:orientation="vertical" >
+
+                <com.ksj.bamft.actionbarhelpers.TextViewPlus
+                    android:id="@+id/searchnearby"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    foo:customFont="fonts/miso-light.ttf"
+                    android:gravity="center_vertical"
+                    android:text="@string/searchnearby"
+                    android:textColor="@color/darkgrey"
+                    android:textSize="35sp" >
+                </com.ksj.bamft.actionbarhelpers.TextViewPlus>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-	
+
     <!-- Button Start -->
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="?android:attr/listPreferredItemHeight"
-        android:layout_marginTop="20dip"
-        android:layout_marginRight="20dip"
         android:layout_marginBottom="0dip"
         android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip"
+        android:layout_marginTop="20dip"
+        android:layout_weight="1"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:padding="1dip" 
-        android:layout_weight="1">
-        
-        <LinearLayout
-        android:id="@+id/menu_item_list_all"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@color/white"
-        android:gravity="center_vertical"      
-        android:layout_weight="1"
-        android:onClick="menuClickFunction">
-		
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:padding="12dip"
-            android:background="@color/red"
-            android:layout_marginRight="10dip">
-
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_marginLeft="6dip"
-            android:layout_marginRight="6dip"
-            android:src="@drawable/ic_listall" />
-        </LinearLayout>
+        android:padding="1dip" >
 
         <LinearLayout
-            android:layout_width="0dip"
+            android:id="@+id/menu_item_list_all"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:orientation="vertical" >
-            
-            <com.ksj.bamft.actionbarhelpers.TextViewPlus
-                android:layout_width="fill_parent"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:onClick="menuClickFunction" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginRight="10dip"
+                android:background="@color/red"
+                android:paddingBottom="12dip"
+                android:paddingLeft="6dip"
+                android:paddingRight="6dip"
+                android:paddingTop="12dip" >
+
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_marginLeft="6dip"
+                    android:layout_marginRight="6dip"
+                    android:src="@drawable/ic_listall" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dip"
+                android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="@string/listall" 
-                android:textColor="@color/darkgrey" 
-                android:textSize="40sp"
-                android:id="@+id/listall"
-				foo:customFont="fonts/miso-light.ttf">
-			</com.ksj.bamft.actionbarhelpers.TextViewPlus>
-        </LinearLayout>
+                android:orientation="vertical" >
+
+                <com.ksj.bamft.actionbarhelpers.TextViewPlus
+                    android:id="@+id/listall"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    foo:customFont="fonts/miso-light.ttf"
+                    android:gravity="center_vertical"
+                    android:text="@string/listall"
+                    android:textColor="@color/darkgrey"
+                    android:textSize="35sp" >
+                </com.ksj.bamft.actionbarhelpers.TextViewPlus>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    
+
     <!-- Button Start -->
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="?android:attr/listPreferredItemHeight"
-        android:layout_marginTop="20dip"
-        android:layout_marginRight="20dip"
         android:layout_marginBottom="0dip"
         android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip"
+        android:layout_marginTop="20dip"
+        android:layout_weight="1"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:padding="1dip" 
-        android:layout_weight="1">
-        
-        <LinearLayout
-        android:id="@+id/menu_item_map_view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@color/white"
-        android:gravity="center_vertical"      
-        android:layout_weight="1"
-        android:onClick="menuClickFunction">
-		
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@color/purple"
-            android:padding="12dip"
-            android:layout_marginRight="10dip">
-
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_marginLeft="6dip"
-            android:layout_marginRight="6dip"
-            android:src="@drawable/ic_mapview" />
-        </LinearLayout>
+        android:padding="1dip" >
 
         <LinearLayout
-            android:layout_width="0dip"
+            android:id="@+id/menu_item_map_view"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:orientation="vertical" >
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:onClick="menuClickFunction" >
 
-            <com.ksj.bamft.actionbarhelpers.TextViewPlus
-                android:layout_width="fill_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginRight="10dip"
+                android:background="@color/purple"
+                android:paddingBottom="12dip"
+                android:paddingLeft="6dip"
+                android:paddingRight="6dip"
+                android:paddingTop="12dip" >
+
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_marginLeft="6dip"
+                    android:layout_marginRight="6dip"
+                    android:src="@drawable/ic_mapview" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dip"
+                android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="@string/mapview" 
-                android:textColor="@color/darkgrey" 
-                android:textSize="40sp"
-                android:id="@+id/mapview"
-				foo:customFont="fonts/miso-light.ttf">
-			</com.ksj.bamft.actionbarhelpers.TextViewPlus>
-        </LinearLayout>
+                android:orientation="vertical" >
+
+                <com.ksj.bamft.actionbarhelpers.TextViewPlus
+                    android:id="@+id/mapview"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    foo:customFont="fonts/miso-light.ttf"
+                    android:gravity="center_vertical"
+                    android:text="@string/mapview"
+                    android:textColor="@color/darkgrey"
+                    android:textSize="35sp" >
+                </com.ksj.bamft.actionbarhelpers.TextViewPlus>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    
+
     <!-- Button Start -->
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="?android:attr/listPreferredItemHeight"
-        android:layout_marginTop="20dip"
-        android:layout_marginRight="20dip"
         android:layout_marginBottom="20dip"
         android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip"
+        android:layout_marginTop="20dip"
+        android:layout_weight="1"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:padding="1dip" 
-        android:layout_weight="1">
-        
-        <LinearLayout
-        android:id="@+id/menu_item_surprise_me"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@color/white"
-        android:gravity="center_vertical"      
-        android:layout_weight="1"
-        android:onClick="menuClickFunction">
-		
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@color/green"
-            android:padding="12dip"
-            android:layout_marginRight="10dip">
-
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_marginLeft="6dip"
-            android:layout_marginRight="6dip"
-            android:src="@drawable/ic_surpriseme" />
-        </LinearLayout>
+        android:padding="1dip" >
 
         <LinearLayout
-            android:layout_width="0dip"
+            android:id="@+id/menu_item_surprise_me"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:orientation="vertical" >
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:onClick="menuClickFunction" >
 
-            <com.ksj.bamft.actionbarhelpers.TextViewPlus
-                android:layout_width="fill_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginRight="10dip"
+                android:background="@color/green"
+                android:paddingBottom="12dip"
+                android:paddingLeft="6dip"
+                android:paddingRight="6dip"
+                android:paddingTop="12dip" >
+
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_marginLeft="6dip"
+                    android:layout_marginRight="6dip"
+                    android:src="@drawable/ic_surpriseme" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dip"
+                android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="@string/surpriseme" 
-                android:textColor="@color/darkgrey" 
-                android:textSize="40sp"
-                android:id="@+id/surpriseme"
-				foo:customFont="fonts/miso-light.ttf">
-			</com.ksj.bamft.actionbarhelpers.TextViewPlus>
-        </LinearLayout>
+                android:orientation="vertical" >
+
+                <com.ksj.bamft.actionbarhelpers.TextViewPlus
+                    android:id="@+id/surpriseme"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    foo:customFont="fonts/miso-light.ttf"
+                    android:gravity="center_vertical"
+                    android:text="@string/surpriseme"
+                    android:textColor="@color/darkgrey"
+                    android:textSize="35sp" >
+                </com.ksj.bamft.actionbarhelpers.TextViewPlus>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
- 
+
 </LinearLayout>

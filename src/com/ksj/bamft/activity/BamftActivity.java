@@ -66,6 +66,9 @@ public class BamftActivity extends Activity {
 		
 		//Prompt user for internets if necessary
 		checkInternetConnection();
+		BackgroundPrepareData task = new BackgroundPrepareData();
+		task.execute();
+		Log.d("ASYNC", "should start now...");
 	}
 	
 	private void finishCreatingActivity() {
@@ -73,8 +76,7 @@ public class BamftActivity extends Activity {
 
 		// Prepares the internal SQLite database, if need be (dictated by CACHE_LIFE).
 		//prepareData();
-		BackgroundPrepareData task = new BackgroundPrepareData();
-		task.execute();
+		
 
 
 		//BEGIN TEST DATA
@@ -287,6 +289,7 @@ public class BamftActivity extends Activity {
 	 */
 	public void prepareData() {
 
+		Log.d("BACKGROUNDER", "I am in preparedata");
 		SharedPreferences settings = getSharedPreferences(Constants.BAMFT_PREFS_NAME, 0);
 		SharedPreferences.Editor editor = settings.edit();
 
@@ -561,6 +564,7 @@ public class BamftActivity extends Activity {
 		@Override
 		protected Void doInBackground(Void... params) {
 			// TODO Auto-generated method stub
+			Log.d("BACKGROUNDER", "I am in doInBackground");
 			prepareData();
 			return null;
 		}
