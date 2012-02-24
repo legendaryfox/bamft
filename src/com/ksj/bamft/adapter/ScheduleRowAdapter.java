@@ -106,8 +106,10 @@ public class ScheduleRowAdapter extends ArrayAdapter<Schedule> {
 				public void onClick(View arg0) {
 
 					List<HubwayStation> stations = HubwayHelpers.getAvailableStations();
-
-					if (stations == null || stations.size() < 1) {
+					HubwayStation nearestStationToUser = HubwayHelpers.getNearestStation(stations,
+							userLatitude, userLongitude);
+					
+					if (nearestStationToUser == null) {
 						Toast.makeText(
 								context,
 								Constants.HUBWAY_UNAVAILABLE,
@@ -116,8 +118,7 @@ public class ScheduleRowAdapter extends ArrayAdapter<Schedule> {
 						return;
 					}
 
-					HubwayStation nearestStationToUser = HubwayHelpers.getNearestStation(stations,
-							userLatitude, userLongitude);
+					
 
 					SimpleLocation nearestStationToUserLoc = new SimpleLocation(
 							nearestStationToUser.getLatitude(), nearestStationToUser.getLongitude());
