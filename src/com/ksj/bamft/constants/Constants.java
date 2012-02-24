@@ -83,7 +83,7 @@ public class Constants {
 			"can't access the internets! :( Go to settings?";
 	
 	public static final String ENABLE_INTERNET_YES = "Absofruitly";
-	public static final String ENABLE_INTERNET_NO = "No thanks.";
+	public static final String ENABLE_INTERNET_NO = "No thanks";
 	
 	public static final String ALL_TRUCKS_CLOSED = "All trucks are currently closed :(";
 	public static final String HUBWAY_UNAVAILABLE = 
