@@ -2,29 +2,29 @@
 <resources>
 
     <string name="hello">Hello World, BamftActivity!</string>
-    
+
     <!-- TRUCK PROFILE PAGES -->
 
-	<string name="schedule">Schedule</string>
-	<string name="menu">Menu</string>
-	<string name="twitter">Twitter</string>
-	<string name="pictures">Pictures</string>
-	<string name="yelp">Yelp</string>
-	
-	<!-- GOOGLE MAPS KEYS -->
-	
-	<string name="maps_key">0M7ZmQp2y_Eccf7uWqlRxTQYWnM3mpXYv-go0Bw</string> <!-- SUSANA'S KEY -->
-	 <!-- <string name="maps_key">0Li57-t6yvUbeUsoBpSccbHJpCApOtnhrwWAgdQ</string>--><!-- JOSIAH'S KEY -->
-	
-	<!-- ACTION BAR -->
-	<string name="app_name">BAMFT!</string>
+    <string name="schedule">Schedule</string>
+    <string name="menu">Menu</string>
+    <string name="twitter">Twitter</string>
+    <string name="pictures">Pictures</string>
+    <string name="yelp">Yelp</string>
+
+    <!-- GOOGLE MAPS KEYS -->
+
+
+    <!-- <string name="maps_key">0M7ZmQp2y_Eccf7uWqlRxTQYWnM3mpXYv-go0Bw</string> ! --> <!-- SUSANA'S KEY -->
+    <string name="maps_key">0Li57-t6yvUbeUsoBpSccbHJpCApOtnhrwWAgdQ</string> <!-- JOSIAH'S KEY -->
+
+
+    <!-- ACTION BAR -->
+    <string name="app_name">BAMFT!</string>
     <string name="trivia">Food Truck Trivia</string>
-    
     <string name="searchnearby">Search Nearby</string>
     <string name="listall">List All</string>
     <string name="mapview">Map View</string>
     <string name="surpriseme">Surprise Me!</string>
-    <!--  END ACTION BAR -->
-	
-		
+    <!-- END ACTION BAR -->
+
 </resources>

@@ -267,15 +267,15 @@ containing a value of this type.
     }
     public static final class string {
         public static final int actionbar_activity_not_found=0x7f080002;
-        /**  SUSANA'S KEY 
- <string name="maps_key">0Li57-t6yvUbeUsoBpSccbHJpCApOtnhrwWAgdQ</string>
- JOSIAH'S KEY 
+        /**  JOSIAH'S KEY 
  ACTION BAR 
          */
         public static final int app_name=0x7f080001;
         public static final int hello=0x7f080000;
         public static final int listall=0x7f08000b;
         /**  GOOGLE MAPS KEYS 
+ <string name="maps_key">0M7ZmQp2y_Eccf7uWqlRxTQYWnM3mpXYv-go0Bw</string> ! 
+ SUSANA'S KEY 
          */
         public static final int maps_key=0x7f080008;
         public static final int mapview=0x7f08000c;
