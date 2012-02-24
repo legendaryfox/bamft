@@ -72,7 +72,7 @@ public class TruckTwitterListActivity extends ListActivity {
 
 		TextView twitterHandleTextView = (TextView) findViewById(R.id.twitterHandle);
 		if(twitterHandleTextView != null) {
-			twitterHandleTextView.setText(twitterHandle);
+			twitterHandleTextView.setText("@" + twitterHandle);
 		}
 
 
