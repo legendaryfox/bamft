@@ -1,10 +1,8 @@
 package com.ksj.bamft.activity;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -21,12 +19,12 @@ import com.ksj.bamft.R;
 import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.database.DatabaseHandler;
 import com.ksj.bamft.hubway.HubwayHelpers;
+import com.ksj.bamft.maps.HubwayBalloonItemizedOverlay;
+import com.ksj.bamft.maps.HubwayOverlayItem;
 import com.ksj.bamft.maps.MapHelpers;
 import com.ksj.bamft.maps.MapOverlays;
-import com.ksj.bamft.maps.RouteOverlay;
 import com.ksj.bamft.model.HubwayStation;
 import com.ksj.bamft.model.Landmark;
-import com.ksj.bamft.model.NavigationStep;
 import com.ksj.bamft.model.Schedule;
 import com.ksj.bamft.model.Truck;
 
@@ -128,7 +126,9 @@ public class BamftMapActivity extends MapActivity {
         overlayMarker.setBounds(0, 0,
         		overlayMarker.getIntrinsicWidth(), overlayMarker.getIntrinsicHeight());
         
-        MapOverlays overlay = new MapOverlays(overlayMarker, this);
+       // MapOverlays overlay = new MapOverlays(overlayMarker, this);
+        HubwayBalloonItemizedOverlay overlay = 
+        		new HubwayBalloonItemizedOverlay<OverlayItem>(overlayMarker, mapView);
         
         for (HubwayStation station : stations) {
         	//TODO: uncomment in release mode
@@ -136,7 +136,22 @@ public class BamftMapActivity extends MapActivity {
         		GeoPoint point = MapHelpers.getGeoPoint(
         				station.getLatitude(), station.getLongitude());
         		
-        		OverlayItem overlayItem = new OverlayItem(point, station.getName(), "");
+        		//OverlayItem overlayItem = new OverlayItem(point, station.getName(), "");
+        		//overlay.addOverlay(overlayItem);
+        		
+        		boolean stationLocked = station.isLocked();
+        		
+        		String lockedInfo = "";
+        		
+        		if (stationLocked)
+        			lockedInfo = Constants.HUBWAY_STATION_LOCKED;
+        		
+        		HubwayOverlayItem overlayItem = new HubwayOverlayItem(
+        				point, station.getName(), 
+        				 "",
+        				Integer.toString(station.getNumBikes()),
+        				Integer.toString(station.getNumEmptyDocks()), lockedInfo, "");
+        		
         		overlay.addOverlay(overlayItem);
         	//}
         }

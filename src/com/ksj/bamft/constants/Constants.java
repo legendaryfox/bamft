@@ -63,6 +63,9 @@ public class Constants {
 	
 	// Messages and dialogs 
 	
+	public static final String HUBWAY_STATION_LOCKED = "Note: station locked - bikes can be " +
+			"returned but not removed";
+	
 	public static final String ENABLE_LOCATION_PROVIDERS = 
 			"This app could will be exponentially spiffier if you enable " +
 			"a location provider! True story.";
