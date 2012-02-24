@@ -48,9 +48,10 @@ import com.ksj.bamft.model.Schedule;
 import com.ksj.bamft.model.Truck;
 
 public class BamftActivity extends Activity {
-	
+
 	private List<Factlet> factlets = null;
 	boolean currentlyUpdating = false; 
+	boolean safeToUpdate = true;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -67,9 +68,9 @@ public class BamftActivity extends Activity {
 		actionBar.setTitle("BAMFT!");
 		 */
 		ActionBarTitleHelper.setTitleBar(this);
-		
+
 		DatabaseHandler db = new DatabaseHandler(this);
-		
+
 		setupFactlets(db);
 		// END DISPLAY
 
@@ -87,7 +88,7 @@ public class BamftActivity extends Activity {
 		//prepareData();
 
 		final DatabaseHandler db = new DatabaseHandler(this);
-		
+
 		//BEGIN TEST DATA
 		// TEST - MBTA Stuff
 		List<MbtaStation> mbtaStationList = MbtaHelpers.getAllMbtaStations(this.getBaseContext());
@@ -96,7 +97,7 @@ public class BamftActivity extends Activity {
 		}
 
 		// TEST - Database Stuff
-		
+
 		List<Landmark> landmarkList = db.getAllLandmarks();
 		List<Truck> truckList = db.getAllTrucks();
 		List<Schedule> scheduleList = db.getAllSchedules();
@@ -171,6 +172,7 @@ public class BamftActivity extends Activity {
 			//Toast.makeText(BamftActivity.this, "" + dayOfWeek + " Morning trucks", Toast.LENGTH_SHORT).show();
 			//timeBundle.putString("timeOfDay", timeOfDay);
 			if(!currentlyUpdating) {
+				safeToUpdate = false;
 				Toast.makeText(BamftActivity.this,  "Nearby open trucks (for " + dayOfWeek + " " + timeOfDay + ")", Toast.LENGTH_SHORT).show();
 
 				Intent loadScheduleListIntent = new Intent(BamftActivity.this, ScheduleListActivity.class);
@@ -185,6 +187,7 @@ public class BamftActivity extends Activity {
 			//Load Afternoon trucks
 
 			if(!currentlyUpdating) {
+				safeToUpdate = false;
 				Toast.makeText(BamftActivity.this,  "All trucks (open and closed)", Toast.LENGTH_SHORT).show();
 
 				Intent loadTruckListIntent = new Intent(BamftActivity.this, TruckListActivity.class);
@@ -198,6 +201,7 @@ public class BamftActivity extends Activity {
 		case R.id.menu_item_map_view:
 			//Load Evening trucks
 			if(!currentlyUpdating) {
+				safeToUpdate = false;
 				Toast.makeText(BamftActivity.this,  "All open trucks", Toast.LENGTH_SHORT).show();
 
 				Intent openTrucksMapIntent = new Intent(this, BamftMapActivity.class);
@@ -211,6 +215,7 @@ public class BamftActivity extends Activity {
 		case R.id.menu_item_surprise_me:
 
 			if(!currentlyUpdating) {
+				safeToUpdate = false;
 				Intent randomTruckIntent = new Intent(this, RandomTruckActivity.class);
 				randomTruckIntent.putExtra(Constants.DAY_OF_WEEK, dayOfWeek);
 				randomTruckIntent.putExtra(Constants.TIME_OF_DAY, timeOfDay);
@@ -319,9 +324,9 @@ public class BamftActivity extends Activity {
 		now.setToNow();
 
 		long cacheBirthday = settings.getLong("cacheUpdated", 0);
-		if ((now.toMillis(true) - cacheBirthday) > Constants.CACHE_LIFE) {
-		//if (true) {
-			// now minus the birthdays is bigger than the expected age - so we should re-grab from cache
+		//if ((now.toMillis(true) - cacheBirthday) > Constants.CACHE_LIFE) {
+			if (true) {
+			// now minus the birthdays sis bigger than the expected age - so we should re-grab from cache
 
 
 
@@ -339,177 +344,183 @@ public class BamftActivity extends Activity {
 
 			// BEGIN FREEZE
 			currentlyUpdating = true;
-			// Connect to DB
-			DatabaseHandler db = new DatabaseHandler(this);
-			boolean cacheSuccessFlag = true;
+			boolean cacheSuccessFlag = false;
+			if (safeToUpdate) {
+				// Connect to DB
+				DatabaseHandler db = new DatabaseHandler(this);
+				cacheSuccessFlag = true;
 
-			// Landmarks
-			if (landmarksDumpData.length() > 0) {
-				db.recreateTable("landmarks");
+				// Landmarks
+				if (landmarksDumpData.length() > 0) {
+					db.recreateTable("landmarks");
 
-				try {
-					JSONArray landmarksArray = new JSONArray(landmarksDumpData);
+					try {
+						JSONArray landmarksArray = new JSONArray(landmarksDumpData);
 
-					for (int i = 0; i < landmarksArray.length(); i++) {
-						//Iterate through each entry and save to DB
-						JSONObject landmarkObject = landmarksArray.getJSONObject(i).getJSONObject("landmark");
-						Landmark landmark = new Landmark(
-								landmarkObject.getInt("id"), 
-								landmarkObject.getString("name"), 
-								landmarkObject.getString("xcoord"), 
-								landmarkObject.getString("ycoord"));
-						db.addLandmark(landmark);
+						for (int i = 0; i < landmarksArray.length(); i++) {
+							//Iterate through each entry and save to DB
+							JSONObject landmarkObject = landmarksArray.getJSONObject(i).getJSONObject("landmark");
+							Landmark landmark = new Landmark(
+									landmarkObject.getInt("id"), 
+									landmarkObject.getString("name"), 
+									landmarkObject.getString("xcoord"), 
+									landmarkObject.getString("ycoord"));
+							db.addLandmark(landmark);
 
-					}
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				Log.d("PrepareData", "Landmarks data updated");
-			} else {
-				cacheSuccessFlag = false;
-			}
-
-
-			// Trucks
-			if (trucksDumpData.length() > 0) {
-				db.recreateTable("trucks");   		
-				try {
-					JSONArray trucksArray = new JSONArray(trucksDumpData);
-
-					for (int i = 0; i < trucksArray.length(); i++) {
-						//Iterate through each entry and save to DB
-						JSONObject truckObject = trucksArray.getJSONObject(i).getJSONObject("truck");
-						Truck truck = new Truck(
-								truckObject.getInt("id"), 
-								truckObject.getString("name"), 
-								truckObject.getString("cuisine"), 
-								truckObject.getString("description"),
-								truckObject.getString("email"),
-								truckObject.getString("menu"),
-								truckObject.getString("twitter"),
-								truckObject.getString("facebook"),
-								truckObject.getString("website"),
-								truckObject.getString("yelp"));
-
-
-						// Fix for null values
-						if (truck.getCuisine() == "null" || truck.getCuisine().length() < 1) truck.setCuisine(Constants.EMPTY_FIELD_STRING);
-						if (truck.getDescription() == "null" || truck.getDescription().length() < 1) truck.setDescription(Constants.EMPTY_FIELD_STRING);
-						if (truck.getEmail() == "null" || truck.getEmail().length() < 1) truck.setEmail(Constants.EMPTY_FIELD_STRING);
-						if (truck.getMenu() == "null" || truck.getMenu().length() < 1) truck.setMenu(Constants.EMPTY_FIELD_STRING);
-						if (truck.getTwitter() == "null" || truck.getTwitter().length() < 1) truck.setTwitter(Constants.EMPTY_FIELD_STRING);
-						if (truck.getFacebook() == "null" || truck.getFacebook().length() < 1) truck.setFacebook(Constants.EMPTY_FIELD_STRING);
-						if (truck.getWebsite() == "null" || truck.getWebsite().length() < 1) truck.setWebsite(Constants.EMPTY_FIELD_STRING);
-						if (truck.getYelp() == "null" || truck.getYelp().length() < 1) truck.setYelp(Constants.EMPTY_FIELD_STRING);
-
-
-						db.addTruck(truck);
-
-					}
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				Log.d("PrepareData", "Trucks data updated");
-			} else {
-				cacheSuccessFlag = false;
-			}
-
-			// SCHEDULES
-			if (schedulesDumpData.length() > 0) {
-				db.recreateTable("schedules");
-				try {
-					JSONArray schedulesArray = new JSONArray(schedulesDumpData);
-
-					for (int i = 0; i < schedulesArray.length(); i++) {
-						//Iterate through each entry and save to DB
-						JSONObject scheduleObject = schedulesArray.getJSONObject(i).getJSONObject("schedule");
-						Schedule schedule = new Schedule(
-								scheduleObject.getInt("id"), 
-								scheduleObject.getString("day_of_week"), 
-								scheduleObject.getString("time_of_day"), 
-								scheduleObject.getInt("truck_id"),
-								scheduleObject.getInt("landmark_id"));
-						db.addSchedule(schedule);
-
-					}
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				Log.d("PrepareData", "Schedule data updated");
-			} else {
-				cacheSuccessFlag = false;
-			}
-
-			// FOOD ITEMS
-			if (foodItemsDumpData.length() > 0) {
-				db.recreateTable("food_items");   		
-				try {
-					JSONArray foodItemsArray = new JSONArray(foodItemsDumpData);
-
-					for (int i = 0; i < foodItemsArray.length(); i++) {
-						//Iterate through each entry and save to DB
-						JSONObject foodItemObject = foodItemsArray.getJSONObject(i).getJSONObject("menu_item");
-						FoodItem foodItem = new FoodItem(
-
-								foodItemObject.getInt("id"),
-								foodItemObject.getString("name"),
-								foodItemObject.getString("description"),
-								foodItemObject.getString("price"),
-								foodItemObject.getInt("truck_id"));
-
-						db.addFoodItem(foodItem);
-
-					}
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				Log.d("PrepareData", "FoodItem data updated");
-			} else {
-				cacheSuccessFlag = false;
-			}
-
-			// FACTLETS
-			if (factletsDumpData.length() > 0) {
-				db.recreateTable("factlets");   		
-				try {
-					JSONArray factletsArray = new JSONArray(factletsDumpData);
-
-					for (int i = 0; i < factletsArray.length(); i++) {
-						//Iterate through each entry and save to DB
-						JSONObject factletObject = factletsArray.getJSONObject(i).getJSONObject("factlet");
-
-						// In case truckId is null, which is usually the case.
-						int truckId;
-						if (factletObject.isNull("truck_id")) {
-							truckId = 0;
-						} else {
-							truckId = factletObject.getInt("truck_id");
 						}
-						Factlet factlet = new Factlet(
 
-								factletObject.getInt("id"),
-								factletObject.getString("title"),
-								factletObject.getString("content"),
-								truckId);
-
-						db.addFactlet(factlet);
-
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-
-				} catch (Exception e) {
-					e.printStackTrace();
+					Log.d("PrepareData", "Landmarks data updated");
+				} else {
+					cacheSuccessFlag = false;
 				}
-				Log.d("PrepareData", "Factlets data updated");
-			} else {
-				cacheSuccessFlag = false;
-			}
 
+
+				// Trucks
+				if (trucksDumpData.length() > 0) {
+					db.recreateTable("trucks");   		
+					try {
+						JSONArray trucksArray = new JSONArray(trucksDumpData);
+
+						for (int i = 0; i < trucksArray.length(); i++) {
+							//Iterate through each entry and save to DB
+							JSONObject truckObject = trucksArray.getJSONObject(i).getJSONObject("truck");
+							Truck truck = new Truck(
+									truckObject.getInt("id"), 
+									truckObject.getString("name"), 
+									truckObject.getString("cuisine"), 
+									truckObject.getString("description"),
+									truckObject.getString("email"),
+									truckObject.getString("menu"),
+									truckObject.getString("twitter"),
+									truckObject.getString("facebook"),
+									truckObject.getString("website"),
+									truckObject.getString("yelp"));
+
+
+							// Fix for null values
+							if (truck.getCuisine() == "null" || truck.getCuisine().length() < 1) truck.setCuisine(Constants.EMPTY_FIELD_STRING);
+							if (truck.getDescription() == "null" || truck.getDescription().length() < 1) truck.setDescription(Constants.EMPTY_FIELD_STRING);
+							if (truck.getEmail() == "null" || truck.getEmail().length() < 1) truck.setEmail(Constants.EMPTY_FIELD_STRING);
+							if (truck.getMenu() == "null" || truck.getMenu().length() < 1) truck.setMenu(Constants.EMPTY_FIELD_STRING);
+							if (truck.getTwitter() == "null" || truck.getTwitter().length() < 1) truck.setTwitter(Constants.EMPTY_FIELD_STRING);
+							if (truck.getFacebook() == "null" || truck.getFacebook().length() < 1) truck.setFacebook(Constants.EMPTY_FIELD_STRING);
+							if (truck.getWebsite() == "null" || truck.getWebsite().length() < 1) truck.setWebsite(Constants.EMPTY_FIELD_STRING);
+							if (truck.getYelp() == "null" || truck.getYelp().length() < 1) truck.setYelp(Constants.EMPTY_FIELD_STRING);
+
+
+							db.addTruck(truck);
+
+						}
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					Log.d("PrepareData", "Trucks data updated");
+				} else {
+					cacheSuccessFlag = false;
+				}
+
+				// SCHEDULES
+				if (schedulesDumpData.length() > 0) {
+					db.recreateTable("schedules");
+					try {
+						JSONArray schedulesArray = new JSONArray(schedulesDumpData);
+
+						for (int i = 0; i < schedulesArray.length(); i++) {
+							//Iterate through each entry and save to DB
+							JSONObject scheduleObject = schedulesArray.getJSONObject(i).getJSONObject("schedule");
+							Schedule schedule = new Schedule(
+									scheduleObject.getInt("id"), 
+									scheduleObject.getString("day_of_week"), 
+									scheduleObject.getString("time_of_day"), 
+									scheduleObject.getInt("truck_id"),
+									scheduleObject.getInt("landmark_id"));
+							db.addSchedule(schedule);
+
+						}
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					Log.d("PrepareData", "Schedule data updated");
+				} else {
+					cacheSuccessFlag = false;
+				}
+
+				// FOOD ITEMS
+				if (foodItemsDumpData.length() > 0) {
+					db.recreateTable("food_items");   		
+					try {
+						JSONArray foodItemsArray = new JSONArray(foodItemsDumpData);
+
+						for (int i = 0; i < foodItemsArray.length(); i++) {
+							//Iterate through each entry and save to DB
+							JSONObject foodItemObject = foodItemsArray.getJSONObject(i).getJSONObject("menu_item");
+							FoodItem foodItem = new FoodItem(
+
+									foodItemObject.getInt("id"),
+									foodItemObject.getString("name"),
+									foodItemObject.getString("description"),
+									foodItemObject.getString("price"),
+									foodItemObject.getInt("truck_id"));
+
+							db.addFoodItem(foodItem);
+
+						}
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					Log.d("PrepareData", "FoodItem data updated");
+				} else {
+					cacheSuccessFlag = false;
+				}
+
+				// FACTLETS
+				if (factletsDumpData.length() > 0) {
+					db.recreateTable("factlets");   		
+					try {
+						JSONArray factletsArray = new JSONArray(factletsDumpData);
+
+						for (int i = 0; i < factletsArray.length(); i++) {
+							//Iterate through each entry and save to DB
+							JSONObject factletObject = factletsArray.getJSONObject(i).getJSONObject("factlet");
+
+							// In case truckId is null, which is usually the case.
+							int truckId;
+							if (factletObject.isNull("truck_id")) {
+								truckId = 0;
+							} else {
+								truckId = factletObject.getInt("truck_id");
+							}
+							Factlet factlet = new Factlet(
+
+									factletObject.getInt("id"),
+									factletObject.getString("title"),
+									factletObject.getString("content"),
+									truckId);
+
+							db.addFactlet(factlet);
+
+						}
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					Log.d("PrepareData", "Factlets data updated");
+				} else {
+					cacheSuccessFlag = false;
+				}
+			} else {
+				// got blocked..
+				Log.d("PrepareData", "GOT BLOCKED.");
+			}
+			safeToUpdate = true;
 			currentlyUpdating = false;
-			// END FREEZE
+			// END FREEZE - reset
 
 
 			// DONE - update prefs
@@ -641,34 +652,34 @@ public class BamftActivity extends Activity {
 
 		finishCreatingActivity();
 	}
-	
+
 	public void onTriviaClick(View v) {
 		if (factlets == null || factlets.size() < 1) 
 			return;
-		
+
 		Random rand = new Random();
 		int factletToGet = rand.nextInt(factlets.size());
-		
+
 		Factlet factlet = factlets.get(factletToGet);
-		
+
 		// Get one of many random responses
-		
+
 		int responseToGet = rand.nextInt(Constants.TRIVIA_RESPONSES.length);
 		String response = Constants.TRIVIA_RESPONSES[responseToGet];
-		
+
 		AlertDialog alertDialog = new AlertDialog.Builder(this).create();  
 		alertDialog.setMessage(factlet.getContent());
 		alertDialog.setButton(response, new DialogInterface.OnClickListener() {
-			
+
 			public void onClick(DialogInterface dialog, int which) {
 			}
 		});
 		alertDialog.show();
 	}
-	
+
 	private void setupFactlets(DatabaseHandler db) {
 		factlets = db.getAllFactlets();
-		
+
 		Log.d("factlets", "finished");
 	}
 }
