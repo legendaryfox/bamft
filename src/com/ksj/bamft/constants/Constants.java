@@ -91,6 +91,12 @@ public class Constants {
 			"we are having trouble retrieving Hubway data. We apologize " +
 			"profusely :(";
 	
+	// Trivia responses
+	
+	public static final String[] TRIVIA_RESPONSES = 
+		{ "No waaaaay", "Sweet!", "I feel smarter now", "Wowzers", "That is most excellent!",
+		"Pfft I already knew that"};
+	
 	// Yelp API Keys
 	
 	public static final String YELP_CONSUMER_KEY = "-5C4AuSdFEk_CG5eWkkspQ";

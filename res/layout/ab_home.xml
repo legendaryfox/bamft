@@ -36,7 +36,9 @@
             android:gravity="center_vertical|center_horizontal"
             android:text="@string/trivia"
             android:textColor="@color/darkgrey"
-            android:textSize="25sp" >
+            android:textSize="25sp"
+            android:clickable="true"
+            android:onClick="onTriviaClick" >
         </com.ksj.bamft.actionbarhelpers.TextViewPlus>
     </LinearLayout>
     <!-- Secondary Bar Drop Shadow -->

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -31,6 +32,7 @@ import android.provider.Settings;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ksj.bamft.R;
@@ -47,6 +49,8 @@ import com.ksj.bamft.model.Truck;
 
 public class BamftActivity extends Activity {
 	
+	private List<Factlet> factlets = null;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -62,6 +66,10 @@ public class BamftActivity extends Activity {
 		actionBar.setTitle("BAMFT!");
 */
 		ActionBarTitleHelper.setTitleBar(this);
+		
+		DatabaseHandler db = new DatabaseHandler(this);
+		
+		setupFactlets(db);
 		// END DISPLAY
 		
 		//Prompt user for internets if necessary
@@ -77,8 +85,8 @@ public class BamftActivity extends Activity {
 		// Prepares the internal SQLite database, if need be (dictated by CACHE_LIFE).
 		//prepareData();
 		
-
-
+		final DatabaseHandler db = new DatabaseHandler(this);
+		
 		//BEGIN TEST DATA
 		// TEST - MBTA Stuff
 		List<MbtaStation> mbtaStationList = MbtaHelpers.getAllMbtaStations(this.getBaseContext());
@@ -87,7 +95,7 @@ public class BamftActivity extends Activity {
 		}
 
 		// TEST - Database Stuff
-		final DatabaseHandler db = new DatabaseHandler(this);
+		
 		List<Landmark> landmarkList = db.getAllLandmarks();
 		List<Truck> truckList = db.getAllTrucks();
 		List<Schedule> scheduleList = db.getAllSchedules();
@@ -122,8 +130,6 @@ public class BamftActivity extends Activity {
 
 		final String dayOfWeek = getDayOfWeek(now);
 		final String timeOfDay = getMealOfDay(now);
-
-
 
 		//For debugging purposes - showing the life of the cache and today's day.
 		SharedPreferences settings = getSharedPreferences(Constants.BAMFT_PREFS_NAME, 0);
@@ -610,5 +616,35 @@ public class BamftActivity extends Activity {
 		super.onActivityResult(requestCode, resultCode, data);
 		
 		finishCreatingActivity();
+	}
+	
+	public void onTriviaClick(View v) {
+		if (factlets == null || factlets.size() < 1) 
+			return;
+		
+		Random rand = new Random();
+		int factletToGet = rand.nextInt(factlets.size());
+		
+		Factlet factlet = factlets.get(factletToGet);
+		
+		// Get one of many random responses
+		
+		int responseToGet = rand.nextInt(Constants.TRIVIA_RESPONSES.length);
+		String response = Constants.TRIVIA_RESPONSES[responseToGet];
+		
+		AlertDialog alertDialog = new AlertDialog.Builder(this).create();  
+		alertDialog.setMessage(factlet.getContent());
+		alertDialog.setButton(response, new DialogInterface.OnClickListener() {
+			
+			public void onClick(DialogInterface dialog, int which) {
+			}
+		});
+		alertDialog.show();
+	}
+	
+	private void setupFactlets(DatabaseHandler db) {
+		factlets = db.getAllFactlets();
+		
+		Log.d("factlets", "finished");
 	}
 }

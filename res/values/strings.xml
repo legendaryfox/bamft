@@ -18,7 +18,7 @@
 	
 	<!-- ACTION BAR -->
 	<string name="app_name">BAMFT!</string>
-    <string name="trivia">Food Truck Trivia</string>
+    <string name="trivia">Did you know&#8230;?</string>
     
     <string name="searchnearby">Search Nearby</string>
     <string name="listall">List All</string>
