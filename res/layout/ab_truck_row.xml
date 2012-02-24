@@ -62,28 +62,28 @@
         </com.ksj.bamft.actionbarhelpers.TextViewPlus>
 
         <ImageButton
-            android:id="@+id/btn_subway"
+            android:id="@+id/truckProfileSubwayButton"
             android:layout_width="32dip"
             android:layout_height="32dip"
             android:layout_alignBottom="@+id/landmarkDistanceText"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="5dip"
-            android:layout_toLeftOf="@+id/btn_walk"
+            android:layout_toLeftOf="@+id/truckProfileWalkingButton"
             android:background="@drawable/button"
             android:src="@drawable/ic_subway" />
 
         <ImageButton
-            android:id="@+id/btn_walk"
+            android:id="@+id/truckProfileWalkingButton"
             android:layout_width="32dip"
             android:layout_height="32dip"
             android:layout_alignBottom="@+id/landmarkDistanceText"
             android:layout_marginRight="5dip"
-            android:layout_toLeftOf="@+id/btn_bike"
+            android:layout_toLeftOf="@+id/truckProfileHubwayButton"
             android:background="@drawable/button"
             android:src="@drawable/ic_walk" />
 
         <ImageButton
-            android:id="@+id/btn_bike"
+            android:id="@+id/truckProfileHubwayButton"
             android:layout_width="32dip"
             android:layout_height="32dip"
             android:layout_alignBottom="@+id/landmarkDistanceText"
