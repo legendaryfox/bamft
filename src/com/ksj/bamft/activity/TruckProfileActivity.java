@@ -115,6 +115,13 @@ public class TruckProfileActivity extends MapActivity {
 
 			truckOpenCloseTextView.setText("Open");
 
+			// MBTA button
+
+			createMbtaButton(userLatitude, userLongitude,
+					Double.parseDouble(landmark.getYcoord()),
+					Double.parseDouble(landmark.getXcoord()));
+
+
 			// Hubway button
 
 			createHubwayButton(userLatitude, userLongitude,
@@ -137,8 +144,8 @@ public class TruckProfileActivity extends MapActivity {
 
 			createHubwayEmptyButton();
 			createWalkingEmptyButton();
-			createSubwayEmptyButton();
-			
+			createMbtaEmptyButton();
+
 			truckOpenCloseTextView.setText("Closed");
 
 			distance_string = "";
@@ -182,7 +189,7 @@ public class TruckProfileActivity extends MapActivity {
 			}
 		});
 	}
-	
+
 	private void createWalkingEmptyButton() {
 		ImageButton hubwayButton = (ImageButton) findViewById(R.id.truckProfileWalkingButton);
 		hubwayButton.setOnClickListener(new View.OnClickListener() {
@@ -193,10 +200,10 @@ public class TruckProfileActivity extends MapActivity {
 			}
 		});
 	}
-	
-	private void createSubwayEmptyButton() {
-		ImageButton hubwayButton = (ImageButton) findViewById(R.id.truckProfileSubwayButton);
-		hubwayButton.setOnClickListener(new View.OnClickListener() {
+
+	private void createMbtaEmptyButton() {
+		ImageButton mbtaButton = (ImageButton) findViewById(R.id.truckProfileSubwayButton);
+		mbtaButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View arg0) {
 				Toast.makeText(arg0.getContext(), "Truck is closed...", Toast.LENGTH_SHORT).show();
@@ -204,6 +211,47 @@ public class TruckProfileActivity extends MapActivity {
 			}
 		});
 	}
+
+
+	/**
+	 * Set up MBTA button functionality.
+	 */
+
+	private void createMbtaButton(final double userLat, final double userLon,
+			final double truckLat, final double truckLon) {
+
+		ImageButton mbtaButton = (ImageButton) findViewById(R.id.truckProfileSubwayButton);
+		mbtaButton.setOnClickListener(new View.OnClickListener() {
+
+			public void onClick(View arg0) {
+
+				//List<MbtaStation> stations = MbtaHelpers.getAllMbtaStations();
+
+				List<SimpleLocation> destinations = new ArrayList<SimpleLocation>(1);
+				destinations.add(new SimpleLocation(truckLat, truckLon));
+
+				String mapsQuery = MapHelpers.getMapsQuery(
+						new SimpleLocation(userLat, userLon), 
+						destinations, 
+						GoogleMapsConstants.PUBLIC_TRANSIT,
+						GoogleMapsConstants.HTML);
+
+				Intent intent = new Intent(
+						android.content.Intent.ACTION_VIEW, Uri.parse(mapsQuery));
+
+				//intent.setClassName(Constants.BROWSER_PACKAGE, Constants.BROWSER_CLASS);
+				intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+
+				startActivity(intent);
+
+
+
+			}
+
+		});
+	}
+
+
 
 	/**
 	 * Set up Hubway button functionality.

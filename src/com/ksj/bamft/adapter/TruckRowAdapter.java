@@ -59,18 +59,21 @@ public class TruckRowAdapter extends ArrayAdapter<Truck> {
 			
 			
 			//UNFOCUS THE IMAGE BUTTONS
-			ImageButton bikeButton = (ImageButton) rowView.findViewById(R.id.btn_bike);
-			ImageButton walkButton = (ImageButton) rowView.findViewById(R.id.btn_walk);
-			ImageButton subwayButton = (ImageButton) rowView.findViewById(R.id.btn_subway);
+			ImageButton bikeButton = (ImageButton) rowView.findViewById(R.id.truckProfileHubwayButton);
+			ImageButton walkButton = (ImageButton) rowView.findViewById(R.id.truckProfileWalkingButton);
+			ImageButton subwayButton = (ImageButton) rowView.findViewById(R.id.truckProfileSubwayButton);
 			
 			bikeButton.setFocusable(false);
 			bikeButton.setFocusableInTouchMode(false);
+			bikeButton.setVisibility(bikeButton.GONE);
 			
 			walkButton.setFocusable(false);
 			walkButton.setFocusableInTouchMode(false);
+			walkButton.setVisibility(walkButton.GONE);
 			
 			subwayButton.setFocusable(false);
 			subwayButton.setFocusableInTouchMode(false);
+			subwayButton.setVisibility(subwayButton.GONE);
 			
 			
 			
