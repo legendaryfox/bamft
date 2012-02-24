@@ -13,8 +13,8 @@
 	
 	<!-- GOOGLE MAPS KEYS -->
 	
-	<!--<string name="maps_key">0M7ZmQp2y_Eccf7uWqlRxTQYWnM3mpXYv-go0Bw</string> --><!-- SUSANA'S KEY -->
-	 <string name="maps_key">0Li57-t6yvUbeUsoBpSccbHJpCApOtnhrwWAgdQ</string><!-- JOSIAH'S KEY -->
+	<string name="maps_key">0M7ZmQp2y_Eccf7uWqlRxTQYWnM3mpXYv-go0Bw</string> <!-- SUSANA'S KEY -->
+	 <!-- <string name="maps_key">0Li57-t6yvUbeUsoBpSccbHJpCApOtnhrwWAgdQ</string>--><!-- JOSIAH'S KEY -->
 	
 	<!-- ACTION BAR -->
 	<string name="app_name">BAMFT!</string>

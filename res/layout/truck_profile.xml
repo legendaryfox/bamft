@@ -81,37 +81,42 @@
         android:apiKey="@string/maps_key"
         android:layout_below="@id/truckProfileMapsButton" />    
 
-	<LinearLayout
-	    android:orientation="horizontal"
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:layout_alignParentBottom="true"
-    	android:gravity="fill_horizontal">
-        
-	    <Button
-	        android:id="@+id/truckProfileScheduleButton"
-	        android:text="@string/schedule"
-	    	android:layout_width="wrap_content"
-	    	android:layout_height="wrap_content" />
-	    <Button
-	        android:id="@+id/truckProfileMenuButton"
-	        android:text="@string/menu"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" />
-	    <Button
-	        android:id="@+id/truckProfileTwitterButton"
-	        android:text="@string/twitter"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" />
-	    <Button
-	        android:id="@+id/truckProfilePicturesButton"
-	        android:text="@string/pictures"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" />
-	    <Button
-	        android:id="@+id/truckProfileYelpButton"
-	        android:text="@string/yelp"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" />
-    </LinearLayout>        
+ 	<ScrollView
+ 	    android:id="@+id/truckProfileScrollView"
+ 	    android:layout_width="fill_parent"
+ 	    android:layout_height="fill_parent">
+ 	    
+		<LinearLayout
+		    android:orientation="horizontal"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="wrap_content"
+	    	android:gravity="fill_horizontal">
+	        
+		    <Button
+		        android:id="@+id/truckProfileScheduleButton"
+		        android:text="@string/schedule"
+		    	android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content" />
+		    <Button
+		        android:id="@+id/truckProfileMenuButton"
+		        android:text="@string/menu"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" />
+		    <Button
+		        android:id="@+id/truckProfileTwitterButton"
+		        android:text="@string/twitter"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" />
+		    <Button
+		        android:id="@+id/truckProfilePicturesButton"
+		        android:text="@string/pictures"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" />
+		    <Button
+		        android:id="@+id/truckProfileYelpButton"
+		        android:text="@string/yelp"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" />
+	    </LinearLayout>
+	</ScrollView>  
 </RelativeLayout>

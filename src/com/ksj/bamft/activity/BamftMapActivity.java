@@ -254,7 +254,7 @@ public class BamftMapActivity extends MapActivity {
         
         // Define marker to use on overlay map
         
-        Drawable overlayMarker = this.getResources().getDrawable(R.drawable.ic_launcher);
+        Drawable overlayMarker = this.getResources().getDrawable(R.drawable.truck_overlay);
         overlayMarker.setBounds(0, 0, 
         		overlayMarker.getIntrinsicWidth(), overlayMarker.getIntrinsicHeight());
         
