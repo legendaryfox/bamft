@@ -50,7 +50,8 @@ import com.ksj.bamft.model.Truck;
 public class BamftActivity extends Activity {
 	
 	private List<Factlet> factlets = null;
-	
+	boolean currentlyUpdating = false; 
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -61,30 +62,30 @@ public class BamftActivity extends Activity {
 		setContentView(R.layout.ab_home);
 
 		// Action Bar Left Icon
-/*		final ActionBar actionBar = (ActionBar) findViewById(R.id.actionbar);
+		/*		final ActionBar actionBar = (ActionBar) findViewById(R.id.actionbar);
 		actionBar.setHomeAction(new IntentAction(this, createIntent(this), R.drawable.icon));
 		actionBar.setTitle("BAMFT!");
-*/
+		 */
 		ActionBarTitleHelper.setTitleBar(this);
 		
 		DatabaseHandler db = new DatabaseHandler(this);
 		
 		setupFactlets(db);
 		// END DISPLAY
-		
+
 		//Prompt user for internets if necessary
 		checkInternetConnection();
 		BackgroundPrepareData task = new BackgroundPrepareData();
 		task.execute();
 		Log.d("ASYNC", "should start now...");
 	}
-	
+
 	private void finishCreatingActivity() {
 		//Yelp.testExecute();
 
 		// Prepares the internal SQLite database, if need be (dictated by CACHE_LIFE).
 		//prepareData();
-		
+
 		final DatabaseHandler db = new DatabaseHandler(this);
 		
 		//BEGIN TEST DATA
@@ -138,16 +139,16 @@ public class BamftActivity extends Activity {
 		String testingToastText = "It is currently " + dayOfWeek + " " + timeOfDay + ". Cache should be updated in : " + (cacheBirthday + Constants.CACHE_LIFE - now.toMillis(true))/1000 + " seconds.";
 		Toast.makeText(BamftActivity.this, testingToastText, Toast.LENGTH_LONG).show();
 	}
-	
-	
-/*
+
+
+	/*
 	// Action Bar Home Icon leads to Home
 	public static Intent createIntent(Context context) {
 		Intent i = new Intent(context, BamftActivity.class);
 		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		return i;
 	}
-*/
+	 */
 	public void menuClickFunction(final View v) {
 
 		Time now = new Time();
@@ -169,42 +170,55 @@ public class BamftActivity extends Activity {
 			//Load Morning trucks
 			//Toast.makeText(BamftActivity.this, "" + dayOfWeek + " Morning trucks", Toast.LENGTH_SHORT).show();
 			//timeBundle.putString("timeOfDay", timeOfDay);
-			Toast.makeText(BamftActivity.this,  "Nearby open trucks (for " + dayOfWeek + " " + timeOfDay + ")", Toast.LENGTH_SHORT).show();
+			if(!currentlyUpdating) {
+				Toast.makeText(BamftActivity.this,  "Nearby open trucks (for " + dayOfWeek + " " + timeOfDay + ")", Toast.LENGTH_SHORT).show();
 
-			Intent loadScheduleListIntent = new Intent(BamftActivity.this, ScheduleListActivity.class);
-			loadScheduleListIntent.putExtras(timeBundle);
-			BamftActivity.this.startActivity(loadScheduleListIntent);
+				Intent loadScheduleListIntent = new Intent(BamftActivity.this, ScheduleListActivity.class);
+				loadScheduleListIntent.putExtras(timeBundle);
+				BamftActivity.this.startActivity(loadScheduleListIntent);
+			} else {
+				Toast.makeText(BamftActivity.this, Constants.CURRENTLY_UPDATING_STRING, Toast.LENGTH_SHORT).show();
+			}
 
 			break;
 		case R.id.menu_item_list_all:
 			//Load Afternoon trucks
-			Toast.makeText(BamftActivity.this,  "All trucks (open and closed)", Toast.LENGTH_SHORT).show();
 
-			Intent loadTruckListIntent = new Intent(BamftActivity.this, TruckListActivity.class);
-			timeBundle.putString("timeOfDay", "Afternoon");
-			loadTruckListIntent.putExtras(timeBundle);
-			BamftActivity.this.startActivity(loadTruckListIntent);
+			if(!currentlyUpdating) {
+				Toast.makeText(BamftActivity.this,  "All trucks (open and closed)", Toast.LENGTH_SHORT).show();
+
+				Intent loadTruckListIntent = new Intent(BamftActivity.this, TruckListActivity.class);
+				timeBundle.putString("timeOfDay", "Afternoon");
+				loadTruckListIntent.putExtras(timeBundle);
+				BamftActivity.this.startActivity(loadTruckListIntent);
+			} else {
+				Toast.makeText(BamftActivity.this, Constants.CURRENTLY_UPDATING_STRING, Toast.LENGTH_SHORT).show();
+			}
 			break;
 		case R.id.menu_item_map_view:
 			//Load Evening trucks
-			Toast.makeText(BamftActivity.this,  "All open trucks", Toast.LENGTH_SHORT).show();
+			if(!currentlyUpdating) {
+				Toast.makeText(BamftActivity.this,  "All open trucks", Toast.LENGTH_SHORT).show();
 
-			Intent openTrucksMapIntent = new Intent(this, BamftMapActivity.class);
-			openTrucksMapIntent.putExtras(timeBundle);
-			openTrucksMapIntent.putExtra(Constants.MAP_TYPE, Constants.MAP_TYPE_TRUCKS);
-			startActivity(openTrucksMapIntent);
-
+				Intent openTrucksMapIntent = new Intent(this, BamftMapActivity.class);
+				openTrucksMapIntent.putExtras(timeBundle);
+				openTrucksMapIntent.putExtra(Constants.MAP_TYPE, Constants.MAP_TYPE_TRUCKS);
+				startActivity(openTrucksMapIntent);
+			} else {
+				Toast.makeText(BamftActivity.this, Constants.CURRENTLY_UPDATING_STRING, Toast.LENGTH_SHORT).show();
+			}
 			break;
 		case R.id.menu_item_surprise_me:
-			
-			Intent randomTruckIntent = new Intent(this, RandomTruckActivity.class);
-			randomTruckIntent.putExtra(Constants.DAY_OF_WEEK, dayOfWeek);
-			randomTruckIntent.putExtra(Constants.TIME_OF_DAY, timeOfDay);
-			startActivity(randomTruckIntent);
-			
-			// Force data cache
 
-			/*SharedPreferences settings = getSharedPreferences(Constants.BAMFT_PREFS_NAME, 0);
+			if(!currentlyUpdating) {
+				Intent randomTruckIntent = new Intent(this, RandomTruckActivity.class);
+				randomTruckIntent.putExtra(Constants.DAY_OF_WEEK, dayOfWeek);
+				randomTruckIntent.putExtra(Constants.TIME_OF_DAY, timeOfDay);
+				startActivity(randomTruckIntent);
+
+				// Force data cache
+
+				/*SharedPreferences settings = getSharedPreferences(Constants.BAMFT_PREFS_NAME, 0);
 			SharedPreferences.Editor editor = settings.edit();
 			editor.putLong(Constants.PREFS_CACHE_UPDATED, 0);
 			editor.commit();
@@ -214,7 +228,9 @@ public class BamftActivity extends Activity {
 			task.execute();
 
 			Toast.makeText(BamftActivity.this, "Updated Cache...", Toast.LENGTH_SHORT).show();*/
-
+			} else {
+				Toast.makeText(BamftActivity.this, Constants.CURRENTLY_UPDATING_STRING, Toast.LENGTH_SHORT).show();
+			}
 			break;
 		}        		
 
@@ -225,11 +241,11 @@ public class BamftActivity extends Activity {
 
 
 	public static String getDayOfWeek(Time now) {
-/*
+		/*
 		if (true) {
 			return "Monday";
 		}
-		*/
+		 */
 		return Constants.DAYS_OF_WEEK[now.weekDay]; 
 	}
 
@@ -239,12 +255,12 @@ public class BamftActivity extends Activity {
 	 * @return "Morning", "Afternoon", "Evening"
 	 */
 	public static String getMealOfDay(Time now) {
-/*
+		/*
 		if (false) {
 			return "Afternoon";
 		}
 
-*/
+		 */
 		Time morningStart = new Time(now);
 		morningStart.set(0, 0, Constants.MORNING_START_HOUR, now.monthDay, now.month, now.year);
 
@@ -304,11 +320,11 @@ public class BamftActivity extends Activity {
 
 		long cacheBirthday = settings.getLong("cacheUpdated", 0);
 		if ((now.toMillis(true) - cacheBirthday) > Constants.CACHE_LIFE) {
-			// now minus the birthday is bigger than the expected age - so we should re-grab from cache
+		//if (true) {
+			// now minus the birthdays is bigger than the expected age - so we should re-grab from cache
 
 
-			// Connect to DB
-			DatabaseHandler db = new DatabaseHandler(this);
+
 
 			// First, we pull get the data from the Landmark, Truck, and Schedule tables.
 			String landmarksDumpData = readServerData(Constants.LANDMARKS_DUMP_URL);
@@ -320,6 +336,11 @@ public class BamftActivity extends Activity {
 			// Dump the database
 			//db.recreateAllTables();
 
+
+			// BEGIN FREEZE
+			currentlyUpdating = true;
+			// Connect to DB
+			DatabaseHandler db = new DatabaseHandler(this);
 			boolean cacheSuccessFlag = true;
 
 			// Landmarks
@@ -487,6 +508,8 @@ public class BamftActivity extends Activity {
 				cacheSuccessFlag = false;
 			}
 
+			currentlyUpdating = false;
+			// END FREEZE
 
 
 			// DONE - update prefs
@@ -504,6 +527,7 @@ public class BamftActivity extends Activity {
 
 		}
 	}
+
 
 	/**
 	 * Reads the server data from specified URL. Essentially a web page http-get function. 
@@ -577,44 +601,44 @@ public class BamftActivity extends Activity {
 
 
 	}
-	
+
 	private void checkInternetConnection() {
 		ConnectivityManager cm = (ConnectivityManager) this.getSystemService(
 				Context.CONNECTIVITY_SERVICE);
-		
-		NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-		
-	    boolean connected = 
-	    		networkInfo != null &&
-	    		networkInfo.isAvailable() &&
-	    		networkInfo.isConnectedOrConnecting();
 
-	    if (!connected) {
+		NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+
+		boolean connected = 
+				networkInfo != null &&
+				networkInfo.isAvailable() &&
+				networkInfo.isConnectedOrConnecting();
+
+		if (!connected) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);  
 			builder.setMessage(Constants.ENABLE_INTERNET)  
-                   .setCancelable(true)  
-                   .setPositiveButton(
-                		   Constants.ENABLE_INTERNET_YES, 
-                		   new DialogInterface.OnClickListener() {  
-                			   public void onClick(DialogInterface dialog, int id) {  
-                				   Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);  
-                				   startActivityForResult(intent, 1); 
-                			   }  
-                		   })  
-                  .setNegativeButton(
-                		  Constants.ENABLE_INTERNET_NO, 
-                		  new DialogInterface.OnClickListener() {  
-                			  public void onClick(DialogInterface dialog, int id) {  
-                				  finishCreatingActivity();
-                			  }  
-                		  }).show();  
+			.setCancelable(true)  
+			.setPositiveButton(
+					Constants.ENABLE_INTERNET_YES, 
+					new DialogInterface.OnClickListener() {  
+						public void onClick(DialogInterface dialog, int id) {  
+							Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);  
+							startActivityForResult(intent, 1); 
+						}  
+					})  
+					.setNegativeButton(
+							Constants.ENABLE_INTERNET_NO, 
+							new DialogInterface.OnClickListener() {  
+								public void onClick(DialogInterface dialog, int id) {  
+									finishCreatingActivity();
+								}  
+							}).show();  
 		}
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		
+
 		finishCreatingActivity();
 	}
 	

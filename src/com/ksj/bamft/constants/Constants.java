@@ -68,6 +68,8 @@ public class Constants {
 	
 	// Messages and dialogs 
 	
+	public static final String CURRENTLY_UPDATING_STRING = "Currently updating the database, please hold :)";
+	
 	public static final String HUBWAY_STATION_LOCKED = "Note: station locked - bikes can be " +
 			"returned but not removed";
 	
