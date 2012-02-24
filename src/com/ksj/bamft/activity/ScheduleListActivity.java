@@ -117,11 +117,6 @@ public class ScheduleListActivity extends ListActivity {
 
 
 		
-		/*
-		final ActionBar actionBar = (ActionBar) findViewById(R.id.actionbar);
-		actionBar.setHomeAction(new IntentAction(this, BamftActivity.createIntent(this), R.drawable.icon));
-		actionBar.setTitle("BAMFT!");
-		*/
 		ScheduleRowAdapter adapter = new ScheduleRowAdapter(this, R.layout.ab_truck_row,
 				scheduleList, scheduleToDistanceMap);
 		setListAdapter(adapter);

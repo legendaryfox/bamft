@@ -105,11 +105,13 @@ public class RandomTruckActivity extends Activity {
         TextView landmarkDistanceTextView = (TextView)findViewById(R.id.landmarkDistanceText);
         
         TextView truckDescriptionTextView = (TextView)findViewById(R.id.truckDescriptionText);
-        
+		TextView truckOpenCloseTextView = (TextView) findViewById(R.id.btn_openclosed);
+
         truckNameTextView.setText(truck.getName());
         landmarkNameTextView.setText(landmark.getName());
         landmarkDistanceTextView.setText(distanceString);
         truckDescriptionTextView.setText(truck.getDescription());
+        truckOpenCloseTextView.setText("Open");
         
         // Hubway button
         
@@ -128,6 +130,7 @@ public class RandomTruckActivity extends Activity {
         		Double.parseDouble(landmark.getXcoord()));
         
         //ScheduleProfileTabsHelper.SetupProfileTabs(this, truck, "profile", receivedExtras.getString(Constants.REFERRER));
+        ActionBarTitleHelper.setTitleBar(this);
         ProfileTabsHelper.referrer = "schedule";
         ProfileTabsHelper.schedule = schedule;
         ProfileTabsHelper.setupProfileTabs(this, truck, "profile");

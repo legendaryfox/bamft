@@ -85,8 +85,6 @@
 
     <!-- Start List item box -->
 
-
-	
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/box_list"
@@ -132,7 +130,7 @@
             android:layout_alignTop="@+id/landmarkDistanceText"
             android:layout_marginRight="12dip"
             foo:customFont="fonts/miso-normal.ttf"
-            android:text="Open"
+            android:text=""
             android:textSize="16sp" >
         </com.ksj.bamft.actionbarhelpers.TextViewPlus>
     </RelativeLayout>
@@ -148,7 +146,7 @@
         android:background="@color/lightgrey" >
 
         <ImageButton
-            android:id="@+id/btn_subway"
+            android:id="@+id/truckProfileSubwayButton"
             android:layout_width="32dip"
             android:layout_height="32dip"
             android:layout_alignParentLeft="true"
@@ -161,10 +159,10 @@
             android:id="@+id/truckProfileWalkingButton"
             android:layout_width="32dip"
             android:layout_height="32dip"
-            android:layout_alignBaseline="@+id/txt_distance"
-            android:layout_alignBottom="@+id/txt_distance"
+            android:layout_alignBaseline="@+id/landmarkDistanceText"
+            android:layout_alignBottom="@+id/landmarkDistanceText"
             android:layout_marginRight="5dip"
-            android:layout_toRightOf="@+id/btn_subway"
+            android:layout_toRightOf="@+id/truckProfileSubwayButton"
             android:background="@drawable/button"
             android:src="@drawable/ic_walk" />
 
@@ -201,13 +199,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             foo:customFont="fonts/FF_DIN_Light.otf"
+            android:maxLines="7"
             android:paddingBottom="12dip"
             android:paddingLeft="18dip"
             android:paddingRight="18dip"
             android:paddingTop="12dip"
-            android:text="Description Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id est non lacus euismod scelerisque nec a erat. Curabitur eros felis, pretium vitae rhoncus placerat, convallis eget nisl."
-            android:maxLines="7"
             android:scrollbars="vertical"
+            android:text="Description Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id est non lacus euismod scelerisque nec a erat. Curabitur eros felis, pretium vitae rhoncus placerat, convallis eget nisl."
             android:textColor="#FF333333"
             android:textSize="16sp" >
         </com.ksj.bamft.actionbarhelpers.TextViewPlus>

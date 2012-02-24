@@ -83,21 +83,6 @@ public class TruckTwitterListActivity extends ListActivity {
 			ListView lv = getListView();
 			lv.setAdapter(adapter);
 			lv.setDivider(null);
-
-
-
-
-			/*
-			// Action Bar Left Icon
-			final ActionBar actionBar = (ActionBar) findViewById(R.id.actionbar);
-			actionBar.setHomeAction(new IntentAction(this, BamftActivity.createIntent(this), R.drawable.icon));
-			actionBar.setTitle("BAMFT!");
-			 */
-			/*
-			TextView twitterHandleTextView = (TextView) getListView().findViewById(R.id.twitterHandle);
-			twitterHandleTextView.setText(twitterHandle);
-			 */
-
 		}
 
 
@@ -156,21 +141,7 @@ public class TruckTwitterListActivity extends ListActivity {
 			TweetItemAdapter adapter = new TweetItemAdapter(TruckTwitterListActivity.this.getBaseContext(), R.layout.ab_tweet_item, tweetItems);
 			listView.setAdapter(adapter);
 			listView.setDivider(null);
-
-
-
-
-			/*
-			// Action Bar Left Icon
-			final ActionBar actionBar = (ActionBar) findViewById(R.id.actionbar);
-			actionBar.setHomeAction(new IntentAction(this, BamftActivity.createIntent(this), R.drawable.icon));
-			actionBar.setTitle("BAMFT!");
-			 */
-			/*
-			TextView twitterHandleTextView = (TextView) getListView().findViewById(R.id.twitterHandle);
-			twitterHandleTextView.setText(twitterHandle);
-			 */
-
+			
 			// Finished loading, dismiss the dialog
 			dialog.dismiss();
 		}

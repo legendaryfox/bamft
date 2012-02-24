@@ -77,6 +77,8 @@ public class ScheduleProfileActivity extends MapActivity {
         TextView landmarkDistanceTextView = (TextView)findViewById(R.id.landmarkDistanceText);
         TextView truckDescriptionTextView = (TextView)findViewById(R.id.truckDescriptionText);
         
+        TextView truckOpenCloseTextView = (TextView)findViewById(R.id.btn_openclosed);
+        
         //TODO: make it calculate real distance...lawl...
         //float make_x = new Float(landmark.getXcoord());
         //float make_y = new Float(landmark.getYcoord());
@@ -87,38 +89,11 @@ public class ScheduleProfileActivity extends MapActivity {
         landmarkDistanceTextView.setText(distanceString);
         truckDescriptionTextView.setText(truck.getDescription());
         
+        truckOpenCloseTextView.setText("Open");
+        
         truckDescriptionTextView.setMovementMethod(new ScrollingMovementMethod());
         
-        
-        /*
-        //set scrolling for description
-        truckDescriptionTextView.setMovementMethod(new ScrollingMovementMethod());
-        
-        
-        // Map view
-        
-        MapView mapView = (MapView) findViewById(R.id.truckProfileMap);
-        mapView.setBuiltInZoomControls(true);
-        
-        List<Overlay> overlayToDisplay = mapView.getOverlays();
-        Drawable overlayMarker =
-        		this.getResources().getDrawable(R.drawable.androidmarker);
-        MapOverlays overlay = new MapOverlays(overlayMarker, this);
-        
-        int truckLat = MapHelpers.degreesToMicrodegrees(Double.parseDouble(landmark.getYcoord()));
-        int truckLon = MapHelpers.degreesToMicrodegrees(Double.parseDouble(landmark.getXcoord()));
-        
-        GeoPoint truckLocation = new GeoPoint(truckLat, truckLon);
-        OverlayItem overlayItem = new OverlayItem(truckLocation, "Hola, Mundo!", "I'm in Mexico City!");
-        
-        overlay.addOverlay(overlayItem);
-        overlay.populateNow();
-        overlayToDisplay.add(overlay);
-        
-        MapController mapController = mapView.getController();
-        mapController.setCenter(truckLocation);
-        mapController.setZoom(17);
-        */
+   
         
 
         Time now = new Time();
@@ -177,93 +152,6 @@ public class ScheduleProfileActivity extends MapActivity {
         ProfileTabsHelper.setupProfileTabs(this, truck, "profile");
         
         
-        /*
-        // BEGIN "TAB" BUTTONS
-        // Schedule button
-        
-        Button scheduleButton = (Button) findViewById(R.id.truckProfileScheduleButton);
-		scheduleButton.setOnClickListener(new View.OnClickListener() {
-
-			public void onClick(View v) {
-        		// Create the intent
-        		Intent loadTruckScheduleIntent = new Intent(ScheduleProfileActivity.this, TruckScheduleListActivity.class);
-        		
-        		// Create extras bundle
-        		Bundle extras = new Bundle();
-        		extras.putString(Constants.DAY_OF_WEEK, dayOfWeek);
-        		extras.putString(Constants.TIME_OF_DAY, timeOfDay);
-        		extras.putSerializable(Constants.TRUCK, truck);
-        		loadTruckScheduleIntent.putExtras(extras);
-        	
-        		// Start the activity
-        		ScheduleProfileActivity.this.startActivity(loadTruckScheduleIntent);
-			}
-		});
-		
-		// Menu button
-		Button menuButton = (Button) findViewById(R.id.truckProfileMenuButton);
-		menuButton.setOnClickListener(new View.OnClickListener() {
-			
-			public void onClick(View v) {
-				//Create intent
-				Intent loadTruckMenuIntent = new Intent(ScheduleProfileActivity.this, TruckMenuListActivity.class);
-				
-				// Create extras bundle
-				Bundle extras = new Bundle();
-				extras.putInt(Constants.TRUCK_ID, truck.getId()); // we'll pass the truck ID and let TruckMenuListActivity handle it.
-				loadTruckMenuIntent.putExtras(extras);
-				
-				// Start the activity
-				ScheduleProfileActivity.this.startActivity(loadTruckMenuIntent);
-				
-			}
-			
-		});
-		
-		// Twitter button
-		
-		Button twitterButton = (Button) findViewById(R.id.truckProfileTwitterButton);
-		twitterButton.setOnClickListener(new View.OnClickListener() {
-			
-			public void onClick(View v) {
-				//Create intent
-				Intent loadTruckTwitterIntent = new Intent(ScheduleProfileActivity.this, TruckTwitterListActivity.class);
-				
-				// Create extras bundle
-				Bundle extras = new Bundle();
-				extras.putString(Constants.TWITTER_HANDLE, truck.getTwitter());
-				loadTruckTwitterIntent.putExtras(extras);
-				
-				// Start the activity
-				ScheduleProfileActivity.this.startActivity(loadTruckTwitterIntent);
-				
-			}
-			
-		});
-		
-		// Yelp Button
-        Button yelpButton = (Button) findViewById(R.id.truckProfileYelpButton);
-        yelpButton.setOnClickListener(new View.OnClickListener() {
-			
-			public void onClick(View v) {
-				// Create intent
-				Intent loadTruckYelpIntent = new Intent(ScheduleProfileActivity.this, TruckYelpListActivity.class);
-				
-				// Create extras bundle
-				Bundle extras = new Bundle();
-				extras.putString(Constants.YELP_HANDLE, truck.getYelp());
-				loadTruckYelpIntent.putExtras(extras);
-				
-				// Star the activity
-				ScheduleProfileActivity.this.startActivity(loadTruckYelpIntent);
-
-				
-			}
-		});
-        
-        
-        // END "TAB" BUTTONS
-        */
 	 }
 	
 	/**
