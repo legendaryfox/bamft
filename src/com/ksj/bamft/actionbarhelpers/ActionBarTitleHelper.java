@@ -16,7 +16,7 @@ public class ActionBarTitleHelper {
 		// Action Bar Left Icon
 		final ActionBar actionBar = (ActionBar) ((Activity) context).findViewById(R.id.actionbar);
 		if (actionBar != null) {
-			actionBar.setHomeAction(new IntentAction(context, createIntent(context), R.drawable.icon));
+			actionBar.setHomeAction(new IntentAction(context, createIntent(context), R.drawable.ic_launcher));
 			actionBar.setTitle("BAMFT!");
 		}
 	}

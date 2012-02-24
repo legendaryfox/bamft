@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.Time;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -81,6 +82,8 @@ public class ScheduleProfileActivity extends MapActivity {
         landmarkNameTextView.setText(landmark.getName());
         landmarkDistanceTextView.setText(distance_string);
         truckDescriptionTextView.setText(truck.getDescription());
+        
+        truckDescriptionTextView.setMovementMethod(new ScrollingMovementMethod());
         
         
         /*
