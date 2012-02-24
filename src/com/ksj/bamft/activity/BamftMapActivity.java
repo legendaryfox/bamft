@@ -1,9 +1,12 @@
 package com.ksj.bamft.activity;
 
+import java.io.IOException;
 import java.util.List;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -127,17 +130,52 @@ public class BamftMapActivity extends MapActivity {
         		overlayMarker.getIntrinsicWidth(), overlayMarker.getIntrinsicHeight());
         
        // MapOverlays overlay = new MapOverlays(overlayMarker, this);
-        HubwayBalloonItemizedOverlay overlay = 
+        HubwayBalloonItemizedOverlay<OverlayItem> overlay = 
         		new HubwayBalloonItemizedOverlay<OverlayItem>(overlayMarker, mapView);
+        
+        // commented out geocoder since it's slow
+        // if we can speed it up, we should definitely bring it back
+        //Geocoder geocoder = new Geocoder(this);
         
         for (HubwayStation station : stations) {
         	//TODO: uncomment in release mode
         	//if (station.isInstalled()) {
-        		GeoPoint point = MapHelpers.getGeoPoint(
-        				station.getLatitude(), station.getLongitude());
+        		double latitude = station.getLatitude();
+        		double longitude = station.getLongitude();
+        		
+        		GeoPoint point = MapHelpers.getGeoPoint(latitude, longitude);
         		
         		//OverlayItem overlayItem = new OverlayItem(point, station.getName(), "");
         		//overlay.addOverlay(overlayItem);
+        		
+        		/*String addressString = "";
+        		
+        		try {
+        			Address address = null;
+					List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
+					
+					if (addressList != null && addressList.size() > 0)
+						address = addressList.get(0);
+					
+					if (address != null)
+						addressString = address.getAddressLine(0);
+					
+				} catch (IOException e) {
+					e.printStackTrace();
+					continue;
+				}*/
+        		
+        		// Num bikes
+        		
+        		int numBikes = station.getNumBikes();
+        		String numBikesStr = Constants.HUBWAY_NUM_BIKES + numBikes;
+        		
+        		// Num empty docks
+        		
+        		int numEmptyDocks = station.getNumEmptyDocks();
+        		String numEmptyDocksStr = Constants.HUBWAY_NUM_EMPTY_DOCKS + numEmptyDocks;
+        		
+        		// Station locked info
         		
         		boolean stationLocked = station.isLocked();
         		
@@ -148,9 +186,8 @@ public class BamftMapActivity extends MapActivity {
         		
         		HubwayOverlayItem overlayItem = new HubwayOverlayItem(
         				point, station.getName(), 
-        				 "",
-        				Integer.toString(station.getNumBikes()),
-        				Integer.toString(station.getNumEmptyDocks()), lockedInfo, "");
+        				numBikesStr,
+        				numEmptyDocksStr, lockedInfo, "", "");
         		
         		overlay.addOverlay(overlayItem);
         	//}

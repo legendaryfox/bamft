@@ -61,13 +61,18 @@ public class Constants {
 	public static final int HUBWAY_STATIONS_MAP_ZOOM = 12;
 	public static final int OPEN_TRUCKS_MAP_ZOOM = 13;
 	
+	// Map overlays
+	
+	public static final String HUBWAY_NUM_BIKES = "# Bikes: ";
+	public static final String HUBWAY_NUM_EMPTY_DOCKS = "# Empty Docks: ";
+	
 	// Messages and dialogs 
 	
 	public static final String HUBWAY_STATION_LOCKED = "Note: station locked - bikes can be " +
 			"returned but not removed";
 	
 	public static final String ENABLE_LOCATION_PROVIDERS = 
-			"This app could will be exponentially spiffier if you enable " +
+			"This app will be exponentially spiffier if you enable " +
 			"a location provider! True story.";
 
 	public static final String ENABLE_LOCATION_PROVIDERS_YES = "Ooh, yes please!";
