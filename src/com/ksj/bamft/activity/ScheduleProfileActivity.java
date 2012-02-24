@@ -172,6 +172,8 @@ public class ScheduleProfileActivity extends MapActivity {
         ActionBarTitleHelper.setTitleBar(this);
         ProfileTabsHelper.referrer = "schedule";
         ProfileTabsHelper.schedule = schedule;
+        ProfileTabsHelper.userLatitude = userLatitude;
+        ProfileTabsHelper.userLongitude = userLongitude;
         ProfileTabsHelper.setupProfileTabs(this, truck, "profile");
         
         
