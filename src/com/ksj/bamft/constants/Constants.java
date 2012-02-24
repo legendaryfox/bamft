@@ -54,9 +54,12 @@ public class Constants {
 	public static final int LOCATION_REFRESH_DISTANCE = 5;
 	public static final double BPL_LATITUDE = 42.349673;
 	public static final double BPL_LONGITUDE = -71.078612;
+	public static final double HYNES_LATITUDE = 42.351313;
+	public static final double HYNES_LONGITUDE = -71.084118; 
 	public static final String MAP_TYPE_HUBWAY = "hubway";
 	public static final String MAP_TYPE_TRUCKS = "trucks";
-	public static final String MAP_TYPE_HUBWAY_ROUTE = "hubwayRoute";
+	public static final int HUBWAY_STATIONS_MAP_ZOOM = 12;
+	public static final int OPEN_TRUCKS_MAP_ZOOM = 13;
 	
 	// Messages (toasts, etc.)
 	

@@ -73,37 +73,6 @@ public class BamftMapActivity extends MapActivity {
         	setOpenTrucksButtonFunctionality(dayOfWeek, timeOfDay);
         	setHubwayButtonFunctionality(dayOfWeek, timeOfDay);
         }
-        
-        else if (mapToCreate.equals(Constants.MAP_TYPE_HUBWAY_ROUTE)) {
-        	
-        	@SuppressWarnings("unchecked")
-			List<NavigationStep> userToStation = (List<NavigationStep>) 
-        			extras.getSerializable(Constants.HUBWAY_ROUTE_USER_TO_STATION);
-        	
-        	@SuppressWarnings("unchecked")
-			List<NavigationStep> stationToStation = (List<NavigationStep>)
-        			extras.getSerializable(Constants.HUBWAY_ROUTE_STATION_TO_STATION);
-        	
-        	@SuppressWarnings("unchecked")
-			List<NavigationStep> stationToTruck = (List<NavigationStep>)
-        			extras.getSerializable(Constants.HUBWAY_ROUTE_STATION_TO_TRUCK);
-        	
-        	List<RouteOverlay> userToStationOverlays = 
-        			MapHelpers.getRouteOverlay(userToStation, Color.BLUE);
-        	
-        	List<RouteOverlay> stationToStationOverlays = 
-        			MapHelpers.getRouteOverlay(stationToStation, Color.GREEN);
-        	
-        	List<RouteOverlay> stationToTruckOverlays = 
-        			MapHelpers.getRouteOverlay(stationToTruck, Color.BLUE);
-        	
-        	List<RouteOverlay> routeOverlays = new LinkedList<RouteOverlay>();
-        	routeOverlays.addAll(userToStationOverlays);
-        	routeOverlays.addAll(stationToStationOverlays);
-        	routeOverlays.addAll(stationToTruckOverlays);
-        	
-        	createMapViewWithRoute(routeOverlays);
-        }
 	}
 	
 	/**
@@ -187,11 +156,12 @@ public class BamftMapActivity extends MapActivity {
         overlay.populateNow();
         overlayToDisplay.add(overlay);
         
-        GeoPoint centerOfBoston = MapHelpers.getGeoPoint(
-        		Constants.BPL_LATITUDE, Constants.BPL_LONGITUDE);
+        GeoPoint hynes = MapHelpers.getGeoPoint(
+        		Constants.HYNES_LATITUDE, Constants.HYNES_LONGITUDE);
         
         MapController mapController = mapView.getController();
-        mapController.setCenter(centerOfBoston);
+        mapController.setCenter(hynes);
+        mapController.setZoom(Constants.HUBWAY_STATIONS_MAP_ZOOM);
 	}
 	
 	/**
@@ -209,45 +179,6 @@ public class BamftMapActivity extends MapActivity {
         
         List<Overlay> overlays = mapView.getOverlays();
         showOpenTruckOverlays(mapView, overlays, dayOfWeek, timeOfDay);
-	}
-	
-	/**
-	 * Create the MapView to display the given route.
-	 */
-	private void createMapViewWithRoute(List<RouteOverlay> routeOverlays) {
-		setContentView(R.layout.map_activity);
-		
-		MapView mapView = (MapView) findViewById(R.id.mapView);
-        mapView.setBuiltInZoomControls(true);
-        
-        List<Overlay> overlayToDisplay = mapView.getOverlays();
-        
-        for (Overlay routeOverlay : routeOverlays) {
-        	overlayToDisplay.add(routeOverlay);
-        }
-        
-        Button trucksButton = (Button) findViewById(R.id.openTrucksButton);
-        Button hubwayStationsButton = (Button) findViewById(R.id.hubwayStationsButton);
-        
-        trucksButton.setVisibility(Constants.VISIBILITY_GONE);
-        hubwayStationsButton.setVisibility(Constants.VISIBILITY_GONE);
-        
-        // Set map to center on source
-        
-        Overlay source = routeOverlays.get(0);
-        GeoPoint sourcePoint = ((RouteOverlay) source).getPointA();
-       
-        MapController mapController = mapView.getController();
-        mapController.setCenter(sourcePoint);
-        
-        //TODO: add overlay markers for source and dest
-        
-        /*Drawable overlayMarker = this.getResources().getDrawable(R.drawable.androidmarker);
-        
-        overlayMarker.setBounds(0, 0,
-        		overlayMarker.getIntrinsicWidth(), overlayMarker.getIntrinsicHeight());
-        
-        MapOverlays overlay = new MapOverlays(overlayMarker, this);*/
 	}
 
 	
@@ -316,7 +247,11 @@ public class BamftMapActivity extends MapActivity {
         overlays.populateNow();
         overlaysList.add(overlays);
         
-        determineMapZoom(mapView, lowerBound, upperBound, leftBound, rightBound);
+        MapController mapController = mapView.getController();
+        GeoPoint hynes = MapHelpers.getGeoPoint(
+        		Constants.HYNES_LATITUDE, Constants.HYNES_LONGITUDE);
+        mapController.setCenter(hynes);
+        mapController.setZoom(Constants.OPEN_TRUCKS_MAP_ZOOM);
 	}
 	
 	
