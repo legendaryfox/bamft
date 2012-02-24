@@ -188,9 +188,15 @@ public class BamftActivity extends Activity {
 
 			break;
 		case R.id.menu_item_surprise_me:
+			
+			Intent randomTruckIntent = new Intent(this, RandomTruckActivity.class);
+			randomTruckIntent.putExtra(Constants.DAY_OF_WEEK, dayOfWeek);
+			randomTruckIntent.putExtra(Constants.TIME_OF_DAY, timeOfDay);
+			startActivity(randomTruckIntent);
+			
 			// Force data cache
 
-			SharedPreferences settings = getSharedPreferences(Constants.BAMFT_PREFS_NAME, 0);
+			/*SharedPreferences settings = getSharedPreferences(Constants.BAMFT_PREFS_NAME, 0);
 			SharedPreferences.Editor editor = settings.edit();
 			editor.putLong(Constants.PREFS_CACHE_UPDATED, 0);
 			editor.commit();
@@ -199,7 +205,7 @@ public class BamftActivity extends Activity {
 			BackgroundPrepareData task = new BackgroundPrepareData();
 			task.execute();
 
-			Toast.makeText(BamftActivity.this, "Updated Cache...", Toast.LENGTH_SHORT).show();
+			Toast.makeText(BamftActivity.this, "Updated Cache...", Toast.LENGTH_SHORT).show();*/
 
 			break;
 		}        		

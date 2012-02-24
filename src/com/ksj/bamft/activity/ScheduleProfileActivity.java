@@ -60,6 +60,15 @@ public class ScheduleProfileActivity extends MapActivity {
         final Truck truck = db.getTruck(schedule.getTruckId());
         Landmark landmark = db.getLandmark(schedule.getLandmarkId());
         
+        double truckLatitude = Double.parseDouble(landmark.getYcoord());
+        double truckLongitude = Double.parseDouble(landmark.getXcoord());
+        
+        double distance = MapHelpers.calculateDistance(userLatitude, truckLatitude, 
+        		userLongitude, truckLongitude);
+        
+        String roundedDistance = MapHelpers.roundDistanceToDecimalPlace(1, distance);
+        String distanceString = roundedDistance + " " + Constants.MILES;
+        
         // Finally, fill the layout
         setContentView(R.layout.ab_truck_profile);
         
@@ -73,15 +82,11 @@ public class ScheduleProfileActivity extends MapActivity {
         //float make_y = new Float(landmark.getYcoord());
         //float make_distance = make_x / make_y;
         
-        // temporarily set make_distance to 0 until we get correct data
-        // from API
-        float make_distance = 0;
-        String distance_string = String.format("%.2g", make_distance) + " mi";
-        
         truckNameTextView.setText(truck.getName());
         landmarkNameTextView.setText(landmark.getName());
-        landmarkDistanceTextView.setText(distance_string);
+        landmarkDistanceTextView.setText(distanceString);
         truckDescriptionTextView.setText(truck.getDescription());
+<<<<<<< HEAD
         
         truckDescriptionTextView.setMovementMethod(new ScrollingMovementMethod());
         
@@ -116,6 +121,9 @@ public class ScheduleProfileActivity extends MapActivity {
         mapController.setZoom(17);
         */
         
+=======
+            
+>>>>>>> 80b3040a68b38cefd138f849b25c8b0d6b52b84b
         Time now = new Time();
     	now.setToNow();
         
@@ -131,9 +139,6 @@ public class ScheduleProfileActivity extends MapActivity {
         
         /*
         // Google Maps button -- temporary, only here for testing intents to Maps!
-        
-        
-        
         
         Button mapsButton = (Button) findViewById(R.id.truckProfileMapsButton);
         mapsButton.setOnClickListener(new View.OnClickListener() {

@@ -54,10 +54,12 @@ public class MapHelpers {
 			return null;
 		
 		Location userLocation;
+		int x = 0;
     	
     	do {
     		userLocation = locationManager.getLastKnownLocation(locationProvider);
-    	} while (userLocation != null);
+    		x++;
+    	} while (userLocation != null && x < 20);
         
         return userLocation;
 	}
