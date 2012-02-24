@@ -19,7 +19,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -51,11 +50,19 @@ public class MapHelpers {
 	public static Location getUserLocation(LocationManager locationManager,
 			String locationProvider) {
 		
+		if (locationManager == null || locationProvider == null)
+			return null;
+		
 		Location userLocation;
+		int x = 0;
     	
     	do {
     		userLocation = locationManager.getLastKnownLocation(locationProvider);
-    	} while (userLocation == null);
+    		
+    		if (userLocation != null)
+    			x++;
+    		
+    	} while (x < 10);
         
         return userLocation;
 	}

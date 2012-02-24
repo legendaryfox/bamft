@@ -17,16 +17,19 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
 
 import com.ksj.bamft.R;
 import com.ksj.bamft.actionbarhelpers.ActionBarTitleHelper;
@@ -39,16 +42,31 @@ import com.ksj.bamft.model.Landmark;
 import com.ksj.bamft.model.MbtaStation;
 import com.ksj.bamft.model.Schedule;
 import com.ksj.bamft.model.Truck;
-import com.markupartist.android.widget.ActionBar;
-import com.markupartist.android.widget.ActionBar.Action;
-import com.markupartist.android.widget.ActionBar.IntentAction;
 
 public class BamftActivity extends Activity {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		SharedPreferences settings = getSharedPreferences(Constants.BAMFT_PREFS_NAME, 0);
 
+		// BEGIN DISPLAY
+		// setContentView(R.layout.main);
+
+		setContentView(R.layout.ab_home);
+
+		// Action Bar Left Icon
+/*		final ActionBar actionBar = (ActionBar) findViewById(R.id.actionbar);
+		actionBar.setHomeAction(new IntentAction(this, createIntent(this), R.drawable.icon));
+		actionBar.setTitle("BAMFT!");
+*/
+		ActionBarTitleHelper.setTitleBar(this);
+		// END DISPLAY
+		
+		//Prompt user for location and internets if necessary
+		
+		
 		//Yelp.testExecute();
 
 		// Prepares the internal SQLite database, if need be (dictated by CACHE_LIFE).
@@ -89,23 +107,6 @@ public class BamftActivity extends Activity {
 		}
 		//END TEST DATA
 
-
-
-
-		SharedPreferences settings = getSharedPreferences(Constants.BAMFT_PREFS_NAME, 0);
-
-		// BEGIN DISPLAY
-		// setContentView(R.layout.main);
-
-		setContentView(R.layout.ab_home);
-
-		// Action Bar Left Icon
-/*		final ActionBar actionBar = (ActionBar) findViewById(R.id.actionbar);
-		actionBar.setHomeAction(new IntentAction(this, createIntent(this), R.drawable.icon));
-		actionBar.setTitle("BAMFT!");
-*/
-		ActionBarTitleHelper.setTitleBar(this);
-		// END DISPLAY
 
 		// Home page grid view
 		//GridView gridview = (GridView) findViewById(R.id.gridview);
@@ -557,6 +558,6 @@ public class BamftActivity extends Activity {
 
 
 	}
-
-
+	
+	
 }

@@ -5,8 +5,10 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
@@ -30,19 +32,38 @@ import com.ksj.bamft.maps.MapHelpers;
 import com.ksj.bamft.maps.SimpleLocationListener;
 import com.ksj.bamft.model.Landmark;
 import com.ksj.bamft.model.Schedule;
-import com.ksj.bamft.model.Truck;
-import com.markupartist.android.widget.ActionBar;
-import com.markupartist.android.widget.ActionBar.IntentAction;
+import com.ksj.bamft.model.SimpleLocation;
 
 public class ScheduleListActivity extends ListActivity {
+	
+	private SimpleLocation userLocation = null;
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		//this part is for displaying it in the ListView
+		//note that we still use R.layout.truck_row
 
-		Location userLocation = getUserLocation();
+		setContentView(R.layout.ab_truck_list);
+		// Action Bar Left Icon
+		ActionBarTitleHelper.setTitleBar(this);
+		
+		checkLocationProvidersEnabled();
+	}
+	
+	private void finishCreatingActivity() {
+		userLocation = getUserLocation();
+		
+		if (userLocation == null) {
+			userLocation = new SimpleLocation(Constants.HYNES_LATITUDE, Constants.HYNES_LONGITUDE);
+		}
+		
+		final double userLatitude = userLocation.getLatitude();
+		final double userLongitude = userLocation.getLongitude();
 
-		double testLatitude;
+		/*double testLatitude;
 		double testLongitude;
 
 		try {
@@ -62,7 +83,7 @@ public class ScheduleListActivity extends ListActivity {
 		}
 
 		final double userLatitude = testLatitude;
-		final double userLongitude = testLongitude;
+		final double userLongitude = testLongitude;*/
 
 
 
@@ -90,12 +111,7 @@ public class ScheduleListActivity extends ListActivity {
 				getDistanceComparator(db, scheduleToDistanceMap, userLatitude, userLongitude));
 
 
-		//this part is for displaying it in the ListView
-		//note that we still use R.layout.truck_row
-
-		setContentView(R.layout.ab_truck_list);
-		// Action Bar Left Icon
-		ActionBarTitleHelper.setTitleBar(this);
+		
 		/*
 		final ActionBar actionBar = (ActionBar) findViewById(R.id.actionbar);
 		actionBar.setHomeAction(new IntentAction(this, BamftActivity.createIntent(this), R.drawable.icon));
@@ -115,8 +131,6 @@ public class ScheduleListActivity extends ListActivity {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 				//Proof of concept...
-				int truck_id = scheduleList.get(position).getTruckId();
-				Truck truck = db.getTruck(truck_id);
 
 				int landmark_id = scheduleList.get(position).getLandmarkId();
 				Landmark landmark = db.getLandmark(landmark_id);
@@ -147,7 +161,7 @@ public class ScheduleListActivity extends ListActivity {
 	 * 
 	 * @return
 	 */
-	private Location getUserLocation() {
+	private SimpleLocation getUserLocation() {
 
 		LocationListener locationListener = new SimpleLocationListener();
 
@@ -167,19 +181,16 @@ public class ScheduleListActivity extends ListActivity {
 					locationListener);
 		}
 
-		// Else prompt user to turn on a location provider
-		// TODO: fix this! pause ScheduleListActivity if settings page is called
-
-		else {
-			Toast.makeText(getApplicationContext(), "enable a location provider!", Toast.LENGTH_LONG).show();
-			Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-			ScheduleListActivity.this.startActivity(myIntent);
-		}
-
 		Location userLocation = MapHelpers.getUserLocation(locationManager, bestLocationProvider);
 		locationManager.removeUpdates(locationListener);
+		
+		if (userLocation == null)
+			return null;
+		
+		SimpleLocation userSimpleLocation = new SimpleLocation(
+				userLocation.getLatitude(), userLocation.getLongitude());
 
-		return userLocation;
+		return userSimpleLocation;
 	}
 
 	/**
@@ -273,5 +284,51 @@ public class ScheduleListActivity extends ListActivity {
 
 		return MapHelpers.calculateDistance(userLatDegrees, landmarkLatDegrees,
 				userLonDegrees, landmarkLonDegrees);
+	}
+	
+	/** 
+	 * 	If user has no location providers enabled, prompt
+	 * 	user to turn one on.
+	 */
+	private void checkLocationProvidersEnabled() {
+		LocationManager locationManager = 
+				(LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		
+		boolean enabled = 
+				locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+				locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		
+		if (enabled) {
+			finishCreatingActivity();
+			return;
+		}
+		
+		if (!enabled) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);  
+			builder.setMessage(Constants.ENABLE_LOCATION_PROVIDERS)  
+                   .setCancelable(true)  
+                   .setPositiveButton(
+                		   Constants.ENABLE_LOCATION_PROVIDERS_YES, 
+                		   new DialogInterface.OnClickListener() {  
+                			   public void onClick(DialogInterface dialog, int id) {  
+                				   Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);  
+                				   startActivityForResult(intent, Constants.SCHEDULE_LIST_ACTIVITY_REQ_CODE); 
+                			   }  
+                		   })  
+                  .setNegativeButton(
+                		  Constants.ENABLE_LOCATION_PROVIDERS_NO, 
+                		  new DialogInterface.OnClickListener() {  
+                			  public void onClick(DialogInterface dialog, int id) {  
+                				  finishCreatingActivity();
+                			  }  
+                		  }).show();  
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		finishCreatingActivity();
 	}
 }

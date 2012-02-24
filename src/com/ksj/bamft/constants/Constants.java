@@ -52,16 +52,27 @@ public class Constants {
 	public static final String MILES = "mi";
 	public static final int LOCATION_REFRESH_TIME = 60000;
 	public static final int LOCATION_REFRESH_DISTANCE = 5;
-	public static final double BPL_LATITUDE = 42.349673;
+	public static final double BPL_LATITUDE = 42.348673;
 	public static final double BPL_LONGITUDE = -71.078612;
-	public static final double HYNES_LATITUDE = 42.351313;
-	public static final double HYNES_LONGITUDE = -71.084118; 
+	public static final double HYNES_LATITUDE = 42.348419;
+	public static final double HYNES_LONGITUDE = -71.084354; 
 	public static final String MAP_TYPE_HUBWAY = "hubway";
 	public static final String MAP_TYPE_TRUCKS = "trucks";
 	public static final int HUBWAY_STATIONS_MAP_ZOOM = 12;
 	public static final int OPEN_TRUCKS_MAP_ZOOM = 13;
 	
-	// Messages (toasts, etc.)
+	// Request CODES
+	
+	public static final int SCHEDULE_LIST_ACTIVITY_REQ_CODE = 1;
+	
+	// Messages and dialogs 
+	
+	public static final String ENABLE_LOCATION_PROVIDERS = 
+			"This app could will be exponentially spiffier if you enable " +
+			"a location provider! True story.";
+	
+	public static final String ENABLE_LOCATION_PROVIDERS_YES = "Ooh, yes please!";
+	public static final String ENABLE_LOCATION_PROVIDERS_NO = "Don't want.";
 	
 	public static final String ALL_TRUCKS_CLOSED = "All trucks are currently closed :(";
 	public static final String HUBWAY_UNAVAILABLE = 
