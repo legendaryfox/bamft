@@ -37,6 +37,18 @@ public class BamftMapActivity extends MapActivity {
 		return false;
 	}
 	
+	/**
+	 *	When user presses back button, go back to the main menu
+	 *	(instead of from the hubway map to the truck map, to the
+	 *	hubway map, back to the truck map, etc.) 
+	 */
+	@Override
+	public void onBackPressed() {
+		Intent bamftActivityIntent = new Intent(this, BamftActivity.class);
+		
+		startActivity(bamftActivityIntent);
+	}
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
