@@ -19,6 +19,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 import com.ksj.bamft.R;
+import com.ksj.bamft.actionbarhelpers.ActionBarTitleHelper;
 import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.database.DatabaseHandler;
 import com.ksj.bamft.hubway.HubwayHelpers;
@@ -106,7 +107,11 @@ public class BamftMapActivity extends MapActivity {
 	 */
 	//TODO: clean this messy method up!
 	private void createHubwayStationsMapView() {
-		setContentView(R.layout.map_activity);
+		setContentView(R.layout.ab_map_activity);
+		ActionBarTitleHelper.setTitleBar(this);
+		Button hubwayStationsButton = (Button) findViewById(R.id.hubwayStationsButton);
+		hubwayStationsButton.setBackgroundResource(R.drawable.tab_hover);
+		
 		
 		List<HubwayStation> stations = HubwayHelpers.getAvailableStations();
 		
@@ -124,7 +129,7 @@ public class BamftMapActivity extends MapActivity {
         
         List<Overlay> overlayToDisplay = mapView.getOverlays();
         
-        Drawable overlayMarker = this.getResources().getDrawable(R.drawable.androidmarker);
+        Drawable overlayMarker = this.getResources().getDrawable(R.drawable.ic_bike);
         
         overlayMarker.setBounds(0, 0,
         		overlayMarker.getIntrinsicWidth(), overlayMarker.getIntrinsicHeight());
@@ -212,7 +217,10 @@ public class BamftMapActivity extends MapActivity {
 	 * @param timeOfDay
 	 */
 	private void createOpenTrucksMapView(String dayOfWeek, String timeOfDay) {
-		setContentView(R.layout.map_activity);
+		setContentView(R.layout.ab_map_activity);
+		ActionBarTitleHelper.setTitleBar(this);
+		Button openTrucksButton = (Button) findViewById(R.id.openTrucksButton);
+		openTrucksButton.setBackgroundResource(R.drawable.tab_hover);
         
         MapView mapView = (MapView) findViewById(R.id.mapView);
         mapView.setBuiltInZoomControls(true);
@@ -246,7 +254,7 @@ public class BamftMapActivity extends MapActivity {
         
         // Define marker to use on overlay map
         
-        Drawable overlayMarker = this.getResources().getDrawable(R.drawable.androidmarker);
+        Drawable overlayMarker = this.getResources().getDrawable(R.drawable.ic_launcher);
         overlayMarker.setBounds(0, 0, 
         		overlayMarker.getIntrinsicWidth(), overlayMarker.getIntrinsicHeight());
         
