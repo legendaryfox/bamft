@@ -24,7 +24,7 @@
         android:layout_width="fill_parent"
         android:layout_height="40dip"
         android:background="@color/white">
-        
+ <!--        
         <Button
         android:id="@+id/tab1"
         android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
         android:background="@drawable/tabs" 
         android:textSize="11sp"
         android:text="LIST ALL"/>
-        
+        !-->
     </LinearLayout>
 	    <!-- Secondary Bar Drop Shadow -->
 	    <View

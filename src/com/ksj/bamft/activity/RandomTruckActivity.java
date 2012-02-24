@@ -227,6 +227,8 @@ public class RandomTruckActivity extends Activity {
 						android.content.Intent.ACTION_VIEW, Uri.parse(mapsQuery));
 
 				intent.setClassName(Constants.BROWSER_PACKAGE, Constants.BROWSER_CLASS);
+				Toast.makeText(getBaseContext(), "Routing you to the nearest Hubway Bike Station first...", Toast.LENGTH_LONG).show();
+
 				startActivity(intent);
 			}
 		});

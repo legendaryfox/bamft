@@ -161,6 +161,8 @@ public class ScheduleRowAdapter extends ArrayAdapter<Schedule> {
 							android.content.Intent.ACTION_VIEW, Uri.parse(mapsQuery));
 
 					intent.setClassName(GoogleMapsConstants.PACKAGE, GoogleMapsConstants.CLASS);
+					Toast.makeText(context, "Routing you to the nearest Hubway Bike Station first...", Toast.LENGTH_LONG).show();
+
 					context.startActivity(intent);
 				}
 			});

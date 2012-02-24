@@ -144,7 +144,7 @@ public class BamftMapActivity extends MapActivity {
         
         for (HubwayStation station : stations) {
         	//TODO: uncomment in release mode
-        	//if (station.isInstalled()) {
+        	if (station.isInstalled()) {
         		double latitude = station.getLatitude();
         		double longitude = station.getLongitude();
         		
@@ -195,7 +195,7 @@ public class BamftMapActivity extends MapActivity {
         				numEmptyDocksStr, lockedInfo, "", "");
         		
         		overlay.addOverlay(overlayItem);
-        	//}
+        	}
         }
         
         overlay.populateNow();

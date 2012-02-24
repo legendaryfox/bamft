@@ -36,7 +36,7 @@ public class TruckMenuListActivity extends ListActivity {
 		final DatabaseHandler db = new DatabaseHandler(this); 
 		Truck truck = db.getTruck(truck_id);
 		final List<FoodItem> foodItemList = new ArrayList<FoodItem>(); //db.getFoodItemsByTruck(truck);
-		foodItemList.add(new FoodItem(99999, "Description" , truck.getDescription() + "\n\n", "", truck_id));
+		//foodItemList.add(new FoodItem(99999, "Description" , truck.getDescription() + "\n\n", "", truck_id));
 		foodItemList.addAll(db.getFoodItemsByTruck(truck));
 		
 		

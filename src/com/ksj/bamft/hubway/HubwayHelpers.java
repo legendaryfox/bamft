@@ -71,8 +71,8 @@ public class HubwayHelpers {
 			// In release mode, uncomment this. For testing,
 			// we need to comment out the locked() check 
 			// since all stations are currently closed in winter
-			//if (!station.isInstalled() || station.isLocked())
-				//continue;
+			if (!station.isInstalled() || station.isLocked())
+				continue;
 			
 			// Get rid of this in release mode. Some stations that 
 			// haven't been installed yet have locations of (0.0, 0.0),
@@ -90,7 +90,7 @@ public class HubwayHelpers {
 			}
 		}
 		
-		Log.d("NearestHubway", nearestStation.getName());
+		//Log.d("NearestHubway", nearestStation.getName());
 		
 		return nearestStation;
 	}

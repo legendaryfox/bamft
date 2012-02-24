@@ -12,6 +12,7 @@ import android.text.format.Time;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,8 +61,8 @@ public class ScheduleProfileActivity extends MapActivity {
 		final Truck truck = db.getTruck(schedule.getTruckId());
 		Landmark landmark = db.getLandmark(schedule.getLandmarkId());
 
-		double truckLatitude = Double.parseDouble(landmark.getYcoord());
-		double truckLongitude = Double.parseDouble(landmark.getXcoord());
+		final double truckLatitude = Double.parseDouble(landmark.getYcoord());
+		final double truckLongitude = Double.parseDouble(landmark.getXcoord());
 
 		double distance = MapHelpers.calculateDistance(userLatitude, truckLatitude, 
 				userLongitude, truckLongitude);
@@ -72,13 +73,25 @@ public class ScheduleProfileActivity extends MapActivity {
 		// Finally, fill the layout
 		setContentView(R.layout.ab_truck_profile);
 
+
+		// MBTA Stats
+		List<MbtaStation> mbtaStationList = MbtaHelpers.getAllMbtaStations(getBaseContext());
+		MbtaStation nearestUserMbtaStation = MbtaHelpers.getNearestMbtaStation(mbtaStationList, userLatitude, userLongitude);
+		MbtaStation nearestTruckMbtaStation = MbtaHelpers.getNearestMbtaStation(mbtaStationList, Double.parseDouble(landmark.getYcoord()), Double.parseDouble(landmark.getXcoord()));
+		Log.d("Nearest MBTA", "The nearest MBTA is " + nearestUserMbtaStation.getStopName() + " to " + nearestTruckMbtaStation.getStopName());
+
+
+
 		TextView truckNameTextView = (TextView)findViewById(R.id.truckNameText);
 		TextView landmarkNameTextView = (TextView)findViewById(R.id.landmarkNameText);
 		TextView landmarkDistanceTextView = (TextView)findViewById(R.id.landmarkDistanceText);
 		TextView truckDescriptionTextView = (TextView)findViewById(R.id.truckDescriptionText);
-
 		TextView truckOpenCloseTextView = (TextView)findViewById(R.id.btn_openclosed);
 
+/*
+		TextView truckHubwayLocationView = (TextView)findViewById(R.id.hubwayLocationText);
+		TextView truckMbtaLocationView = (TextView)findViewById(R.id.mbtaLocationText);
+*/
 		//TODO: make it calculate real distance...lawl...
 		//float make_x = new Float(landmark.getXcoord());
 		//float make_y = new Float(landmark.getYcoord());
@@ -92,7 +105,11 @@ public class ScheduleProfileActivity extends MapActivity {
 		truckOpenCloseTextView.setText("Open");
 
 		truckDescriptionTextView.setMovementMethod(new ScrollingMovementMethod());
-
+		/*
+		truckMbtaLocationView.setText(nearestTruckMbtaStation.getStopName());
+		HubwayStation hubwayStation = HubwayHelpers.getNearestStation(HubwayHelpers.getAvailableStations(), userLatitude, userLongitude);
+		truckHubwayLocationView.setText("Nearest Hubway Bike Station: " + + "(" + );
+*/
 
 
 
@@ -102,29 +119,24 @@ public class ScheduleProfileActivity extends MapActivity {
 		final String dayOfWeek = BamftActivity.getDayOfWeek(now);
 		final String timeOfDay = BamftActivity.getMealOfDay(now);
 
-		// MBTA Stats
-		List<MbtaStation> mbtaStationList = MbtaHelpers.getAllMbtaStations(getBaseContext());
-		MbtaStation nearestUserMbtaStation = MbtaHelpers.getNearestMbtaStation(mbtaStationList, userLatitude, userLongitude);
-		MbtaStation nearestTruckMbtaStation = MbtaHelpers.getNearestMbtaStation(mbtaStationList, Double.parseDouble(landmark.getYcoord()), Double.parseDouble(landmark.getXcoord()));
-		Log.d("Nearest MBTA", "The nearest MBTA is " + nearestUserMbtaStation.getStopName() + " to " + nearestTruckMbtaStation.getStopName());
 
 
-		/*
+		
         // Google Maps button -- temporary, only here for testing intents to Maps!
 
-        Button mapsButton = (Button) findViewById(R.id.truckProfileMapsButton);
+        Button mapsButton = (Button) findViewById(R.id.btn_phone);
         mapsButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View arg0) {
 				Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-						Uri.parse("geo:0,0?q=" + userLatitude + "," + userLongitude + "(you are here)"));
+						Uri.parse("geo:0,0?q=" + truckLatitude + "," + truckLongitude + "(" + truck.getName() + ")"));
 
 		        intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
 
 		        startActivity(intent);
 			}
 		});
-		 */
+		
 
 		// MBTA directions button
 
@@ -193,7 +205,7 @@ public class ScheduleProfileActivity extends MapActivity {
 
 				startActivity(intent);
 
-				
+
 
 			}
 
@@ -213,7 +225,11 @@ public class ScheduleProfileActivity extends MapActivity {
 
 				List<HubwayStation> stations = HubwayHelpers.getAvailableStations();
 
-				if (stations == null || stations.size() < 1) {
+				HubwayStation nearestStationToUser = HubwayHelpers.getNearestStation(stations,
+						userLat, userLon);
+				
+				//if (stations == null || stations.size() < 1) {
+				if (nearestStationToUser == null) {
 					Toast.makeText(
 							getBaseContext(),
 							Constants.HUBWAY_UNAVAILABLE,
@@ -222,8 +238,7 @@ public class ScheduleProfileActivity extends MapActivity {
 					return;
 				}
 
-				HubwayStation nearestStationToUser = HubwayHelpers.getNearestStation(stations,
-						userLat, userLon);
+				
 
 				SimpleLocation nearestStationToUserLoc = new SimpleLocation(
 						nearestStationToUser.getLatitude(), nearestStationToUser.getLongitude());
@@ -241,6 +256,7 @@ public class ScheduleProfileActivity extends MapActivity {
 				Intent intent = new Intent(
 						android.content.Intent.ACTION_VIEW, Uri.parse(mapsQuery));
 
+				Toast.makeText(getBaseContext(), "Routing you to the nearest Hubway Bike Station first...", Toast.LENGTH_LONG).show();
 				intent.setClassName(Constants.BROWSER_PACKAGE, Constants.BROWSER_CLASS);
 				startActivity(intent);
 			}

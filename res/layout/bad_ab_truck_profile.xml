@@ -183,35 +183,10 @@
             android:layout_marginRight="10dip"
             android:layout_toRightOf="@+id/truckProfileHubwayButton"
             android:background="@drawable/button"
-            android:text="Open Google Maps" />
+            android:text="(617) 635-4500" />
     </RelativeLayout>
 
     <!-- Description -->
-
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white" >
-
-        <com.ksj.bamft.actionbarhelpers.TextViewPlus
-            android:id="@+id/truckDescriptionText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            foo:customFont="fonts/FF_DIN_Light.otf"
-            android:maxLines="7"
-            android:paddingBottom="12dip"
-            android:paddingLeft="18dip"
-            android:paddingRight="18dip"
-            android:paddingTop="12dip"
-            android:scrollbars="vertical"
-            android:text="Description Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id est non lacus euismod scelerisque nec a erat. Curabitur eros felis, pretium vitae rhoncus placerat, convallis eget nisl."
-            android:textColor="#FF333333"
-            android:textSize="16sp" >
-        </com.ksj.bamft.actionbarhelpers.TextViewPlus>
-    </RelativeLayout>
-
-    <!-- Map Container -->
 
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -234,7 +209,7 @@
             android:background="@color/white" >
 
             <ImageView
-                android:id="@+id/box_list_image"
+                android:id="@+id/addressIcon"
                 android:layout_width="50dip"
                 android:layout_height="50dip"
                 android:layout_marginRight="10dip"
@@ -245,13 +220,82 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/box_list_image"
+                android:layout_toRightOf="@+id/addressIcon"
                 foo:customFont="fonts/FF_DIN_Light.otf"
-                android:text="Address goes here"
+                android:text=""
                 android:textColor="#FF232323"
                 android:textSize="16sp" >
             </com.ksj.bamft.actionbarhelpers.TextViewPlus>
         </RelativeLayout>
+
+        <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/box_hubwayStation"
+            android:layout_width="fill_parent"
+            android:layout_height="50dip"
+            android:layout_below="@+id/box_mapaddress"
+            android:layout_marginBottom="0dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_marginTop="10dip"
+            android:background="@color/white" >
+
+            <ImageView
+                android:id="@+id/boxHubwayIcon"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:layout_marginRight="10dip"
+                android:src="@drawable/ic_address" />
+
+            <com.ksj.bamft.actionbarhelpers.TextViewPlus
+                android:id="@+id/hubwayLocationText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/boxHubwayIcon"
+                foo:customFont="fonts/FF_DIN_Light.otf"
+                android:text="Nearest Hubway Station?"
+                android:textColor="#FF232323"
+                android:textSize="16sp" >
+            </com.ksj.bamft.actionbarhelpers.TextViewPlus>
+        </RelativeLayout>
+        
+        
+        <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/box_mbtaStation"
+            android:layout_width="fill_parent"
+            android:layout_height="50dip"
+            android:layout_below="@+id/box_hubwayStation"
+            android:layout_marginBottom="0dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_marginTop="10dip"
+            android:background="@color/white" >
+
+            <ImageView
+                android:id="@+id/boxMbtaIcon"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:layout_marginRight="10dip"
+                android:src="@drawable/ic_address" />
+
+            <com.ksj.bamft.actionbarhelpers.TextViewPlus
+                android:id="@+id/mbtaLocationText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/boxMbtaIcon"
+                foo:customFont="fonts/FF_DIN_Light.otf"
+                android:text="Nearest MBTA Station?"
+                android:textColor="#FF232323"
+                android:textSize="16sp" >
+            </com.ksj.bamft.actionbarhelpers.TextViewPlus>
+        </RelativeLayout>
+        
+        
+        
+        
     </RelativeLayout>
 
 </LinearLayout>

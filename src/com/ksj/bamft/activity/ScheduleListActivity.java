@@ -135,8 +135,8 @@ public class ScheduleListActivity extends ListActivity {
 				int landmark_id = scheduleList.get(position).getLandmarkId();
 				Landmark landmark = db.getLandmark(landmark_id);
 
-				String location_string = landmark.getName() + " at (" + landmark.getYcoord() + ", " + landmark.getXcoord() + ")";
-				Toast.makeText(getApplicationContext(), location_string, Toast.LENGTH_SHORT).show();
+				//String location_string = landmark.getName() + " at (" + landmark.getYcoord() + ", " + landmark.getXcoord() + ")";
+				//Toast.makeText(getApplicationContext(), location_string, Toast.LENGTH_SHORT).show();
 
 				// Create the intent
 				Intent loadScheduleProfileIntent = new Intent(ScheduleListActivity.this, ScheduleProfileActivity.class);

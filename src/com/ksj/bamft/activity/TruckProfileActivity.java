@@ -94,9 +94,9 @@ public class TruckProfileActivity extends MapActivity {
 
 		String distance_string;
 		TextView truckOpenCloseTextView = (TextView) findViewById(R.id.btn_openclosed);
-
+		Button mapsButton = (Button) findViewById(R.id.btn_phone);
 		if (schedule != null) {
-			Landmark landmark = db.getLandmark(schedule.getLandmarkId());
+			final Landmark landmark = db.getLandmark(schedule.getLandmarkId());
 			landmark_name = landmark.getName();
 			make_x = new Float(landmark.getXcoord());
 			make_y = new Float(landmark.getYcoord());
@@ -133,6 +133,21 @@ public class TruckProfileActivity extends MapActivity {
 			createWalkingDirectionsButton(userLatitude, userLongitude,
 					Double.parseDouble(landmark.getYcoord()),
 					Double.parseDouble(landmark.getXcoord()));
+			
+			
+			
+			
+			mapsButton.setOnClickListener(new View.OnClickListener() {
+
+				public void onClick(View arg0) {
+					Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+							Uri.parse("geo:0,0?q=" + landmark.getYcoord() + "," + landmark.getXcoord() + "(" + truck.getName() + ")"));
+
+					intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+
+					startActivity(intent);
+				}
+			});
 
 		}
 
@@ -149,6 +164,8 @@ public class TruckProfileActivity extends MapActivity {
 			truckOpenCloseTextView.setText("Closed");
 
 			distance_string = "";
+			
+			mapsButton.setText("Truck is Closed");
 
 			// Set the buttons to make toasts...
 
@@ -175,6 +192,11 @@ public class TruckProfileActivity extends MapActivity {
 		ActionBarTitleHelper.setTitleBar(this);
 		ProfileTabsHelper.referrer = "truck";
 		ProfileTabsHelper.setupProfileTabs(this, truck, "profile");
+		
+		
+		if (schedule != null){
+			
+		}
 
 	}
 
@@ -295,8 +317,11 @@ public class TruckProfileActivity extends MapActivity {
 				Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
 						Uri.parse(mapsQuery));
 
+				
 				intent.setClassName(Constants.BROWSER_PACKAGE,
 						Constants.BROWSER_CLASS);
+				Toast.makeText(getBaseContext(), "Routing you to the nearest Hubway Bike Station first...", Toast.LENGTH_LONG).show();
+
 				startActivity(intent);
 			}
 		});
