@@ -20,7 +20,7 @@
             android:layout_height="100dip"
             android:layout_marginTop="10dip"
             android:paddingBottom="10dip"
-            android:src="@drawable/truckpic" />
+            android:src="@drawable/ic_launcher" />
 
         <com.ksj.bamft.actionbarhelpers.TextViewPlus
             android:id="@+id/truckNameText"
@@ -56,7 +56,7 @@
             android:layout_alignLeft="@+id/truckCuisineText"
             android:layout_marginBottom="8dip"
             foo:customFont="fonts/miso-normal.ttf"
-            android:text="1.2 mi"
+            android:text=""
             android:textColor="#FF232323"
             android:textSize="16sp" >
         </com.ksj.bamft.actionbarhelpers.TextViewPlus>

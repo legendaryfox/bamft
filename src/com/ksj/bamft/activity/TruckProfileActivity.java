@@ -104,6 +104,7 @@ public class TruckProfileActivity extends MapActivity {
         landmarkNameTextView.setText(landmark_name);
         landmarkDistanceTextView.setText(distance_string);
         truckDescriptionTextView.setText(truck.getDescription());
+        truckDescriptionTextView.setMovementMethod(new ScrollingMovementMethod());
         
         ProfileTabsHelper.referrer = "truck";
         ProfileTabsHelper.setupProfileTabs(this, truck, "profile");
