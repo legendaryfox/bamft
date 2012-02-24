@@ -1,36 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/lightgrey">
-    
+    android:background="@color/lightgrey"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/foodNamePriceGroup"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1.0" >
+
+        <TextView
+            android:id="@+id/foodItemNameText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.20"
+            android:padding="2dp"
+            android:text="Awesome Food!"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/foodItemPriceText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_weight="0.80"
+            android:padding="2dp"
+            android:text="$5.00"
+            android:textSize="18sp" />
+    </LinearLayout>
+
     <TextView
-	    android:id="@+id/foodItemNameText"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:padding="2dp"
-	    android:text="Awesome Food"
-	    android:textSize="24sp" />
+        android:id="@+id/foodItemDescriptionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/foodNamePriceGroup"
+        android:padding="2dp"
+        android:text="Awesome food will leave you wanting to eat more and more and more! Keep coming back for more!"
+        android:textSize="12sp" />
+    
+    
+    
 
-
-     <TextView
-		android:id="@+id/foodItemPriceText"
-		android:layout_alignParentRight="true"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:padding="2dp"
-		android:text="$5.00"
-		android:textSize="24sp" />
-     
-     <TextView
-         android:id="@+id/foodItemDescriptionText"
-         android:layout_below="@+id/foodItemNameText"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:padding="2dp" 
-         android:textSize="15sp"
-         android:text="Awesome food will leave you wanting to eat more and more and more! Keep coming back for more!"/>
-     
-     
 </RelativeLayout>

@@ -25,7 +25,7 @@
         <com.ksj.bamft.actionbarhelpers.TextViewPlus
             android:id="@+id/truckNameText"
             android:layout_width="fill_parent"
-            android:layout_height="25dip"
+            android:layout_height="33dip"
             android:layout_below="@+id/box_list"
             android:layout_marginTop="10dip"
             android:layout_toRightOf="@+id/icon"
