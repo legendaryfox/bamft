@@ -1,5 +1,6 @@
 package com.ksj.bamft.activity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.ksj.bamft.R;
@@ -34,7 +35,10 @@ public class TruckMenuListActivity extends ListActivity {
 		//load food items
 		final DatabaseHandler db = new DatabaseHandler(this); 
 		Truck truck = db.getTruck(truck_id);
-		final List<FoodItem> foodItemList = db.getFoodItemsByTruck(truck);
+		final List<FoodItem> foodItemList = new ArrayList<FoodItem>(); //db.getFoodItemsByTruck(truck);
+		foodItemList.add(new FoodItem(99999, "Description" , truck.getDescription() + "\n\n", "", truck_id));
+		foodItemList.addAll(db.getFoodItemsByTruck(truck));
+		
 		
 		setContentView(R.layout.ab_food_list);
 		ActionBarTitleHelper.setTitleBar(this);
