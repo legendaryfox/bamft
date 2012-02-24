@@ -61,18 +61,21 @@ public class Constants {
 	public static final int HUBWAY_STATIONS_MAP_ZOOM = 12;
 	public static final int OPEN_TRUCKS_MAP_ZOOM = 13;
 	
-	// Request CODES
-	
-	public static final int SCHEDULE_LIST_ACTIVITY_REQ_CODE = 1;
-	
 	// Messages and dialogs 
 	
 	public static final String ENABLE_LOCATION_PROVIDERS = 
 			"This app could will be exponentially spiffier if you enable " +
 			"a location provider! True story.";
-	
+
 	public static final String ENABLE_LOCATION_PROVIDERS_YES = "Ooh, yes please!";
 	public static final String ENABLE_LOCATION_PROVIDERS_NO = "Don't want.";
+	
+	public static final String ENABLE_INTERNET =
+			"We can't serve you any food truck goodness if you " +
+			"can't access the internets! :( Go to settings?";
+	
+	public static final String ENABLE_INTERNET_YES = "Absofruitly";
+	public static final String ENABLE_INTERNET_NO = "No thanks.";
 	
 	public static final String ALL_TRUCKS_CLOSED = "All trucks are currently closed :(";
 	public static final String HUBWAY_UNAVAILABLE = 

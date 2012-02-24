@@ -23,6 +23,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -48,8 +50,6 @@ public class BamftActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		SharedPreferences settings = getSharedPreferences(Constants.BAMFT_PREFS_NAME, 0);
 
 		// BEGIN DISPLAY
 		// setContentView(R.layout.main);
@@ -64,9 +64,11 @@ public class BamftActivity extends Activity {
 		ActionBarTitleHelper.setTitleBar(this);
 		// END DISPLAY
 		
-		//Prompt user for location and internets if necessary
-		
-		
+		//Prompt user for internets if necessary
+		checkInternetConnection();
+	}
+	
+	private void finishCreatingActivity() {
 		//Yelp.testExecute();
 
 		// Prepares the internal SQLite database, if need be (dictated by CACHE_LIFE).
@@ -122,13 +124,14 @@ public class BamftActivity extends Activity {
 
 
 		//For debugging purposes - showing the life of the cache and today's day.
+		SharedPreferences settings = getSharedPreferences(Constants.BAMFT_PREFS_NAME, 0);
 
 		long cacheBirthday = settings.getLong(Constants.PREFS_CACHE_UPDATED, 0);
 		String testingToastText = "It is currently " + dayOfWeek + " " + timeOfDay + ". Cache should be updated in : " + (cacheBirthday + Constants.CACHE_LIFE - now.toMillis(true))/1000 + " seconds.";
 		Toast.makeText(BamftActivity.this, testingToastText, Toast.LENGTH_LONG).show();
-
-
 	}
+	
+	
 /*
 	// Action Bar Home Icon leads to Home
 	public static Intent createIntent(Context context) {
@@ -559,5 +562,43 @@ public class BamftActivity extends Activity {
 
 	}
 	
+	private void checkInternetConnection() {
+		ConnectivityManager cm = (ConnectivityManager) this.getSystemService(
+				Context.CONNECTIVITY_SERVICE);
+		
+		NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+		
+	    boolean connected = 
+	    		networkInfo != null &&
+	    		networkInfo.isAvailable() &&
+	    		networkInfo.isConnectedOrConnecting();
+
+	    if (!connected) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);  
+			builder.setMessage(Constants.ENABLE_INTERNET)  
+                   .setCancelable(true)  
+                   .setPositiveButton(
+                		   Constants.ENABLE_INTERNET_YES, 
+                		   new DialogInterface.OnClickListener() {  
+                			   public void onClick(DialogInterface dialog, int id) {  
+                				   Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);  
+                				   startActivityForResult(intent, 1); 
+                			   }  
+                		   })  
+                  .setNegativeButton(
+                		  Constants.ENABLE_INTERNET_NO, 
+                		  new DialogInterface.OnClickListener() {  
+                			  public void onClick(DialogInterface dialog, int id) {  
+                				  finishCreatingActivity();
+                			  }  
+                		  }).show();  
+		}
+	}
 	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		finishCreatingActivity();
+	}
 }

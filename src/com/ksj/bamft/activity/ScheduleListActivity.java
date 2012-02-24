@@ -312,7 +312,7 @@ public class ScheduleListActivity extends ListActivity {
                 		   new DialogInterface.OnClickListener() {  
                 			   public void onClick(DialogInterface dialog, int id) {  
                 				   Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);  
-                				   startActivityForResult(intent, Constants.SCHEDULE_LIST_ACTIVITY_REQ_CODE); 
+                				   startActivityForResult(intent, 1); 
                 			   }  
                 		   })  
                   .setNegativeButton(
