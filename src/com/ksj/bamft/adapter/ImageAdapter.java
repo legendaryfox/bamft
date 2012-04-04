@@ -49,7 +49,5 @@ public class ImageAdapter extends BaseAdapter {
     private Integer[] mThumbIds = {
     		R.drawable.food_truck_blue, R.drawable.food_truck_red,
     		R.drawable.food_truck_yellow, R.drawable.food_truck_green
-
-
     };
 }

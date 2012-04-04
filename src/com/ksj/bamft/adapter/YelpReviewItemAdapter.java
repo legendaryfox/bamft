@@ -17,9 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ksj.bamft.R;
-import com.ksj.bamft.model.Landmark;
-import com.ksj.bamft.model.Schedule;
-import com.ksj.bamft.model.Tweet;
 import com.ksj.bamft.model.YelpReview;
 
 public class YelpReviewItemAdapter extends ArrayAdapter<YelpReview> {
@@ -46,41 +43,57 @@ public class YelpReviewItemAdapter extends ArrayAdapter<YelpReview> {
 		YelpReview yelpReview = yelpReviewList.get(position);
 		
 		if (yelpReview != null) {
-			
-			
-			ImageView yelpUserImageView = (ImageView) rowView.findViewById(R.id.yelpUserImage);
-			ImageView yelpRatingImageView = (ImageView) rowView.findViewById(R.id.yelpRatingImage);
-			TextView yelpReviewExcerptView = (TextView) rowView.findViewById(R.id.yelpReviewExcerpt);
-			TextView yelpUserNameView = (TextView) rowView.findViewById(R.id.yelpUserName);
-			
-			try {
-				if (yelpUserImageView != null) {
-					Bitmap yelpUserImageBitmap = BitmapFactory.decodeStream((InputStream)new URL(yelpReview.getUserImageUrl()).getContent());
-					yelpUserImageView.setImageBitmap(yelpUserImageBitmap);
-				}
-				
-				if (yelpRatingImageView != null) {
-					Bitmap yelpRatingImageBitmap = BitmapFactory.decodeStream((InputStream)new URL(yelpReview.getRatingImageUrl()).getContent());
-					yelpRatingImageView.setImageBitmap(yelpRatingImageBitmap);
-				}
-				
-			} catch (MalformedURLException e) {
-				  e.printStackTrace();
-			} catch (IOException e) {
-				  e.printStackTrace();
-			}
-			
-			if (yelpReviewExcerptView != null) {
-				yelpReviewExcerptView.setText(yelpReview.getExcerpt());
-			}
-			
-			if (yelpUserNameView != null) {
-				yelpUserNameView.setText(yelpReview.getUserName());
-			}
-			
-			
+			setText(rowView, yelpReview);
+			setImages(rowView, yelpReview);
 		}
 		
 		return rowView;
+	}
+	
+	/** 
+	 * Initializes the text in a Yelp review, including the reviewer's name and an excerpt.
+	 * 
+	 * @param rowView
+	 * @param yelpReview
+	 */
+	private void setText(View rowView, YelpReview yelpReview) {
+		TextView yelpReviewExcerptView = (TextView) rowView.findViewById(R.id.yelpReviewExcerpt);
+		TextView yelpUserNameView = (TextView) rowView.findViewById(R.id.yelpUserName);
+		
+		if (yelpReviewExcerptView != null) {
+			yelpReviewExcerptView.setText(yelpReview.getExcerpt());
+		}
+		
+		if (yelpUserNameView != null) {
+			yelpUserNameView.setText(yelpReview.getUserName());
+		}
+	}
+	
+	/**
+	 * Initializes the images in a Yelp review.
+	 * 
+	 * @param rowView
+	 * @param yelpReview
+	 */
+	private void setImages(View rowView, YelpReview yelpReview) {
+		ImageView yelpUserImageView = (ImageView) rowView.findViewById(R.id.yelpUserImage);
+		ImageView yelpRatingImageView = (ImageView) rowView.findViewById(R.id.yelpRatingImage);
+		
+		try {
+			if (yelpUserImageView != null) {
+				Bitmap yelpUserImageBitmap = BitmapFactory.decodeStream((InputStream)new URL(yelpReview.getUserImageUrl()).getContent());
+				yelpUserImageView.setImageBitmap(yelpUserImageBitmap);
+			}
+			
+			if (yelpRatingImageView != null) {
+				Bitmap yelpRatingImageBitmap = BitmapFactory.decodeStream((InputStream)new URL(yelpReview.getRatingImageUrl()).getContent());
+				yelpRatingImageView.setImageBitmap(yelpRatingImageBitmap);
+			}
+			
+		} catch (MalformedURLException e) {
+			  e.printStackTrace();
+		} catch (IOException e) {
+			  e.printStackTrace();
+		}
 	}
 }

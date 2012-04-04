@@ -36,24 +36,34 @@ public class FoodItemAdapter extends ArrayAdapter<FoodItem> {
 		FoodItem foodItem = foodItemList.get(position);
 		
 		if (foodItem != null) {
-			
-			TextView foodItemNameTextView = (TextView) rowView.findViewById(R.id.foodItemNameText);
-			TextView foodItemDescriptionTextView = (TextView) rowView.findViewById(R.id.foodItemDescriptionText);
-			TextView foodItemPriceTextView = (TextView) rowView.findViewById(R.id.foodItemPriceText);
-			
-			if (foodItemNameTextView != null) {
-				foodItemNameTextView.setText(foodItem.getName());
-			}
-			
-			if (foodItemDescriptionTextView != null) {
-				foodItemDescriptionTextView.setText(foodItem.getDescription());
-			}
-
-			if (foodItemPriceTextView != null) {
-				foodItemPriceTextView.setText(foodItem.getPrice());
-			}
+			setText(rowView, foodItem);
 		}
 		
 		return rowView;
+	}
+	
+
+	/**
+	 * Initializes the text for each menu item, including the name, description, and price.
+	 * 
+	 * @param rowView
+	 * @param foodItem
+	 */
+	private void setText(View rowView, FoodItem foodItem) {
+		TextView foodItemNameTextView = (TextView) rowView.findViewById(R.id.foodItemNameText);
+		TextView foodItemDescriptionTextView = (TextView) rowView.findViewById(R.id.foodItemDescriptionText);
+		TextView foodItemPriceTextView = (TextView) rowView.findViewById(R.id.foodItemPriceText);
+		
+		if (foodItemNameTextView != null) {
+			foodItemNameTextView.setText(foodItem.getName());
+		}
+		
+		if (foodItemDescriptionTextView != null) {
+			foodItemDescriptionTextView.setText(foodItem.getDescription());
+		}
+
+		if (foodItemPriceTextView != null) {
+			foodItemPriceTextView.setText(foodItem.getPrice());
+		}
 	}
 }

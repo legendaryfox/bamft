@@ -39,24 +39,34 @@ public class TruckScheduleRowAdapter extends ArrayAdapter<Schedule> {
 		Schedule schedule = scheduleList.get(position);
 		
 		if (schedule != null) {
-			TextView dayOfWeekText = (TextView) rowView.findViewById(R.id.truckScheduleDayOfWeek);
-			TextView timeOfDayText = (TextView) rowView.findViewById(R.id.truckScheduleTimeOfDay);
-			TextView landmarkText = (TextView) rowView.findViewById(R.id.truckScheduleLandmark);
-			
-			if (dayOfWeekText != null) {
-				dayOfWeekText.setText(schedule.getDayOfWeek());
-			}
-			
-			if (timeOfDayText != null) {
-				timeOfDayText.setText(schedule.getTimeOfDay());
-			}
-			
-			if (landmarkText != null) {
-				Landmark landmark = db.getLandmark(schedule.getLandmarkId());
-				landmarkText.setText(landmark.getName());
-			}
+			setText(rowView, schedule);
 		}
 		
 		return rowView;
+	}
+	
+	/**
+	 * Initializes the text in the view, including the location, time, and day of the schedule.
+	 * 
+	 * @param rowView
+	 * @param schedule
+	 */
+	private void setText(View rowView, Schedule schedule) {
+		TextView dayOfWeekText = (TextView) rowView.findViewById(R.id.truckScheduleDayOfWeek);
+		TextView timeOfDayText = (TextView) rowView.findViewById(R.id.truckScheduleTimeOfDay);
+		TextView landmarkText = (TextView) rowView.findViewById(R.id.truckScheduleLandmark);
+		
+		if (dayOfWeekText != null) {
+			dayOfWeekText.setText(schedule.getDayOfWeek());
+		}
+		
+		if (timeOfDayText != null) {
+			timeOfDayText.setText(schedule.getTimeOfDay());
+		}
+		
+		if (landmarkText != null) {
+			Landmark landmark = db.getLandmark(schedule.getLandmarkId());
+			landmarkText.setText(landmark.getName());
+		}
 	}
 }
