@@ -32,13 +32,14 @@ public class TruckMenuListActivity extends ListActivity {
 		Bundle extras = this.getIntent().getExtras();
 		int truck_id = (int) extras.getInt(Constants.TRUCK_ID);
 		
-		//load food items
-		final DatabaseHandler db = new DatabaseHandler(this); 
-		Truck truck = db.getTruck(truck_id);
-		final List<FoodItem> foodItemList = new ArrayList<FoodItem>(); //db.getFoodItemsByTruck(truck);
-		//foodItemList.add(new FoodItem(99999, "Description" , truck.getDescription() + "\n\n", "", truck_id));
-		foodItemList.addAll(db.getFoodItemsByTruck(truck));
+		// Load food items
 		
+		final DatabaseHandler db = new DatabaseHandler(this); 
+		final List<FoodItem> foodItemList = new ArrayList<FoodItem>();
+		Truck truck = db.getTruck(truck_id);
+		foodItemList.addAll(db.getFoodItemsByTruck(truck));
+
+		// Display
 		
 		setContentView(R.layout.ab_food_list);
 		ActionBarTitleHelper.setTitleBar(this);
@@ -47,17 +48,12 @@ public class TruckMenuListActivity extends ListActivity {
 		FoodItemAdapter adapter = new FoodItemAdapter(this, R.layout.food_item_row, foodItemList);
 		setListAdapter(adapter);
 		
-		
-		
 		ListView lv = getListView();
 		lv.setTextFilterEnabled(true);
 		lv.setDivider(null);
 		
 		ActionBarTitleHelper.setTitleBar(this);
 		ProfileTabsHelper.setupProfileTabs(this, truck, "menu");
-		
-		
-		
 	}
 	
 }

@@ -1,7 +1,6 @@
 package com.ksj.bamft.adapter;
 
 import com.ksj.bamft.R;
-import com.ksj.bamft.R.drawable;
 
 import android.content.Context;
 import android.view.View;

@@ -93,6 +93,8 @@ public class Constants {
 			"we are having trouble retrieving Hubway data. We apologize " +
 			"profusely :(";
 	
+	public static final String ROUTING_NEAREST_HUBWAY = "Routing you to the nearest Hubway station first...";
+	
 	// Trivia responses
 	
 	public static final String[] TRIVIA_RESPONSES = 

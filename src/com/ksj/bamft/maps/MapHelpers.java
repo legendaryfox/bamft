@@ -1,3 +1,10 @@
+/**
+ * MapHelpers.java
+ * 
+ * A bunch of commonly used location and maps-related 
+ * utility methods.
+ */
+
 package com.ksj.bamft.maps;
 
 import java.io.IOException;
@@ -46,6 +53,8 @@ public class MapHelpers {
 	
 	/**
 	 * Return user location, given a LocationManager.
+	 * Get 20 results for the user location before returning the final
+	 * result (location providers need some time to "warm up").
 	 */
 	public static Location getUserLocation(LocationManager locationManager,
 			String locationProvider) {
@@ -58,7 +67,10 @@ public class MapHelpers {
     	
     	do {
     		userLocation = locationManager.getLastKnownLocation(locationProvider);
-    		x++;
+    		
+    		if (userLocation != null)
+    			x++;
+    		
     	} while (userLocation != null && x < 20);
         
         return userLocation;

@@ -6,6 +6,10 @@ public class Factlet {
 	private String content;
 	private int truckId;
 	
+	public Factlet() {
+		super();
+	}
+	
 	public Factlet(int id, String title, String content, int truckId) {
 		super();
 		this.id = id;
@@ -19,11 +23,6 @@ public class Factlet {
 	public String toString() {
 		return "Factlet [id=" + id + ", title=" + title + ", content="
 				+ content + ", truckId=" + truckId + "]";
-	}
-
-
-	public Factlet() {
-		super();
 	}
 
 	public int getId() {
@@ -57,8 +56,4 @@ public class Factlet {
 	public void setTruckId(int truckId) {
 		this.truckId = truckId;
 	}
-	
-	
-	
-
 }

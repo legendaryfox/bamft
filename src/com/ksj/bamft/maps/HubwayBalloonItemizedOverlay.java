@@ -1,16 +1,14 @@
 /**
  *	HubwayBalloonItemizedOverlay.java
  * 
- * Customized from https://github.com/jgilfelt/android-mapviewballoons
+ *  Customized from https://github.com/jgilfelt/android-mapviewballoons
  */
 
 package com.ksj.bamft.maps;
 
 import java.util.ArrayList;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.widget.Toast;
 
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
@@ -22,7 +20,6 @@ public class HubwayBalloonItemizedOverlay<Item extends OverlayItem>
 	extends BalloonItemizedOverlay<HubwayOverlayItem> {
 	
 	private ArrayList<HubwayOverlayItem> overlays = new ArrayList<HubwayOverlayItem>();
-	private Context context;
 
 	public HubwayBalloonItemizedOverlay(Drawable defaultMarker, MapView mapView) {
 		super(boundCenter(defaultMarker), mapView);
@@ -56,6 +53,7 @@ public class HubwayBalloonItemizedOverlay<Item extends OverlayItem>
 	@Override
 	protected BalloonOverlayView<HubwayOverlayItem> createBalloonOverlayView() {
 		// use our custom balloon view with our custom overlay item type:
-		return new HubwayBalloonOverlayView<HubwayOverlayItem>(getMapView().getContext(), getBalloonBottomOffset());
+		return new HubwayBalloonOverlayView<HubwayOverlayItem>(
+				getMapView().getContext(), getBalloonBottomOffset());
 	}
 }

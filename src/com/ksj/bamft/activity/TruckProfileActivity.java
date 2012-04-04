@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -20,12 +19,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
-import com.google.android.maps.OverlayItem;
 import com.ksj.bamft.R;
 import com.ksj.bamft.actionbarhelpers.ActionBarTitleHelper;
 import com.ksj.bamft.actionbarhelpers.ProfileTabsHelper;
@@ -34,7 +28,6 @@ import com.ksj.bamft.constants.GoogleMapsConstants;
 import com.ksj.bamft.database.DatabaseHandler;
 import com.ksj.bamft.hubway.HubwayHelpers;
 import com.ksj.bamft.maps.MapHelpers;
-import com.ksj.bamft.maps.MapOverlays;
 import com.ksj.bamft.maps.SimpleLocationListener;
 import com.ksj.bamft.model.HubwayStation;
 import com.ksj.bamft.model.Landmark;
@@ -55,9 +48,6 @@ public class TruckProfileActivity extends MapActivity {
 
 		super.onCreate(savedInstanceState);
 
-		// start doing stuff?
-
-		// First, set the layout
 		setContentView(R.layout.ab_truck_profile);
 
 		// Open database connect
@@ -86,9 +76,6 @@ public class TruckProfileActivity extends MapActivity {
 
 		final Truck truck = db.getTruck(truckId);
 		String landmark_name;
-		float make_x;
-		float make_y;
-		float make_distance;
 		Schedule schedule = db.getScheduleByTruckAndDayAndTime(truck,
 				dayOfWeek, timeOfDay); // db.getSchedule(scheduleId);
 
@@ -98,9 +85,6 @@ public class TruckProfileActivity extends MapActivity {
 		if (schedule != null) {
 			final Landmark landmark = db.getLandmark(schedule.getLandmarkId());
 			landmark_name = landmark.getName();
-			make_x = new Float(landmark.getXcoord());
-			make_y = new Float(landmark.getYcoord());
-			make_distance = make_x / make_y;
 
 			// temporarily set to 0 until we get correct data
 			// from API
@@ -153,9 +137,6 @@ public class TruckProfileActivity extends MapActivity {
 
 		else {
 			landmark_name = "";
-			make_x = 0;
-			make_y = 0;
-			make_distance = 0;
 
 			createHubwayEmptyButton();
 			createWalkingEmptyButton();
@@ -361,11 +342,11 @@ public class TruckProfileActivity extends MapActivity {
 	}
 
 	/**
-	 * Return the user's coordinates in a Location object.
+	 * Return the user's coordinates in a SimpleLocation object.
 	 * 
 	 * @return
 	 */
-	private SimpleLocation getUserLocation() {
+	public SimpleLocation getUserLocation() {
 
 		LocationListener locationListener = new SimpleLocationListener();
 

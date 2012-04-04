@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.ksj.bamft.R;
 import com.ksj.bamft.model.FoodItem;
-import com.ksj.bamft.model.Tweet;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -36,7 +35,6 @@ public class FoodItemAdapter extends ArrayAdapter<FoodItem> {
 		
 		FoodItem foodItem = foodItemList.get(position);
 		
-		
 		if (foodItem != null) {
 			
 			TextView foodItemNameTextView = (TextView) rowView.findViewById(R.id.foodItemNameText);
@@ -46,15 +44,14 @@ public class FoodItemAdapter extends ArrayAdapter<FoodItem> {
 			if (foodItemNameTextView != null) {
 				foodItemNameTextView.setText(foodItem.getName());
 			}
+			
 			if (foodItemDescriptionTextView != null) {
 				foodItemDescriptionTextView.setText(foodItem.getDescription());
 			}
+
 			if (foodItemPriceTextView != null) {
 				foodItemPriceTextView.setText(foodItem.getPrice());
 			}
-
-	
-		
 		}
 		
 		return rowView;

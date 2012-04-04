@@ -12,8 +12,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-import android.util.Log;
-
 import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.maps.MapHelpers;
 import com.ksj.bamft.model.HubwayStation;

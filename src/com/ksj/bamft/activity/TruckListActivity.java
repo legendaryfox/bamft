@@ -4,13 +4,10 @@ import java.util.List;
 
 import com.ksj.bamft.R;
 import com.ksj.bamft.actionbarhelpers.ActionBarTitleHelper;
-import com.ksj.bamft.actionbarhelpers.ProfileTabsHelper;
 import com.ksj.bamft.adapter.TruckRowAdapter;
 import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.database.DatabaseHandler;
 import com.ksj.bamft.model.Truck;
-import com.markupartist.android.widget.ActionBar;
-import com.markupartist.android.widget.ActionBar.IntentAction;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -21,17 +18,14 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 public class TruckListActivity extends ListActivity {
-    /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        
-
         //dynamically load time of day based on previous Activity.
         Bundle timeBundle = this.getIntent().getExtras();
-        final String timeOfDay = timeBundle.getString("timeOfDay"); 
-        final String dayOfWeek = timeBundle.getString("dayOfWeek"); 
+        final String timeOfDay = timeBundle.getString(Constants.TIME_OF_DAY); 
+        final String dayOfWeek = timeBundle.getString(Constants.DAY_OF_WEEK); 
         
         
         //First, we get the food truck data from the API
@@ -41,10 +35,8 @@ public class TruckListActivity extends ListActivity {
         
         final List<Truck> truckList = db.getAllTrucks();
         
-        
         // Display
         setContentView(R.layout.ab_truck_list);
-		// Action Bar Left Icon
         ActionBarTitleHelper.setTitleBar(this);
         /*
 		final ActionBar actionBar = (ActionBar) findViewById(R.id.actionbar);
@@ -85,20 +77,13 @@ public class TruckListActivity extends ListActivity {
         		
         		// create the schedule bundle
         		Bundle truckIdBundle = new Bundle();
-        		truckIdBundle.putInt("truckId", truck.getId());
-        		truckIdBundle.putString(Constants.REFERRER, "truck");
+        		truckIdBundle.putInt(Constants.TRUCK_ID, truck.getId());
+        		truckIdBundle.putString(Constants.REFERRER, Constants.TRUCK);
         		loadTruckProfileIntent.putExtras(truckIdBundle);
         		
-        	
         		// Start the activity
         		TruckListActivity.this.startActivity(loadTruckProfileIntent);
-        		
-        		
         	}
         });
-        
-        
     }
-    
-        
 }

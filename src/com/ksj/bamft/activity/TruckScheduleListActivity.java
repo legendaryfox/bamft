@@ -19,8 +19,6 @@ public class TruckScheduleListActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		
-		
 		// Extract info from bundle
 		
 		Bundle extras = this.getIntent().getExtras();
@@ -29,10 +27,10 @@ public class TruckScheduleListActivity extends ListActivity {
 		// Grab schedule info from database and create ListView
 		
 		final DatabaseHandler db = new DatabaseHandler(this);
-		
 		final List<Schedule> scheduleList = db.getSchedulesByTruck(truck);
 		
 		// Display
+		
 		setContentView(R.layout.ab_schedule_list);
 		ActionBarTitleHelper.setTitleBar(this);
 		ProfileTabsHelper.setupProfileTabs(this, truck, "schedule");
@@ -42,11 +40,8 @@ public class TruckScheduleListActivity extends ListActivity {
 		
 		setListAdapter(adapter);
 		
-		
-		
 		ListView lv = getListView();
 		lv.setDivider(null);
 		lv.setTextFilterEnabled(true);
-		
 	}
 }
