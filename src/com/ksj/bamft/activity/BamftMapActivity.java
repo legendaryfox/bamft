@@ -112,7 +112,6 @@ public class BamftMapActivity extends MapActivity {
 		Button hubwayStationsButton = (Button) findViewById(R.id.hubwayStationsButton);
 		hubwayStationsButton.setBackgroundResource(R.drawable.tab_hover);
 		
-		
 		List<HubwayStation> stations = HubwayHelpers.getAvailableStations();
 		
 		if (stations == null || stations.size() < 1) {

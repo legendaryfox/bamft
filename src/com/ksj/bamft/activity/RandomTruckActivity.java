@@ -16,7 +16,6 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;

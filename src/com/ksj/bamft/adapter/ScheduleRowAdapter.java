@@ -174,7 +174,6 @@ public class ScheduleRowAdapter extends ArrayAdapter<Schedule> {
 
 				intent.setClassName(GoogleMapsConstants.PACKAGE, GoogleMapsConstants.CLASS);
 				
-
 				context.startActivity(intent);
 			}
 		});

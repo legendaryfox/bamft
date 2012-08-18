@@ -7,12 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.ksj.bamft.R;
 import com.ksj.bamft.csv.CSVReader;
 import com.ksj.bamft.maps.MapHelpers;
-import com.ksj.bamft.model.HubwayStation;
 import com.ksj.bamft.model.MbtaStation;
 
 public class MbtaHelpers {

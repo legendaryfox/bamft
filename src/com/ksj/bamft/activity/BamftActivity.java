@@ -1,3 +1,9 @@
+/**
+ * BamftActivity.java
+ * 
+ * Activity that is loaded upon app startup.
+ */
+
 package com.ksj.bamft.activity;
 
 import java.io.BufferedReader;
@@ -23,7 +29,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -32,7 +37,6 @@ import android.provider.Settings;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ksj.bamft.R;

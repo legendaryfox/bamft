@@ -7,19 +7,14 @@ import com.ksj.bamft.R;
 import com.ksj.bamft.actionbarhelpers.ActionBarTitleHelper;
 import com.ksj.bamft.actionbarhelpers.ProfileTabsHelper;
 import com.ksj.bamft.adapter.FoodItemAdapter;
-import com.ksj.bamft.adapter.TruckScheduleRowAdapter;
-import com.ksj.bamft.adapter.TweetItemAdapter;
 import com.ksj.bamft.constants.Constants;
 import com.ksj.bamft.database.DatabaseHandler;
 import com.ksj.bamft.model.FoodItem;
-import com.ksj.bamft.model.Schedule;
 import com.ksj.bamft.model.Truck;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.widget.ListView;
-import android.widget.TextView;
 
 public class TruckMenuListActivity extends ListActivity {
 
